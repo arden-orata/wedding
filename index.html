@@ -88,35 +88,17 @@
     ══════════════════════════════════════ */
     .card {
       text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      max-width: 680px;
-      background: transparent;
-      animation: floatIn 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-      opacity: 0;
-      position: relative;
-    }
-
-    .card .hero-bg {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .card .hero-content {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      padding: 0 4rem 6rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 0 4rem 6rem;
-      box-sizing: border-box;
+      width: 100%;
+      max-width: 680px;
+      min-height: max(100svh, 852px);
+      background: var(--bg);
+      animation: floatIn 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      opacity: 0;
     }
 
     @keyframes floatIn {
@@ -502,20 +484,17 @@
 
   <!-- ── Section 1: Save the Date ── -->
   <div class="card">
-    <img class="hero-bg" src="assets/images/Hero.png" alt="" role="presentation" decoding="async" />
-    <div class="hero-content">
-      <div class="std-block">
-        <span class="std-save t-display">SAVE</span>
-        <span class="std-the">the</span>
-        <span class="std-date t-display">DATE</span>
-      </div>
-      <p class="subtitle t-body">for the wedding of</p>
-      <p class="names t-names">ELISA &amp; ARDEN</p>
-      <p class="date-line t-label">AUGUST 21<span style="position:relative;bottom:0.08em;">–</span>22, 2027</p>
-      <p class="location t-body">Bali, Indonesia</p>
-      <p class="invitation t-body">formal invitation to follow</p>
-      <img class="flower" src="assets/images/Flower.PNG" alt="" role="presentation" loading="lazy" decoding="async" />
+    <div class="std-block">
+      <span class="std-save t-display">SAVE</span>
+      <span class="std-the">the</span>
+      <span class="std-date t-display">DATE</span>
     </div>
+    <p class="subtitle t-body">for the wedding of</p>
+    <p class="names t-names">ELISA &amp; ARDEN</p>
+    <p class="date-line t-label">AUGUST 21<span style="position:relative;bottom:0.08em;">–</span>22, 2027</p>
+    <p class="location t-body">Bali, Indonesia</p>
+    <p class="invitation t-body">formal invitation to follow</p>
+    <img class="flower" src="assets/images/Flower.PNG" alt="" role="presentation" loading="lazy" decoding="async" />
   </div>
 
   <!-- ── Section 2: Venue + Map ── -->
