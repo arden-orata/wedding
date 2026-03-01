@@ -96,6 +96,7 @@
       width: 100%;
       max-width: 680px;
       min-height: 100dvh;
+      height: 100dvh;
       background: var(--bg);
       animation: floatIn 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
       opacity: 0;
@@ -106,7 +107,7 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    .std-block { line-height: 1; margin-bottom: 3rem; padding-top: clamp(3.325rem, 12.35vw, 10.45rem); }
+    .std-block { line-height: 1; margin-bottom: 3rem; padding-top: clamp(4.988rem, 18.525vw, 15.675rem); }
 
     .std-save, .std-date { display: block; }  /* share .t-display */
 
@@ -142,16 +143,30 @@
     ══════════════════════════════════════ */
     .venue-section {
       width: 100%;
+      display: block;
+      line-height: 0;
+      position: relative;
+    }
+
+    .venue-section .venue-bg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .venue-section .venue-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
       padding: 3.5rem 2rem 5rem;
-      background-image: url('assets/images/Balibackground.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      aspect-ratio: 1071 / 2000;
+      box-sizing: border-box;
+      line-height: normal;
     }
 
     .venue-label  { margin-bottom: 1.5rem; }  /* uses .t-label */
@@ -484,15 +499,27 @@
 
   <!-- ── Section 2: Venue + Map ── -->
   <section class="venue-section">
-    <p class="venue-label t-label">venue</p>
-    <p class="venue-name">Jumeirah Bali</p>
-    <p class="venue-country t-body">Indonesia</p>
-    <a class="map-link" href="https://maps.google.com/?q=Jumeirah+Bali" target="_blank" rel="noopener noreferrer" aria-label="Open Jumeirah Bali in Google Maps">
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31542!2d115.11803017541776!3d-8.77905608996164!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd245154692a1bb%3A0xc52a931844d71a28!2sJumeirah%20Bali!5e0!3m2!1sen!2sus!4v1772218940488!5m2!1sen!2sus"
-        loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Jumeirah Bali location map">
-      </iframe>
-    </a>
+    <img
+      class="venue-bg"
+      src="assets/images/Balibackground.png"
+      alt=""
+      role="presentation"
+      loading="eager"
+      decoding="async"
+      width="909"
+      height="2000"
+    />
+    <div class="venue-content">
+      <p class="venue-label t-label">venue</p>
+      <p class="venue-name">Jumeirah Bali</p>
+      <p class="venue-country t-body">Indonesia</p>
+      <a class="map-link" href="https://maps.google.com/?q=Jumeirah+Bali" target="_blank" rel="noopener noreferrer" aria-label="Open Jumeirah Bali in Google Maps">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31542!2d115.11803017541776!3d-8.77905608996164!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd245154692a1bb%3A0xc52a931844d71a28!2sJumeirah%20Bali!5e0!3m2!1sen!2sus!4v1772218940488!5m2!1sen!2sus"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Jumeirah Bali location map">
+        </iframe>
+      </a>
+    </div>
   </section>
 
 
