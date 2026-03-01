@@ -480,15 +480,24 @@
 
   </style>
   <script>
-    // Capture the true visible viewport height once on load.
-    // On Safari, the address bar is transparent and overlaps the page,
-    // so we subtract its height to ensure Balibackground sits exactly
-    // at the bottom edge of the visible screen.
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-    const safariBarHeight = isSafari ? (window.outerHeight - window.innerHeight) : 0;
-    document.documentElement.style.setProperty(
-      '--hero-h', (window.innerHeight - safariBarHeight) + 'px'
-    );
+    // Capture viewport height once on load before any scroll.
+    // window.innerHeight at load time gives the correct value on both
+    // Chrome and Safari iOS — Safari's address bar is already excluded.
+    // We freeze it so Safari's collapsing chrome doesn't shift the layout.
+    const heroH = window.innerHeight;
+    document.documentElement.style.setProperty('--hero-h', heroH + 'px');
+
+    // After the page renders, check if the hero card overflows its frozen
+    // height (can happen when content is tall). Push the venue section down
+    // by the overflow amount so Balibackground never shows on initial load.
+    window.addEventListener('load', function () {
+      const card = document.querySelector('.card');
+      const venue = document.querySelector('.venue-section');
+      const overflow = Math.max(0, card.scrollHeight - heroH);
+      if (overflow > 0) {
+        venue.style.marginTop = overflow + 'px';
+      }
+    });
   </script>
 </head>
 <body>
