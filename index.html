@@ -28,24 +28,62 @@
       --light-brown: #b07858;
       --black:       #1e1e1e;
       --bg:          #fdfbf9;
+      --border:      #d4b8a8;
+
+      /* Shared font stacks */
+      --font-serif:  'Cormorant Garamond', serif;
+      --font-sans:   'Jost', sans-serif;
+      --font-script: 'Great Vibes', cursive;
     }
 
-    html, body {
-      min-height: 100%;
-    }
+    html, body { min-height: 100%; }
 
     body {
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      font-family: 'Jost', sans-serif;
+      font-family: var(--font-sans);
       overflow-y: auto;
       background: var(--bg);
     }
 
+    /* ── Shared typography tokens ── */
+    .t-display {          /* SAVE / DATE / Day headings / RSVP */
+      font-family: var(--font-serif);
+      font-weight: 300;
+      font-size: clamp(3.5rem, 13vw, 11rem);
+      letter-spacing: 0.12em;
+      color: var(--brown);
+      line-height: 0.95;
+    }
+    .t-names {            /* ELISA & ARDEN / event titles */
+      font-family: var(--font-serif);
+      font-weight: 600;
+      font-size: clamp(1.6rem, 5.2vw, 3.6rem);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+    .t-label {            /* VENUE / SCHEDULE / date-line / radio labels */
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: clamp(1rem, 2.6vw, 1.4rem);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+    .t-body {             /* italic body / labels / location */
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(1rem, 2.4vw, 1.5rem);
+      letter-spacing: 0.06em;
+      color: var(--light-brown);
+    }
+
     /* ══════════════════════════════════════
-       SECTION 1 — Off-white top
+       SECTION 1 — Save the Date
     ══════════════════════════════════════ */
     .card {
       text-align: center;
@@ -53,7 +91,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
       width: 100%;
       max-width: 680px;
       background: var(--bg);
@@ -62,28 +99,17 @@
     }
 
     @keyframes floatIn {
-      0%   { opacity: 0; transform: translateY(32px); }
-      100% { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
-    .std-block {
-      line-height: 1;
-      margin-bottom: 3rem;
-    }
+    .std-block { line-height: 1; margin-bottom: 3rem; }
 
-    .std-save {
-      display: block;
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(3.5rem, 13vw, 11rem);
-      letter-spacing: 0.12em;
-      color: var(--brown);
-      line-height: 0.95;
-    }
+    .std-save, .std-date { display: block; }  /* share .t-display */
 
     .std-the {
       display: block;
-      font-family: 'Great Vibes', cursive;
+      font-family: var(--font-script);
       font-size: clamp(2.2rem, 7vw, 6rem);
       color: var(--brown);
       line-height: 0.8;
@@ -93,64 +119,10 @@
       margin-bottom: 0.55em;
     }
 
-    .std-date {
-      display: block;
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(3.5rem, 13vw, 11rem);
-      letter-spacing: 0.12em;
-      color: var(--brown);
-      line-height: 0.95;
-    }
-
-    .subtitle {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-weight: 500;
-      font-size: clamp(1rem, 2.4vw, 1.5rem);
-      color: var(--light-brown);
-      letter-spacing: 0.06em;
-      margin-bottom: 3rem;
-    }
-
-    .names {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 600;
-      font-size: clamp(1.6rem, 5.2vw, 3.6rem);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--black);
-      margin-bottom: 1rem;
-    }
-
-    .date-line {
-      font-family: 'Jost', sans-serif;
-      font-weight: 400;
-      font-size: clamp(1rem, 2.6vw, 1.4rem);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--black);
-      margin-bottom: 1rem;
-    }
-
-    .location {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-weight: 500;
-      font-size: clamp(1rem, 2.4vw, 1.5rem);
-      color: var(--light-brown);
-      letter-spacing: 0.06em;
-    }
-
-    .invitation {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-weight: 500;
-      font-size: clamp(1rem, 2.4vw, 1.5rem);
-      color: var(--light-brown);
-      letter-spacing: 0.06em;
-      margin-top: 5.25rem;
-    }
+    .subtitle   { margin-bottom: 3rem; }      /* uses .t-body */
+    .names      { margin-bottom: 1rem; }      /* uses .t-names */
+    .date-line  { margin-bottom: 1rem; }      /* uses .t-label */
+    .invitation { margin-top: 5.25rem; }      /* uses .t-body */
 
     .flower {
       margin-top: 0.4em;
@@ -163,11 +135,10 @@
     }
 
     /* ══════════════════════════════════════
-       SECTION 2 — Bali background
+       SECTION 2 — Venue + Map
     ══════════════════════════════════════ */
     .venue-section {
       width: 100%;
-      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -175,42 +146,14 @@
       padding: 3.5rem 2rem 5rem;
       background-image: url('assets/images/Balibackground.webp');
       background-size: cover;
-      background-position: center center;
+      background-position: center;
       background-repeat: no-repeat;
-      /* Aspect ratio matches the image (1071 × 2000) so nothing gets cropped */
       aspect-ratio: 1071 / 2000;
     }
 
-    .venue-label {
-      font-family: 'Jost', sans-serif;
-      font-weight: 400;
-      font-size: clamp(1rem, 2.6vw, 1.4rem);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--black);
-      margin-bottom: 1.5rem;
-    }
-
-    .venue-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 600;
-      font-size: clamp(1.6rem, 5vw, 3rem);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--black);
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-
-    .venue-country {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-weight: 500;
-      font-size: clamp(1rem, 2.4vw, 1.5rem);
-      color: var(--black);
-      letter-spacing: 0.06em;
-      margin-bottom: 2.5rem;
-    }
+    .venue-label  { margin-bottom: 1.5rem; }  /* uses .t-label */
+    .venue-name   { margin-bottom: 1.5rem; text-align: center; font-family: var(--font-serif); font-weight: 600; font-size: clamp(1.6rem, 5vw, 3rem); letter-spacing: 0.15em; text-transform: uppercase; color: var(--black); }
+    .venue-country{ margin-bottom: 2.5rem; color: var(--black); } /* uses .t-body */
 
     .map-link {
       display: block;
@@ -220,7 +163,6 @@
       overflow: hidden;
       box-shadow: 0 4px 24px rgba(0,0,0,0.18);
       text-decoration: none;
-      cursor: pointer;
       position: relative;
     }
 
@@ -235,10 +177,6 @@
       left: 0;
     }
 
-    @media (max-width: 480px) {
-      .card           { padding: 0 1.5rem 3rem; }
-      .map-link       { width: 90%; }
-    }
     /* ══════════════════════════════════════
        SECTION 3 — Itinerary
     ══════════════════════════════════════ */
@@ -248,45 +186,30 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      /* Fills exactly one screen height */
       min-height: 100vh;
-      padding: 0 15% 0;
+      padding: 0 15%;
       box-sizing: border-box;
     }
 
     .day-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(3.5rem, 13vw, 11rem);
-      letter-spacing: 0.12em;
-      color: var(--brown);
-      line-height: 0.95;
       margin-bottom: 0.6rem;
       margin-top: 1.5rem;
-    }
+    }  /* uses .t-display */
+
+    .day-heading:first-child { margin-top: 0; }
 
     .day-number {
       font-size: clamp(4.725rem, 17.55vw, 14.85rem);
       vertical-align: baseline;
     }
 
-    .day-heading:first-child {
-      margin-top: 0;
-    }
-
     .event-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 600;
-      font-size: clamp(1.6rem, 5.2vw, 3.6rem);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--black);
       line-height: 1.1;
       margin-bottom: 0.3rem;
-    }
+    }  /* uses .t-names */
 
     .event-body {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-serif);
       font-style: italic;
       font-weight: 500;
       font-size: clamp(0.85rem, 2vw, 1.1rem);
@@ -297,25 +220,11 @@
       max-width: 42ch;
     }
 
-    .day-divider {
-      width: 2rem;
-      height: 1px;
-      background: var(--brown);
-      opacity: 0.4;
-      margin: 1.8rem 0;
-    }
-
     .day-heading--right,
     .event-title--right,
-    .event-body--right {
-      text-align: right;
-    }
+    .event-body--right  { text-align: right; }
 
-    .event-body--right {
-      max-width: 42ch;
-      margin-left: auto;
-      margin-right: 0;
-    }
+    .event-body--right  { margin-left: auto; margin-right: 0; }
 
     /* ══════════════════════════════════════
        SECTION 4 — RSVP Form
@@ -331,15 +240,9 @@
     }
 
     .rsvp-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(3.5rem, 13vw, 11rem);
-      letter-spacing: 0.12em;
-      color: var(--brown);
-      line-height: 0.95;
       margin-bottom: 2.5rem;
       align-self: flex-start;
-    }
+    }  /* uses .t-display */
 
     .rsvp-form {
       width: 100%;
@@ -362,19 +265,17 @@
     }
 
     .form-field label {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: var(--font-serif);
       font-style: italic;
       font-weight: 500;
       font-size: clamp(1rem, 2.4vw, 1.5rem);
       letter-spacing: 0.06em;
       color: var(--light-brown);
-      text-transform: none;
     }
 
     .form-field input,
-    .form-field select,
-    .form-field textarea {
-      font-family: 'Jost', sans-serif;
+    .form-field select {
+      font-family: var(--font-sans);
       font-weight: 400;
       font-size: clamp(1rem, 2.6vw, 1.4rem);
       letter-spacing: 0.15em;
@@ -382,7 +283,7 @@
       color: var(--black);
       background: transparent;
       border: none;
-      border-bottom: 1px solid #d4b8a8;
+      border-bottom: 1px solid var(--border);
       padding: 0.4rem 0;
       outline: none;
       width: 100%;
@@ -393,9 +294,7 @@
     }
 
     .form-field input:focus,
-    .form-field select:focus {
-      border-bottom-color: var(--brown);
-    }
+    .form-field select:focus { border-bottom-color: var(--brown); }
 
     .form-field select {
       cursor: pointer;
@@ -405,13 +304,11 @@
       padding-right: 1.5rem;
     }
 
-    .radio-label {
-      font-family: 'Jost', sans-serif;
-      font-weight: 400;
-      font-size: clamp(1rem, 2.6vw, 1.4rem);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--black);
+    .form-field input::placeholder {
+      color: #c8b8b0;
+      font-style: italic;
+      text-transform: none;
+      letter-spacing: 0.05em;
     }
 
     .mobile-row {
@@ -420,13 +317,8 @@
       align-items: flex-end;
     }
 
-    .mobile-row .country-code {
-      flex: 0 0 38%;
-    }
-
-    .mobile-row .phone-number {
-      flex: 1;
-    }
+    .mobile-row .country-code { flex: 0 0 38%; }
+    .mobile-row .phone-number  { flex: 1; }
 
     .dietary-row {
       display: flex;
@@ -434,39 +326,12 @@
       align-items: flex-end;
     }
 
-    .dietary-row .dietary-select {
-      flex: 1;
-    }
+    .dietary-row .dietary-select { flex: 1; }
 
-    .dietary-row .dietary-other {
-      flex: 1;
-      display: none;
-    }
+    .dietary-row .dietary-other         { flex: 1; display: none; }
+    .dietary-row .dietary-other.visible { display: flex; }
 
-    .dietary-row .dietary-other.visible {
-      display: flex;
-    }
-
-    .submit-btn {
-      margin-top: 1.5rem;
-      align-self: flex-start;
-      font-family: 'Jost', sans-serif;
-      font-weight: 400;
-      font-size: clamp(0.85rem, 2vw, 1rem);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--bg);
-      background: var(--brown);
-      border: none;
-      padding: 0.9rem 2.5rem;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .submit-btn:hover {
-      background: var(--light-brown);
-    }
-
+    /* Radio buttons */
     .attendance-options {
       display: flex;
       gap: 2rem;
@@ -478,20 +343,15 @@
       align-items: center;
       gap: 0.6rem;
       cursor: pointer;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1rem, 2.4vw, 1.2rem);
-      color: var(--black);
       user-select: none;
     }
 
-    .radio-option input[type="radio"] {
-      display: none;
-    }
+    .radio-option input[type="radio"] { display: none; }
 
     .radio-custom {
       width: 16px;
       height: 16px;
-      border: 1.5px solid #d4b8a8;
+      border: 1.5px solid var(--border);
       border-radius: 50%;
       display: inline-block;
       flex-shrink: 0;
@@ -515,40 +375,55 @@
       transform: translate(-50%, -50%);
     }
 
-    .radio-option.inactive .radio-label {
-      color: #c8b8b0;
+    .radio-label {
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: clamp(1rem, 2.6vw, 1.4rem);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--black);
     }
 
-    .radio-option.inactive .radio-custom {
-      border-color: #e0d0c8;
+    .radio-option.inactive .radio-label  { color: #c8b8b0; }
+    .radio-option.inactive .radio-custom { border-color: #e0d0c8; }
+
+    #attending-fields         { display: none; flex-direction: column; gap: 1.2rem; width: 100%; }
+    #attending-fields.visible { display: flex; }
+
+    .submit-btn {
+      margin-top: 1.5rem;
+      align-self: flex-start;
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--brown);
+      border: none;
+      padding: 0.9rem 2.5rem;
+      cursor: pointer;
+      transition: background 0.2s;
     }
 
-    #attending-fields {
+    .submit-btn:hover    { background: var(--light-brown); }
+    .submit-btn:disabled { background: var(--border); cursor: not-allowed; }
+
+    /* Guest error */
+    #guest-error {
       display: none;
-      flex-direction: column;
-      gap: 1.2rem;
-      width: 100%;
-    }
-
-    #attending-fields.visible {
-      display: flex;
-    }
-
-    .submit-btn:disabled {
-      background: #d4b8a8;
-      cursor: not-allowed;
-    }
-
-    .form-field input::placeholder {
-      color: #c8b8b0;
+      font-family: var(--font-serif);
       font-style: italic;
-      text-transform: none;
-      letter-spacing: 0.05em;
+      color: #c0392b;
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      margin-top: 0.5rem;
     }
 
     @media (max-width: 480px) {
-      .rsvp-section { padding: 3rem 1.5rem 4rem; }
-      .form-row { flex-direction: column; }
+      .card               { padding: 0 1.5rem 3rem; }
+      .map-link           { width: 90%; }
+      .rsvp-section       { padding: 3rem 1.5rem 4rem; }
+      .form-row           { flex-direction: column; }
       .attendance-options { flex-direction: column; gap: 1rem; }
     }
 
@@ -558,109 +433,85 @@
 
   <!-- ── Section 1: Save the Date ── -->
   <div class="card" style="margin-top: 9vh;">
-
     <div class="std-block">
-      <span class="std-save">SAVE</span>
+      <span class="std-save t-display">SAVE</span>
       <span class="std-the">the</span>
-      <span class="std-date">DATE</span>
+      <span class="std-date t-display">DATE</span>
     </div>
-
-    <p class="subtitle">for the wedding of</p>
-    <p class="names">ELISA &amp; ARDEN</p>
-    <p class="date-line">AUGUST 21<span style="position: relative; bottom: 0.08em;">–</span>22, 2027</p>
-    <p class="location">Bali, Indonesia</p>
-    <p class="invitation">formal invitation to follow</p>
-
-    <img
-      class="flower"
-      src="assets/images/Flower.PNG"
-      alt=""
-      role="presentation"
-      loading="lazy"
-      decoding="async"
-    />
-
+    <p class="subtitle t-body">for the wedding of</p>
+    <p class="names t-names">ELISA &amp; ARDEN</p>
+    <p class="date-line t-label">AUGUST 21<span style="position:relative;bottom:0.08em;">–</span>22, 2027</p>
+    <p class="location t-body">Bali, Indonesia</p>
+    <p class="invitation t-body">formal invitation to follow</p>
+    <img class="flower" src="assets/images/Flower.PNG" alt="" role="presentation" loading="lazy" decoding="async" />
   </div>
 
   <!-- ── Section 2: Venue + Map ── -->
   <section class="venue-section">
-
-    <p class="venue-label">venue</p>
+    <p class="venue-label t-label">venue</p>
     <p class="venue-name">Jumeirah Bali</p>
-    <p class="venue-country">Indonesia</p>
-
-    <a
-      class="map-link"
-      href="https://maps.google.com/?q=Jumeirah+Bali"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Open Jumeirah Bali in Google Maps"
-    >
+    <p class="venue-country t-body">Indonesia</p>
+    <a class="map-link" href="https://maps.google.com/?q=Jumeirah+Bali" target="_blank" rel="noopener noreferrer" aria-label="Open Jumeirah Bali in Google Maps">
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31542!2d115.11803017541776!3d-8.77905608996164!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd245154692a1bb%3A0xc52a931844d71a28!2sJumeirah%20Bali!5e0!3m2!1sen!2sus!4v1772218940488!5m2!1sen!2sus"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        title="Jumeirah Bali location map"
-      ></iframe>
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Jumeirah Bali location map">
+      </iframe>
     </a>
-
   </section>
+
   <!-- ── Section 3: Itinerary ── -->
   <section class="itinerary-section">
+    <p class="venue-label t-label" style="margin-bottom:1.4rem;">SCHEDULE</p>
 
-    <!-- Schedule heading -->
-    <p class="venue-label" style="margin-bottom: 1.4rem;">SCHEDULE</p>
+    <p class="day-heading t-display">Day <span class="day-number">1</span></p>
+    <p class="event-title t-names">Welcome Dinner</p>
+    <p class="event-body" style="margin-bottom:3rem;">Wine and dine with friends and family.<br>Meet everyone over candlelit tables<br>and colorful sunset by the beach<br>with live music and Bali festivities.</p>
 
-    <!-- Day 1 -->
-    <p class="day-heading">Day <span class="day-number">1</span></p>
-
-    <p class="event-title">Welcome Dinner</p>
-    <p class="event-body" style="margin-bottom: 3rem;">Wine and dine with friends and family.<br>Meet everyone over candlelit tables<br>and colorful sunset by the beach<br>with live music and Bali festivities.</p>
-
-    <p class="day-heading day-heading--right">Day <span class="day-number">2</span></p>
-
-    <p class="event-title event-title--right">Ceremony</p>
-    <p class="event-title event-title--right">Cocktail Hour</p>
-    <p class="event-title event-title--right">Reception</p>
-    <p class="event-title event-title--right">After Party</p>
-
+    <p class="day-heading day-heading--right t-display">Day <span class="day-number">2</span></p>
+    <p class="event-title event-title--right t-names">Ceremony</p>
+    <p class="event-title event-title--right t-names">Cocktail Hour</p>
+    <p class="event-title event-title--right t-names">Reception</p>
+    <p class="event-title event-title--right t-names">After Party</p>
     <p class="event-body event-body--right">Celebrate love, warmth, and joy<br>with the people who matter most.<br>Raise a glass and savor every moment<br>as the night settles into memory.</p>
-
   </section>
+
+  <!-- ── Dietary options template (reused for guest + plus one) ── -->
+  <template id="dietary-options">
+    <option value="none">None</option>
+    <option value="vegetarian">Vegetarian</option>
+    <option value="vegan">Vegan</option>
+    <option value="gluten-free">Gluten-Free</option>
+    <option value="halal">Halal</option>
+    <option value="kosher">Kosher</option>
+    <option value="nut-allergy">Nut Allergy</option>
+    <option value="dairy-free">Dairy-Free</option>
+    <option value="seafood-allergy">Seafood Allergy</option>
+    <option value="others">Others</option>
+  </template>
 
   <!-- ── Section 4: RSVP ── -->
   <section class="rsvp-section">
-
-    <p class="rsvp-heading">RSVP</p>
+    <p class="rsvp-heading t-display">RSVP</p>
 
     <div class="rsvp-form">
 
-      <!-- First & Last Name -->
+      <!-- Name -->
       <div class="form-row">
         <div class="form-field">
           <label for="firstname">First Name</label>
-          <input
-            type="text"
-            id="firstname"
-            name="firstname"
-            autocomplete="given-name"
-            inputmode="text"
-          />
+          <input type="text" id="firstname" name="firstname" autocomplete="given-name" inputmode="text" />
         </div>
         <div class="form-field">
           <label for="lastname">Last Name</label>
-          <input
-            type="text"
-            id="lastname"
-            name="lastname"
-            autocomplete="family-name"
-            inputmode="text"
-          />
+          <input type="text" id="lastname" name="lastname" autocomplete="family-name" inputmode="text" />
         </div>
       </div>
 
+      <!-- Guest not found -->
+      <p id="guest-error">We couldn't find your name on the guest list. Please check your entry.</p>
+
       <!-- Attendance -->
-      <div class="form-field" id="attendance-block" style="display:none; margin-top: 0.5rem;">
+      <div class="form-field" id="attendance-block" style="display:none; margin-top:0.5rem;">
         <label>Attendance</label>
         <div class="attendance-options">
           <label class="radio-option" id="radio-yes">
@@ -676,12 +527,7 @@
         </div>
       </div>
 
-      <!-- Guest not found error -->
-      <p id="guest-error" style="display:none; font-family:'Cormorant Garamond',serif; font-style:italic; color:#c0392b; font-size:clamp(0.9rem,2vw,1.1rem); margin-top:0.5rem;">
-        We couldn't find your name on the guest list. Please check your entry.
-      </p>
-
-      <!-- Plus One radio (shown only if guest has plus one entitlement and is attending) -->
+      <!-- Plus One radio -->
       <div class="form-field" id="plus-one-block" style="display:none;">
         <label>Plus One</label>
         <div class="attendance-options">
@@ -698,10 +544,10 @@
         </div>
       </div>
 
-      <!-- Fields shown only if attending -->
+      <!-- Attending fields -->
       <div id="attending-fields">
 
-        <!-- Plus One name + dietary (shown only if bringing someone) -->
+        <!-- Plus one name + dietary -->
         <div id="plus-one-fields" style="display:none; flex-direction:column; gap:1.2rem; width:100%;">
           <div class="form-row">
             <div class="form-field">
@@ -717,18 +563,7 @@
             <label>Plus One Dietary Restriction</label>
             <div class="dietary-row">
               <div class="form-field dietary-select">
-                <select id="plus-dietary" name="plus_dietary" aria-label="Plus one dietary restriction">
-                  <option value="none">None</option>
-                  <option value="vegetarian">Vegetarian</option>
-                  <option value="vegan">Vegan</option>
-                  <option value="gluten-free">Gluten-Free</option>
-                  <option value="halal">Halal</option>
-                  <option value="kosher">Kosher</option>
-                  <option value="nut-allergy">Nut Allergy</option>
-                  <option value="dairy-free">Dairy-Free</option>
-                  <option value="seafood-allergy">Seafood Allergy</option>
-                  <option value="others">Others</option>
-                </select>
+                <select id="plus-dietary" name="plus_dietary" aria-label="Plus one dietary restriction"></select>
               </div>
               <div class="form-field dietary-other" id="plus-dietary-other-field">
                 <input type="text" id="plus-dietary-other" name="plus_dietary_other" placeholder="Add your other restriction here" />
@@ -737,77 +572,64 @@
           </div>
         </div>
 
-      <!-- Mobile -->
-      <div class="form-field">
-        <label>Mobile Number</label>
-        <div class="mobile-row">
-          <div class="form-field country-code">
-            <select id="country-code" name="country_code" aria-label="Country code">
-              <option value="+62">🇮🇩 +62 Indonesia</option>
-              <option value="+1">🇺🇸 +1 United States</option>
-              <option value="+44">🇬🇧 +44 United Kingdom</option>
-              <option value="+61">🇦🇺 +61 Australia</option>
-              <option value="+65">🇸🇬 +65 Singapore</option>
-              <option value="+60">🇲🇾 +60 Malaysia</option>
-              <option value="+63">🇵🇭 +63 Philippines</option>
-              <option value="+66">🇹🇭 +66 Thailand</option>
-              <option value="+84">🇻🇳 +84 Vietnam</option>
-              <option value="+82">🇰🇷 +82 South Korea</option>
-              <option value="+81">🇯🇵 +81 Japan</option>
-              <option value="+86">🇨🇳 +86 China</option>
-              <option value="+91">🇮🇳 +91 India</option>
-              <option value="+971">🇦🇪 +971 UAE</option>
-              <option value="+966">🇸🇦 +966 Saudi Arabia</option>
-              <option value="+33">🇫🇷 +33 France</option>
-              <option value="+49">🇩🇪 +49 Germany</option>
-              <option value="+39">🇮🇹 +39 Italy</option>
-              <option value="+34">🇪🇸 +34 Spain</option>
-              <option value="+31">🇳🇱 +31 Netherlands</option>
-            </select>
-          </div>
-          <div class="form-field phone-number">
-            <input type="tel" id="phone" name="phone" inputmode="numeric" placeholder="812 3456 7890" autocomplete="tel-national" />
-          </div>
-        </div>
-      </div>
-
-      <!-- Email -->
-      <div class="form-field">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" />
-      </div>
-
-      <!-- Dietary Restriction -->
-      <div class="form-field">
-        <label>Dietary Restriction</label>
-        <div class="dietary-row">
-          <div class="form-field dietary-select">
-            <select id="dietary" name="dietary" aria-label="Dietary restriction">
-              <option value="none">None</option>
-              <option value="vegetarian">Vegetarian</option>
-              <option value="vegan">Vegan</option>
-              <option value="gluten-free">Gluten-Free</option>
-              <option value="halal">Halal</option>
-              <option value="kosher">Kosher</option>
-              <option value="nut-allergy">Nut Allergy</option>
-              <option value="dairy-free">Dairy-Free</option>
-              <option value="seafood-allergy">Seafood Allergy</option>
-              <option value="others">Others</option>
-            </select>
-          </div>
-          <div class="form-field dietary-other" id="dietary-other-field">
-            <input type="text" id="dietary-other" name="dietary_other" placeholder="Add your other restriction here" />
+        <!-- Mobile -->
+        <div class="form-field">
+          <label>Mobile Number</label>
+          <div class="mobile-row">
+            <div class="form-field country-code">
+              <select id="country-code" name="country_code" aria-label="Country code">
+                <option value="+62">🇮🇩 +62 Indonesia</option>
+                <option value="+1">🇺🇸 +1 United States</option>
+                <option value="+44">🇬🇧 +44 United Kingdom</option>
+                <option value="+61">🇦🇺 +61 Australia</option>
+                <option value="+65">🇸🇬 +65 Singapore</option>
+                <option value="+60">🇲🇾 +60 Malaysia</option>
+                <option value="+63">🇵🇭 +63 Philippines</option>
+                <option value="+66">🇹🇭 +66 Thailand</option>
+                <option value="+84">🇻🇳 +84 Vietnam</option>
+                <option value="+82">🇰🇷 +82 South Korea</option>
+                <option value="+81">🇯🇵 +81 Japan</option>
+                <option value="+86">🇨🇳 +86 China</option>
+                <option value="+91">🇮🇳 +91 India</option>
+                <option value="+971">🇦🇪 +971 UAE</option>
+                <option value="+966">🇸🇦 +966 Saudi Arabia</option>
+                <option value="+33">🇫🇷 +33 France</option>
+                <option value="+49">🇩🇪 +49 Germany</option>
+                <option value="+39">🇮🇹 +39 Italy</option>
+                <option value="+34">🇪🇸 +34 Spain</option>
+                <option value="+31">🇳🇱 +31 Netherlands</option>
+              </select>
+            </div>
+            <div class="form-field phone-number">
+              <input type="tel" id="phone" name="phone" inputmode="numeric" placeholder="812 3456 7890" autocomplete="tel-national" />
+            </div>
           </div>
         </div>
-      </div>
+
+        <!-- Email -->
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" />
+        </div>
+
+        <!-- Dietary -->
+        <div class="form-field">
+          <label>Dietary Restriction</label>
+          <div class="dietary-row">
+            <div class="form-field dietary-select">
+              <select id="dietary" name="dietary" aria-label="Dietary restriction"></select>
+            </div>
+            <div class="form-field dietary-other" id="dietary-other-field">
+              <input type="text" id="dietary-other" name="dietary_other" placeholder="Add your other restriction here" />
+            </div>
+          </div>
+        </div>
 
       </div> <!-- /attending-fields -->
 
-      <!-- Submit -->
       <button type="button" class="submit-btn" id="submit-btn" disabled>Submit</button>
 
     </div>
-
   </section>
 
 </body>
@@ -815,6 +637,12 @@
 
 <script>
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwUMiPLYpB8K7wILF3PEiM7lhkAKqYXLdkM3_M2EkgFXk0pMAl9oahh_vnQ_oLVDFPB/exec";
+
+  // ── Populate dietary selects from template ──
+  const dietaryTemplate = document.getElementById("dietary-options");
+  ["dietary", "plus-dietary"].forEach(id => {
+    document.getElementById(id).appendChild(dietaryTemplate.content.cloneNode(true));
+  });
 
   // ── Helpers ──
   function toTitleCase(str) {
@@ -824,24 +652,25 @@
   function jsonp(params, callbackName) {
     return new Promise((resolve, reject) => {
       const query = Object.entries(params)
-        .map(([k, v]) => encodeURIComponent(k) + '=' + encodeURIComponent(v))
-        .join('&');
-      window[callbackName] = function(data) {
+        .map(([k, v]) => encodeURIComponent(k) + "=" + encodeURIComponent(v))
+        .join("&");
+      window[callbackName] = data => {
         delete window[callbackName];
-        document.getElementById('jsonp-' + callbackName)?.remove();
+        document.getElementById("jsonp-" + callbackName)?.remove();
         resolve(data);
       };
-      const script   = document.createElement('script');
-      script.id      = 'jsonp-' + callbackName;
-      script.src     = SCRIPT_URL + '?' + query + '&callback=' + callbackName;
-      script.onerror = () => {
-        delete window[callbackName];
-        script.remove();
-        reject(new Error('JSONP failed'));
-      };
+      const script   = document.createElement("script");
+      script.id      = "jsonp-" + callbackName;
+      script.src     = SCRIPT_URL + "?" + query + "&callback=" + callbackName;
+      script.onerror = () => { delete window[callbackName]; script.remove(); reject(new Error("JSONP failed")); };
       document.head.appendChild(script);
     });
   }
+
+  function val(id)   { return document.getElementById(id).value.trim(); }
+  function show(el)  { el.style.display = "block"; }
+  function hide(el)  { el.style.display = "none"; }
+  function showFlex(el) { el.style.display = "flex"; }
 
   // ── Element refs ──
   const attYes          = document.getElementById("att-yes");
@@ -859,6 +688,20 @@
 
   let guestFound   = false;
   let guestPlusOne = false;
+  let guestList    = [];
+  let lookupTimer  = null;
+
+  // ── Preload guest list ──
+  fetch("assets/data/guests.json")
+    .then(r => r.json())
+    .then(data => {
+      guestList = (data.guests || []).map(g => ({
+        firstname: g.firstname.trim().toLowerCase(),
+        lastname:  g.lastname.trim().toLowerCase(),
+        plus_one:  g.plus_one.trim()
+      }));
+    })
+    .catch(err => console.warn("Could not load guest list:", err));
 
   // ── Title case on blur ──
   ["firstname", "lastname", "plus-firstname", "plus-lastname"].forEach(id => {
@@ -875,40 +718,22 @@
   function resetForm() {
     guestFound   = false;
     guestPlusOne = false;
-    guestError.style.display      = "none";
-    attendanceBlock.style.display = "none";
+    hide(guestError);
+    hide(attendanceBlock);
     attendingFields.classList.remove("visible");
-    plusOneBlock.style.display    = "none";
-    plusOneFields.style.display   = "none";
+    hide(plusOneBlock);
+    hide(plusOneFields);
     [attYes, attNo, plusYes, plusNo].forEach(r => r.checked = false);
     ["radio-yes", "radio-no", "radio-plus-yes", "radio-plus-no"].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.classList.remove("inactive");
+      document.getElementById(id)?.classList.remove("inactive");
     });
     submitBtn.disabled = true;
   }
 
-  // ── Preload guest list from local JSON (fast, same-origin) ──
-  let guestList    = [];
-  let guestLoaded  = false;
-  let lookupTimer  = null;
-
-  fetch("assets/data/guests.json")
-    .then(r => r.json())
-    .then(data => {
-      guestList   = (data.guests || []).map(g => ({
-        firstname: g.firstname.trim().toLowerCase(),
-        lastname:  g.lastname.trim().toLowerCase(),
-        plus_one:  g.plus_one.trim()
-      }));
-      guestLoaded = true;
-    })
-    .catch(err => console.warn("Could not load guest list:", err));
-
-  // ── Instant in-memory lookup ──
+  // ── Guest lookup ──
   function doLookup() {
-    const firstname = document.getElementById("firstname").value.trim().toLowerCase();
-    const lastname  = document.getElementById("lastname").value.trim().toLowerCase();
+    const firstname = val("firstname").toLowerCase();
+    const lastname  = val("lastname").toLowerCase();
     resetForm();
     if (!firstname || !lastname) return;
 
@@ -916,26 +741,15 @@
     if (match) {
       guestFound   = true;
       guestPlusOne = match.plus_one.toLowerCase().includes("yes");
-      attendanceBlock.style.display = "block";
+      show(attendanceBlock);
     } else {
-      guestError.style.display = "block";
+      show(guestError);
     }
   }
 
-  document.getElementById("lastname").addEventListener("blur", function () {
-    clearTimeout(lookupTimer);
-    doLookup();
-  });
-
-  document.getElementById("lastname").addEventListener("input", function () {
-    clearTimeout(lookupTimer);
-    lookupTimer = setTimeout(doLookup, 400);
-  });
-
-  document.getElementById("firstname").addEventListener("blur", function () {
-    const lastname = document.getElementById("lastname").value.trim();
-    if (lastname) doLookup();
-  });
+  document.getElementById("lastname").addEventListener("blur",  () => { clearTimeout(lookupTimer); doLookup(); });
+  document.getElementById("lastname").addEventListener("input",  () => { clearTimeout(lookupTimer); lookupTimer = setTimeout(doLookup, 400); });
+  document.getElementById("firstname").addEventListener("blur",  () => { if (val("lastname")) doLookup(); });
 
   // ── Attendance radios ──
   attYes.addEventListener("change", function () {
@@ -943,15 +757,15 @@
     attendingFields.classList.add("visible");
     radioNo.classList.add("inactive");
     radioYes.classList.remove("inactive");
-    if (guestPlusOne) plusOneBlock.style.display = "block";
+    if (guestPlusOne) show(plusOneBlock);
     checkValidity();
   });
 
   attNo.addEventListener("change", function () {
     if (!this.checked) return;
     attendingFields.classList.remove("visible");
-    plusOneBlock.style.display  = "none";
-    plusOneFields.style.display = "none";
+    hide(plusOneBlock);
+    hide(plusOneFields);
     radioYes.classList.add("inactive");
     radioNo.classList.remove("inactive");
     checkValidity();
@@ -960,7 +774,7 @@
   // ── Plus one radios ──
   plusYes.addEventListener("change", function () {
     if (!this.checked) return;
-    plusOneFields.style.display = "flex";
+    showFlex(plusOneFields);
     document.getElementById("radio-plus-no").classList.add("inactive");
     document.getElementById("radio-plus-yes").classList.remove("inactive");
     checkValidity();
@@ -968,64 +782,56 @@
 
   plusNo.addEventListener("change", function () {
     if (!this.checked) return;
-    plusOneFields.style.display = "none";
+    hide(plusOneFields);
     document.getElementById("radio-plus-yes").classList.add("inactive");
     document.getElementById("radio-plus-no").classList.remove("inactive");
     checkValidity();
   });
 
   // ── Dietary others toggle ──
-  document.getElementById("dietary").addEventListener("change", function () {
-    document.getElementById("dietary-other-field").classList.toggle("visible", this.value === "others");
-    if (this.value !== "others") document.getElementById("dietary-other").value = "";
-    checkValidity();
-  });
+  function setupDietary(selectId, otherFieldId, otherInputId) {
+    document.getElementById(selectId).addEventListener("change", function () {
+      document.getElementById(otherFieldId).classList.toggle("visible", this.value === "others");
+      if (this.value !== "others") document.getElementById(otherInputId).value = "";
+      checkValidity();
+    });
+  }
 
-  document.getElementById("plus-dietary").addEventListener("change", function () {
-    document.getElementById("plus-dietary-other-field").classList.toggle("visible", this.value === "others");
-    if (this.value !== "others") document.getElementById("plus-dietary-other").value = "";
-    checkValidity();
-  });
+  setupDietary("dietary",      "dietary-other-field",      "dietary-other");
+  setupDietary("plus-dietary", "plus-dietary-other-field", "plus-dietary-other");
 
-  // ── Input listeners ──
+  // ── Input change listeners ──
   ["firstname", "lastname", "phone", "email", "dietary-other", "plus-firstname", "plus-lastname", "plus-dietary-other"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.addEventListener("input", checkValidity);
+    document.getElementById(id)?.addEventListener("input", checkValidity);
   });
 
   // ── Validity check ──
   function checkValidity() {
-    if (!guestFound) { submitBtn.disabled = true; return; }
-    if (attNo.checked) { submitBtn.disabled = false; return; }
-    if (!attYes.checked) { submitBtn.disabled = true; return; }
+    if (!guestFound)      { submitBtn.disabled = true;  return; }
+    if (attNo.checked)    { submitBtn.disabled = false; return; }
+    if (!attYes.checked)  { submitBtn.disabled = true;  return; }
 
-    const emailRe   = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const firstname = document.getElementById("firstname").value.trim();
-    const lastname  = document.getElementById("lastname").value.trim();
-    const phone     = document.getElementById("phone").value.trim();
-    const email     = document.getElementById("email").value.trim();
-    const dietary   = document.getElementById("dietary").value;
-    const otherOk   = dietary !== "others" || document.getElementById("dietary-other").value.trim().length > 0;
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const dietary = document.getElementById("dietary").value;
+    const otherOk = dietary !== "others" || val("dietary-other").length > 0;
 
-    if (!firstname || !lastname || !phone || !emailRe.test(email) || !otherOk) {
+    if (!val("firstname") || !val("lastname") || !val("phone") || !emailRe.test(val("email")) || !otherOk) {
       submitBtn.disabled = true; return;
     }
 
     if (guestPlusOne && plusOneBlock.style.display !== "none") {
       if (!plusYes.checked && !plusNo.checked) { submitBtn.disabled = true; return; }
       if (plusYes.checked) {
-        const pFirst   = document.getElementById("plus-firstname").value.trim();
-        const pLast    = document.getElementById("plus-lastname").value.trim();
-        const pDiet    = document.getElementById("plus-dietary").value;
-        const pOtherOk = pDiet !== "others" || document.getElementById("plus-dietary-other").value.trim().length > 0;
-        if (!pFirst || !pLast || !pOtherOk) { submitBtn.disabled = true; return; }
+        const pDiet   = document.getElementById("plus-dietary").value;
+        const pOtherOk = pDiet !== "others" || val("plus-dietary-other").length > 0;
+        if (!val("plus-firstname") || !val("plus-lastname") || !pOtherOk) { submitBtn.disabled = true; return; }
       }
     }
 
     submitBtn.disabled = false;
   }
 
-  // ── Submit via JSONP ──
+  // ── Submit ──
   submitBtn.addEventListener("click", async function () {
     const isAttending  = attYes.checked;
     const bringingPlus = isAttending && plusYes.checked;
@@ -1033,17 +839,17 @@
     const params = {
       action:             "submit",
       attending:          isAttending ? "Yes" : "No",
-      firstname:          document.getElementById("firstname").value.trim(),
-      lastname:           document.getElementById("lastname").value.trim(),
-      phone:              isAttending ? document.getElementById("country-code").value + document.getElementById("phone").value.trim() : "",
-      email:              isAttending ? document.getElementById("email").value.trim()      : "",
-      dietary:            isAttending ? document.getElementById("dietary").value           : "",
-      dietary_other:      isAttending ? document.getElementById("dietary-other").value.trim() : "",
+      firstname:          val("firstname"),
+      lastname:           val("lastname"),
+      phone:              isAttending ? document.getElementById("country-code").value + val("phone") : "",
+      email:              isAttending ? val("email")       : "",
+      dietary:            isAttending ? document.getElementById("dietary").value : "",
+      dietary_other:      isAttending ? val("dietary-other") : "",
       plus_one:           isAttending && guestPlusOne ? (bringingPlus ? "Yes" : "No") : "",
-      plus_firstname:     bringingPlus ? document.getElementById("plus-firstname").value.trim()     : "",
-      plus_lastname:      bringingPlus ? document.getElementById("plus-lastname").value.trim()      : "",
-      plus_dietary:       bringingPlus ? document.getElementById("plus-dietary").value              : "",
-      plus_dietary_other: bringingPlus ? document.getElementById("plus-dietary-other").value.trim() : ""
+      plus_firstname:     bringingPlus ? val("plus-firstname")     : "",
+      plus_lastname:      bringingPlus ? val("plus-lastname")      : "",
+      plus_dietary:       bringingPlus ? document.getElementById("plus-dietary").value : "",
+      plus_dietary_other: bringingPlus ? val("plus-dietary-other") : ""
     };
 
     submitBtn.disabled    = true;
@@ -1055,7 +861,7 @@
       submitBtn.textContent = "Submit";
       alert(isAttending
         ? "Thank you! We look forward to celebrating with you."
-        : "We\'re sorry you\'re unable to make it. Thank you for letting us know.");
+        : "We're sorry you're unable to make it. Thank you for letting us know.");
     } catch (err) {
       console.error("Submit error:", err);
       submitBtn.disabled    = false;
