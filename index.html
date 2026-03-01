@@ -481,10 +481,13 @@
   </style>
   <script>
     // Capture the true visible viewport height once on load.
-    // dvh recalculates as Safari's chrome collapses during scroll,
-    // causing layout shifts. We freeze it here and never update it.
+    // On Safari, the address bar is transparent and overlaps the page,
+    // so we subtract its height to ensure Balibackground sits exactly
+    // at the bottom edge of the visible screen.
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    const safariBarHeight = isSafari ? (window.outerHeight - window.innerHeight) : 0;
     document.documentElement.style.setProperty(
-      '--hero-h', window.innerHeight + 'px'
+      '--hero-h', (window.innerHeight - safariBarHeight) + 'px'
     );
   </script>
 </head>
@@ -533,7 +536,6 @@
 
   <!-- ── Section 2b: Sunset image ── -->
   <section class="full-bleed-section" style="margin-top: -2px;">
-  <section class="full-bleed-section">
     <img
       src="assets/images/Sunset.png"
       alt="Sunset view at Jumeirah Bali"
@@ -543,7 +545,7 @@
   </section>
 
   <!-- ── Section 2c: Fountain image ── -->
-  <section class="full-bleed-section">
+  <section class="full-bleed-section" style="margin-top: -2px;">
     <img
       src="assets/images/Fountain.png"
       alt="Fountain at Jumeirah Bali"
