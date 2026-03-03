@@ -319,13 +319,13 @@
 
     .sunset-event-title {
       color: #f5e6c8;
-      margin-top: calc(-2vh + 1.4rem);
+      margin-top: 1rem;
       margin-bottom: 0;
     }
 
     .sunset-event-time {
       color: #fff;
-      margin-top: calc(1.4rem + 1.4rem);
+      margin-top: 2.8rem;
       margin-bottom: 2.5rem;
     }
 
@@ -348,8 +348,8 @@
       color: #9b7fb6;
     }
 
-    /* Sunset Timeline */
-    .sunset-timeline {
+    /* ── Shared Timeline (used by both Day 1 and Day 2 overlays) ── */
+    .event-timeline {
       display: flex;
       align-items: stretch;
       justify-content: center;
@@ -358,14 +358,14 @@
       width: 100%;
     }
 
-    .sunset-timeline-track {
+    .event-timeline__track {
       position: relative;
       width: 2px;
       flex-shrink: 0;
       margin: 0 1.2rem;
     }
 
-    .sunset-timeline-line {
+    .event-timeline__line {
       position: absolute;
       top: 0;
       bottom: 0;
@@ -375,7 +375,7 @@
       background: rgba(255,255,255,0.6);
     }
 
-    .sunset-timeline-node {
+    .event-timeline__node {
       position: absolute;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -386,8 +386,8 @@
       border: none;
     }
 
-    .sunset-timeline-times,
-    .sunset-timeline-events {
+    .event-timeline__times,
+    .event-timeline__events {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -400,11 +400,11 @@
       min-height: 6rem;
     }
 
-    .sunset-timeline-times {
+    .event-timeline__times {
       text-align: right;
     }
 
-    .sunset-timeline-events {
+    .event-timeline__events {
       text-align: left;
     }
 
@@ -455,7 +455,7 @@
 
     .fountain-event-title {
       color: #005a4e;
-      margin-top: calc(-2vh + 1.4rem);
+      margin-top: 1rem;
       margin-bottom: 0;
     }
 
@@ -474,66 +474,7 @@
       color: #4aa8c8;
     }
 
-    /* Timeline */
-    .fountain-timeline {
-      display: flex;
-      align-items: stretch;
-      justify-content: center;
-      gap: 0;
-      margin-bottom: 2.5rem;
-      width: 100%;
-    }
-
-    .timeline-track {
-      position: relative;
-      width: 2px;
-      flex-shrink: 0;
-      margin: 0 1.2rem;
-    }
-
-    .timeline-line {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 1px;
-      background: rgba(255,255,255,0.6);
-    }
-
-    .timeline-node {
-      position: absolute;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: #fff;
-      border: none;
-    }
-
-    .timeline-times,
-    .timeline-events {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      font-family: var(--font-sans);
-      font-weight: 400;
-      font-size: clamp(0.8rem, 2vw, 1.1rem);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: #fff;
-      gap: 0;
-      min-height: 8rem;
-    }
-
-    .timeline-times {
-      text-align: right;
-    }
-
-    .timeline-events {
-      text-align: left;
-    }
+    /* Timeline — uses shared .event-timeline classes */
 
     .fountain-event-body {
       color: #fff;
@@ -847,9 +788,16 @@
 
     .email-error.is-visible { display: block; }
 
-    /* ================================================================
-       RESPONSIVE — MOBILE
-    ================================================================ */
+    .submit-status {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      margin-top: 0.75rem;
+      min-height: 1.4em;
+      color: var(--color-brown-dark);
+    }
+
+    .submit-status--error { color: var(--color-error); }
     @media (max-width: 480px) {
       .card               { padding: 0 1.5rem 3rem; }
       .map-link           { width: 90%; }
@@ -857,7 +805,8 @@
       .form-row           { flex-direction: column; }
       .attendance-options  { flex-direction: column; gap: 1rem; }
 
-      /* Prevent iOS Safari auto-zoom on input focus */
+      /* iOS Safari auto-zooms on inputs with font-size < 16px.
+         !important is intentional — overrides component-level clamp() values. */
       .form-field input,
       .form-field select,
       .iti__search-input {
@@ -872,7 +821,7 @@
   <!-- ════════════════════════════════════════
        SECTION 1 — Save the Date
   ════════════════════════════════════════ -->
-  <div class="card">
+  <section class="card">
     <div class="hero-content">
       <div class="std-block">
         <span class="std-save t-display">SAVE</span>
@@ -893,7 +842,7 @@
         decoding="async"
       />
     </div>
-  </div>
+  </section>
 
   <!-- ════════════════════════════════════════
        SECTION 2 — Venue + Map
@@ -951,19 +900,19 @@
         >→</a>
       </p>
 
-      <div class="sunset-timeline">
-        <div class="sunset-timeline-times">
+      <div class="event-timeline">
+        <div class="event-timeline__times">
           <span>6PM</span>
           <span>7PM</span>
           <span>8PM</span>
         </div>
-        <div class="sunset-timeline-track">
-          <div class="sunset-timeline-line"></div>
-          <div class="sunset-timeline-node" style="top:0%"></div>
-          <div class="sunset-timeline-node" style="top:50%"></div>
-          <div class="sunset-timeline-node" style="top:100%"></div>
+        <div class="event-timeline__track">
+          <div class="event-timeline__line"></div>
+          <div class="event-timeline__node" style="top:0%"></div>
+          <div class="event-timeline__node" style="top:50%"></div>
+          <div class="event-timeline__node" style="top:100%"></div>
         </div>
-        <div class="sunset-timeline-events">
+        <div class="event-timeline__events">
           <span>Welcome Drinks</span>
           <span>Sit-Down Dinner</span>
           <span>Balinese Festivities</span>
@@ -1001,21 +950,21 @@
         >August 22 @ The Courtyard</a><a href="https://maps.app.goo.gl/W8nwjJ2mCKdgq41p7" target="_blank" rel="noopener noreferrer" class="sunset-arrow-link">→</a>
       </p>
 
-      <div class="fountain-timeline">
-        <div class="timeline-times">
+      <div class="event-timeline">
+        <div class="event-timeline__times">
           <span>4PM</span>
           <span>5PM</span>
           <span>7PM</span>
           <span>10PM</span>
         </div>
-        <div class="timeline-track">
-          <div class="timeline-line"></div>
-          <div class="timeline-node" style="top:0%"></div>
-          <div class="timeline-node" style="top:33.33%"></div>
-          <div class="timeline-node" style="top:66.66%"></div>
-          <div class="timeline-node" style="top:100%"></div>
+        <div class="event-timeline__track">
+          <div class="event-timeline__line"></div>
+          <div class="event-timeline__node" style="top:0%"></div>
+          <div class="event-timeline__node" style="top:33.33%"></div>
+          <div class="event-timeline__node" style="top:66.66%"></div>
+          <div class="event-timeline__node" style="top:100%"></div>
         </div>
-        <div class="timeline-events">
+        <div class="event-timeline__events">
           <span>Ceremony</span>
           <span>Cocktail</span>
           <span>Reception</span>
@@ -1081,7 +1030,7 @@
   <section class="rsvp-section">
     <p class="rsvp-heading t-display">RSVP</p>
 
-    <div class="rsvp-form">
+    <div class="rsvp-form" data-script-url="https://script.google.com/macros/s/AKfycbwUMiPLYpB8K7wILF3PEiM7lhkAKqYXLdkM3_M2EkgFXk0pMAl9oahh_vnQ_oLVDFPB/exec">
 
       <!-- Name -->
       <div class="form-row">
@@ -1193,6 +1142,7 @@
       </div><!-- /attending-fields -->
 
       <button type="button" class="submit-btn" id="submit-btn" disabled>Submit</button>
+      <p class="submit-status" id="submit-status" aria-live="polite"></p>
 
     </div>
   </section>
@@ -1208,7 +1158,8 @@
       /* ────────────────────────────────────────
          Configuration
       ──────────────────────────────────────── */
-      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwUMiPLYpB8K7wILF3PEiM7lhkAKqYXLdkM3_M2EkgFXk0pMAl9oahh_vnQ_oLVDFPB/exec';
+      const form       = document.querySelector('.rsvp-form');
+      const SCRIPT_URL = form.dataset.scriptUrl;
       const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       /* ────────────────────────────────────────
@@ -1341,7 +1292,8 @@
       var plusYes          = document.getElementById('plus-yes');
       var plusNo           = document.getElementById('plus-no');
       var submitBtn        = document.getElementById('submit-btn');
-      var emailError       = document.getElementById('email-error');
+      var submitStatus = document.getElementById('submit-status');
+      var emailError   = document.getElementById('email-error');
 
       /* ────────────────────────────────────────
          Guest List State
@@ -1588,15 +1540,16 @@
           var data = await jsonp(params, 'submit_' + Date.now());
           console.log('Submit response:', data);
           submitBtn.textContent = 'Submit';
-          alert(isAttending
+          submitStatus.className = 'submit-status';
+          submitStatus.textContent = isAttending
             ? 'Thank you! We look forward to celebrating with you.'
-            : "We're sorry you're unable to make it. Thank you for letting us know."
-          );
+            : "We're sorry you're unable to make it. Thank you for letting us know.";
         } catch (err) {
           console.error('Submit error:', err);
           submitBtn.disabled    = false;
           submitBtn.textContent = 'Submit';
-          alert('Something went wrong. Please try again.');
+          submitStatus.className = 'submit-status submit-status--error';
+          submitStatus.textContent = 'Something went wrong. Please try again.';
         }
       });
 
