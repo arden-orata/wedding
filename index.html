@@ -1791,12 +1791,16 @@
           submitBtn.classList.remove('is-inactive');
           submitBtn.classList.add('is-sent');
           submitBtn.style.background = '';
-          submitBtn.textContent = isAttending ? 'See you there ✦' : 'Sent ✦';
+          submitBtn.textContent = isAttending ? 'See you there' : 'Sent';
           submitStatus.className = 'submit-status';
           if (isAttending) {
-            submitStatus.textContent = 'Thank you! We look forward to celebrating with you. A confirmation has been sent to ' + guestEmail + '.';
+            submitStatus.innerHTML =
+              'Thank you! We look forward to celebrating with you.<br>' +
+              'A confirmation has been sent to ' + guestEmail + '.';
           } else {
-            submitStatus.textContent = "We're sorry you're unable to make it. Thank you for letting us know.";
+            submitStatus.innerHTML =
+              "We're sorry you're unable to make it.<br>" +
+              "Thank you for letting us know.";
           }
         }, 2000);
 
