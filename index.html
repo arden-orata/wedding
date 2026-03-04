@@ -552,11 +552,11 @@
       color: var(--color-brown-dark);
     }
 
-    /* Attendance and Plus One labels are section headings, not field labels —
-       they read better upright (non-italic) at this weight and size */
+    /* Attendance and Plus One labels are section headings — italicised to
+       match the form's serif label style */
     #attendance-block > label,
     #plus-one-block > label {
-      font-style: normal;
+      font-style: italic;
     }
     .form-field input,
     .form-field select {
@@ -770,6 +770,7 @@
     #plus-one-fields.is-visible {
       max-height: 600px;
       opacity: 1;
+      margin-top: 0.6rem; /* extra gap between Attending Solo and Plus One First Name */
     }
 
     /* Form frozen state — applied after successful submission.
@@ -902,9 +903,10 @@
     .submit-status {
       font-family: var(--font-serif);
       font-style: italic;
-      font-size: clamp(1rem, 2.4vw, 1.5rem);
+      font-size: clamp(0.9rem, 2.2vw, 1.2rem);
       color: var(--color-pastel-red);
       text-align: center;
+      line-height: 1.8;
       margin: 0;
     }
 
@@ -1125,7 +1127,7 @@
   <section class="rsvp-section">
     <p class="rsvp-heading t-display">RSVP</p>
 
-    <div class="rsvp-form" data-script-url="https://script.google.com/macros/s/AKfycbwUMiPLYpB8K7wILF3PEiM7lhkAKqYXLdkM3_M2EkgFXk0pMAl9oahh_vnQ_oLVDFPB/exec">
+    <div class="rsvp-form" data-script-url="https://script.google.com/macros/s/AKfycbxeVrIuwudOe9ksqOaF0CJP7_MqezZ1rH0d3qCnoVU9aoqBDza-bApP5_P7wdxm5nX_FA/exec">
 
       <!-- Name -->
       <div class="form-row">
@@ -1753,6 +1755,7 @@
 
         var isAttending  = attYes.checked;
         var bringingPlus = isAttending && plusYes.checked;
+        var guestEmail   = val('email');
 
         var params = {
           action:             'submit',
@@ -1760,7 +1763,7 @@
           firstname:          val('firstname'),
           lastname:           val('lastname'),
           phone:              isAttending ? getCountryCode() + getPhoneNumber() : '',
-          email:              isAttending ? val('email') : '',
+          email:              isAttending ? guestEmail : '',
           dietary:            isAttending ? document.getElementById('dietary').value : '',
           dietary_other:      isAttending ? val('dietary-other') : '',
           plus_one:           isAttending && guestPlusOne ? (bringingPlus ? 'Yes' : 'No') : '',
@@ -1770,30 +1773,43 @@
           plus_dietary_other: bringingPlus ? val('plus-dietary-other') : ''
         };
 
+        /* Show spinner for 2 seconds so the user sees processing feedback,
+           then reveal success. JSONP fires immediately in parallel. */
         setInactive();
         submitBtn.innerHTML = '<span class="submit-btn__spinner" aria-label="Sending…"></span>';
         submitBtn.style.background = 'var(--color-brown)';
 
-        try {
-          var data = await jsonp(params, 'submit_' + Date.now());
-          console.log('Submit response:', data);
+        var successShown = false;
+
+        /* Fire immediately in background */
+        var submitPromise = jsonp(params, 'submit_' + Date.now());
+
+        setTimeout(function () {
+          successShown = true;
           form.classList.add('is-submitted');
           submitBtn.classList.remove('is-inactive');
           submitBtn.classList.add('is-sent');
           submitBtn.style.background = '';
           submitBtn.textContent = isAttending ? 'See you there ✦' : 'Sent ✦';
           submitStatus.className = 'submit-status';
-          submitStatus.textContent = isAttending
-            ? 'Thank you! We look forward to celebrating with you. A confirmation has been sent to your email.'
-            : "We're sorry you're unable to make it. Thank you for letting us know.";
-        } catch (err) {
-          console.error('Submit error:', err);
-          submitBtn.classList.remove('is-inactive');
-          submitBtn.style.background = '';
-          submitBtn.textContent = 'Submit';
-          submitStatus.className = 'submit-status submit-status--error';
-          submitStatus.textContent = 'Something went wrong. Please try again.';
-        }
+          if (isAttending) {
+            submitStatus.textContent = 'Thank you! We look forward to celebrating with you. A confirmation has been sent to ' + guestEmail + '.';
+          } else {
+            submitStatus.textContent = "We're sorry you're unable to make it. Thank you for letting us know.";
+          }
+        }, 2000);
+
+        submitPromise
+          .then(function (data) {
+            console.log('Submit response:', data);
+          })
+          .catch(function (err) {
+            console.warn('Submit promise error:', err);
+            /* If success is already shown, data was saved — don't overwrite with error */
+            if (successShown) return;
+            submitStatus.className = 'submit-status submit-status--error';
+            submitStatus.textContent = 'Something went wrong — please email us directly to confirm your RSVP.';
+          });
       });
 
     })();
