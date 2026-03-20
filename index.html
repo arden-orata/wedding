@@ -1774,46 +1774,42 @@
           plus_dietary_other: bringingPlus ? val('plus-dietary-other') : ''
         };
 
-        /* Show spinner for 2 seconds so the user sees processing feedback,
-           then reveal success. JSONP fires immediately in parallel. */
+        /* Spin for exactly 2 seconds AND wait for the JSONP result.
+           Whichever takes longer wins — then show success or failure. */
         setInactive();
         submitBtn.innerHTML = '<span class="submit-btn__spinner" aria-label="Sending…"></span>';
         submitBtn.style.background = 'var(--color-brown)';
 
-        var successShown = false;
-
-        /* Fire immediately in background */
         var submitPromise = jsonp(params, 'submit_' + Date.now());
+        var timerPromise  = new Promise(function (resolve) { setTimeout(resolve, 2000); });
 
-        setTimeout(function () {
-          successShown = true;
-          form.classList.add('is-submitted');
-          submitBtn.classList.remove('is-inactive');
-          submitBtn.classList.add('is-sent');
-          submitBtn.style.background = '';
-          submitBtn.textContent = isAttending ? 'See you there' : 'Sent';
-          submitStatus.className = 'submit-status';
-          if (isAttending) {
-            submitStatus.innerHTML =
-              'Thank you! We look forward to celebrating with you.<br>' +
-              'A confirmation has been sent to ' + guestEmail + '.';
-          } else {
-            submitStatus.innerHTML =
-              "We're sorry you're unable to make it.<br>" +
-              "Thank you for letting us know.";
-          }
-        }, 2000);
-
-        submitPromise
-          .then(function (data) {
-            console.log('Submit response:', data);
+        Promise.all([submitPromise, timerPromise])
+          .then(function () {
+            form.classList.add('is-submitted');
+            submitBtn.classList.remove('is-inactive');
+            submitBtn.classList.add('is-sent');
+            submitBtn.style.background = '';
+            submitBtn.textContent = isAttending ? 'See you there' : 'Sent';
+            submitStatus.className = 'submit-status';
+            if (isAttending) {
+              submitStatus.innerHTML =
+                'Thank you! We look forward to celebrating with you.<br>' +
+                'A confirmation has been sent to ' + guestEmail + '.';
+            } else {
+              submitStatus.innerHTML =
+                "We're sorry you're unable to make it.<br>" +
+                "Thank you for letting us know.";
+            }
           })
           .catch(function (err) {
-            console.warn('Submit promise error:', err);
-            /* If success is already shown, data was saved — don't overwrite with error */
-            if (successShown) return;
+            console.warn('Submit error:', err);
+            submitBtn.style.background = '';
+            submitBtn.textContent = 'Submit';
+            submitBtn.classList.remove('is-inactive');
             submitStatus.className = 'submit-status submit-status--error';
-            submitStatus.textContent = 'Something went wrong — please email us directly to confirm your RSVP.';
+            submitStatus.innerHTML =
+              'Something went wrong. Please check your internet connection,<br>' +
+              'refresh the page, and try again.';
           });
       });
 
