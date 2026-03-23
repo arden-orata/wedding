@@ -398,12 +398,18 @@
       });
     }
 
+    function thumbUrl(url) {
+      return url.replace('/object/public/', '/render/image/public/') + '?width=400&quality=70';
+    }
+
     function makeCard(url, alt) {
       var item = document.createElement('div');
       item.className = 'photo-grid__item is-loading';
       var img = document.createElement('img');
       img.alt = alt || 'Wedding photo';
-      img.src = url;
+      img.src = thumbUrl(url);
+      img.loading = 'lazy';
+      img.dataset.fullUrl = url;
       img.addEventListener('load',  function () { item.classList.remove('is-loading'); });
       img.addEventListener('error', function () { item.remove(); });
       img.addEventListener('click', function () { openLightbox(url); });
@@ -433,7 +439,7 @@
 
     function openLightbox(url) {
       var imgs = Array.from(document.querySelectorAll('.photo-grid__item img'));
-      carouselUrls = imgs.map(function (img) { return img.src; });
+      carouselUrls = imgs.map(function (img) { return img.dataset.fullUrl; });
       carouselIdx  = carouselUrls.indexOf(url);
       if (carouselIdx < 0) carouselIdx = 0;
       lightboxImg.src = carouselUrls[carouselIdx];
