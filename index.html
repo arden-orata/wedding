@@ -1127,7 +1127,9 @@
   <section class="rsvp-section">
     <p class="rsvp-heading t-display">RSVP</p>
 
-    <div class="rsvp-form" data-script-url="https://script.google.com/macros/s/AKfycbwEAltOotbmlpZbrinU-1b6wrD3Mx4-auZI1jmU0KJG2fACLnD119zl5GEyP4_amDah3g/exec">
+    <div class="rsvp-form"
+         data-supabase-url="https://fnxhwhxnhhdezyrchkpi.supabase.co"
+         data-supabase-key="sb_publishable_pQUCD_gSk5iq0dpgixEIxQ_wqggxSyB">
 
       <!-- Name -->
       <div class="form-row">
@@ -1262,8 +1264,7 @@
       /* ────────────────────────────────────────
          Configuration
       ──────────────────────────────────────── */
-      const form       = document.querySelector('.rsvp-form');
-      const SCRIPT_URL = form.dataset.scriptUrl;
+      const form = document.querySelector('.rsvp-form');
       const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       /* ────────────────────────────────────────
@@ -1337,32 +1338,37 @@
       }
 
       /* ────────────────────────────────────────
-         JSONP Transport
+         Supabase Transport
       ──────────────────────────────────────── */
-      function jsonp(params, callbackName) {
-        return new Promise(function (resolve, reject) {
-          var query = Object.entries(params)
-            .map(function (pair) {
-              return encodeURIComponent(pair[0]) + '=' + encodeURIComponent(pair[1]);
-            })
-            .join('&');
+      function submitToSupabase(params) {
+        var url = form.dataset.supabaseUrl + '/rest/v1/rsvps';
+        var key = form.dataset.supabaseKey;
 
-          window[callbackName] = function (data) {
-            delete window[callbackName];
-            var scriptEl = document.getElementById('jsonp-' + callbackName);
-            if (scriptEl) scriptEl.remove();
-            resolve(data);
-          };
-
-          var script = document.createElement('script');
-          script.id = 'jsonp-' + callbackName;
-          script.src = SCRIPT_URL + '?' + query + '&callback=' + callbackName;
-          script.onerror = function () {
-            delete window[callbackName];
-            script.remove();
-            reject(new Error('JSONP request failed'));
-          };
-          document.head.appendChild(script);
+        return fetch(url, {
+          method: 'POST',
+          headers: {
+            'apikey':        key,
+            'Authorization': 'Bearer ' + key,
+            'Content-Type':  'application/json',
+            'Prefer':        'return=minimal'
+          },
+          body: JSON.stringify({
+            attending:          params.attending,
+            firstname:          params.firstname,
+            lastname:           params.lastname,
+            dial_code:          params.dial_code,
+            phone:              params.phone,
+            email:              params.email,
+            dietary:            params.dietary,
+            dietary_other:      params.dietary_other,
+            plus_one:           params.plus_one,
+            plus_firstname:     params.plus_firstname,
+            plus_lastname:      params.plus_lastname,
+            plus_dietary:       params.plus_dietary,
+            plus_dietary_other: params.plus_dietary_other
+          })
+        }).then(function (res) {
+          if (!res.ok) throw new Error('Supabase error: ' + res.status);
         });
       }
 
@@ -1780,7 +1786,7 @@
         submitBtn.innerHTML = '<span class="submit-btn__spinner" aria-label="Sending…"></span>';
         submitBtn.style.background = 'var(--color-brown)';
 
-        var submitPromise = jsonp(params, 'submit_' + Date.now());
+        var submitPromise = submitToSupabase(params);
         var timerPromise  = new Promise(function (resolve) { setTimeout(resolve, 2000); });
 
         Promise.all([submitPromise, timerPromise])
