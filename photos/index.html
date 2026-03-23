@@ -82,8 +82,7 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      padding: 4rem 0 3rem;
-      border-bottom: 0.75px solid var(--color-border);
+      padding: 3rem 0 2.25rem;
       margin-bottom: 1.5rem;
     }
 
@@ -120,12 +119,10 @@
       display: flex;
       gap: 0.75rem;
       margin-top: 2rem;
-      flex-wrap: wrap;
-      justify-content: center;
     }
 
     .upload-btn {
-      width: 14rem;
+      width: 12rem;
       height: 3rem;
       display: inline-flex;
       align-items: center;
@@ -226,11 +223,13 @@
     .upload-status {
       font-family: var(--font-serif);
       font-style: italic;
-      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      font-weight: 500;
+      font-size: clamp(1rem, 2.4vw, 1.5rem);
+      letter-spacing: 0.06em;
       color: var(--color-brown-dark);
-      text-align: right;
+      text-align: center;
       min-height: 1.5em;
-      margin-bottom: 1rem;
+      margin-top: 1rem;
     }
 
     .upload-status--error {
@@ -341,9 +340,8 @@
         <button class="upload-btn" id="add-photos-btn" type="button">Upload Photos</button>
         <button class="upload-btn" id="camera-btn" type="button">Take a Photo</button>
       </div>
+      <p class="upload-status" id="upload-status" aria-live="polite"></p>
     </header>
-
-    <p class="upload-status" id="upload-status" aria-live="polite"></p>
 
     <div class="photo-grid" id="photo-grid">
       <!-- Photos injected here by JS -->
@@ -593,9 +591,17 @@
       activeBtn = null;
     }
 
+    var statusTimer = null;
     function setStatus(msg, isError) {
+      clearTimeout(statusTimer);
       statusEl.textContent = msg;
       statusEl.className   = 'upload-status' + (isError ? ' upload-status--error' : '');
+      if (msg && !isError) {
+        statusTimer = setTimeout(function () {
+          statusEl.textContent = '';
+          statusEl.className   = 'upload-status';
+        }, 3000);
+      }
     }
   </script>
 </body>
