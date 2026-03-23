@@ -143,17 +143,13 @@
       touch-action: manipulation;
     }
 
-    .upload-btn:hover:not(:disabled):not(.is-waiting) { background: var(--color-brown-dark); }
-    .upload-btn:disabled {
-      cursor: default;
+    .upload-btn:hover:not(.is-active):not(.is-waiting) { background: var(--color-brown-dark); }
+    .upload-btn.is-active {
       background: var(--color-brown);
-      color: var(--color-bg);
-      -webkit-text-fill-color: var(--color-bg);
-      opacity: 1;
+      pointer-events: none;
     }
     .upload-btn.is-waiting {
       background: var(--color-inactive);
-      cursor: default;
       pointer-events: none;
     }
     .upload-btn { -webkit-tap-highlight-color: transparent; }
@@ -466,8 +462,17 @@
     lightboxPrev.addEventListener('click', function () { showSlide(carouselIdx - 1); });
     lightboxNext.addEventListener('click', function () { showSlide(carouselIdx + 1); });
 
+    lightboxImg.addEventListener('click', function (e) {
+      var rect = lightboxImg.getBoundingClientRect();
+      if (e.clientX - rect.left < rect.width / 2) {
+        showSlide(carouselIdx - 1);
+      } else {
+        showSlide(carouselIdx + 1);
+      }
+    });
+
     lightbox.addEventListener('click', function (e) {
-      if (e.target === lightbox || e.target === lightboxImg) closeLightbox();
+      if (e.target === lightbox) closeLightbox();
     });
 
     document.addEventListener('keydown', function (e) {
@@ -517,19 +522,16 @@
     });
 
     fileInput.addEventListener('change', function () {
-      var files = Array.from(fileInput.files);
-      if (!files.length) return;
-      if (files.length > 20) {
-        setStatus('Max 20 photos per upload — please select fewer', true);
-        return;
-      }
-      uploadFiles(files);
+      var all = Array.from(fileInput.files);
+      if (!all.length) return;
+      var truncated = all.length > 20;
+      uploadFiles(truncated ? all.slice(0, 20) : all, truncated);
     });
 
-    function uploadFiles(files) {
+    function uploadFiles(files, truncated) {
       var waitingBtn = (activeBtn === addBtn) ? cameraBtn : addBtn;
       if (activeBtn) {
-        activeBtn.disabled = true;
+        activeBtn.classList.add('is-active');
         activeBtn.innerHTML = '<span class="btn-spinner" aria-label="Uploading\u2026"></span>';
       }
       waitingBtn.classList.add('is-waiting');
@@ -589,20 +591,22 @@
         if (done + failed < total) return;
         resetAddBtn();
         if (failed === 0) {
-          setStatus(total === 1 ? 'Photo added' : total + ' photos added');
+          if (truncated) {
+            setStatus('First 20 uploaded — max 20 photos per upload', true);
+          } else {
+            setStatus(total === 1 ? 'Photo added' : total + ' photos added');
+          }
         } else if (done === 0) {
-          setStatus('Upload failed. Please try again', true);
+          setStatus('Upload failed — please try again', true);
         } else {
-          setStatus(done + ' of ' + total + ' photos uploaded, ' + failed + ' failed', true);
+          setStatus(done + ' of ' + total + ' uploaded, ' + failed + ' failed', true);
         }
       }
     }
 
     function resetAddBtn() {
-      addBtn.disabled    = false;
-      cameraBtn.disabled = false;
-      addBtn.classList.remove('is-waiting');
-      cameraBtn.classList.remove('is-waiting');
+      addBtn.classList.remove('is-active', 'is-waiting');
+      cameraBtn.classList.remove('is-active', 'is-waiting');
       addBtn.innerHTML    = 'Upload Photos';
       cameraBtn.innerHTML = 'Take a Photo';
       activeBtn = null;
@@ -613,7 +617,7 @@
       clearTimeout(statusTimer);
       statusEl.textContent = msg;
       statusEl.className   = 'upload-status' + (isError ? ' upload-status--error' : '');
-      if (msg && !isError) {
+      if (msg) {
         statusTimer = setTimeout(function () {
           statusEl.textContent = '';
           statusEl.className   = 'upload-status';
