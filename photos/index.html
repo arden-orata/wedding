@@ -83,7 +83,7 @@
       align-items: center;
       text-align: center;
       padding: 3rem 0 2.25rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 0.5rem;
     }
 
     .photos-header .t-display {
@@ -122,7 +122,7 @@
     }
 
     .upload-btn {
-      width: 12rem;
+      width: min(12rem, 42vw);
       height: 3rem;
       display: inline-flex;
       align-items: center;
@@ -410,7 +410,7 @@
       img.alt = alt || 'Wedding photo';
       img.src = url;
       img.addEventListener('load',  function () { item.classList.remove('is-loading'); });
-      img.addEventListener('error', function () { item.classList.remove('is-loading'); });
+      img.addEventListener('error', function () { item.remove(); });
       img.addEventListener('click', function () { openLightbox(url); });
       item.appendChild(img);
       return item;
@@ -583,11 +583,11 @@
         if (done + failed < total) return;
         resetAddBtn();
         if (failed === 0) {
-          setStatus(total === 1 ? 'Photo added.' : total + ' photos added.');
+          setStatus(total === 1 ? 'Photo added' : total + ' photos added');
         } else if (done === 0) {
-          setStatus('Upload failed. Please try again.', true);
+          setStatus('Upload failed. Please try again', true);
         } else {
-          setStatus(done + ' of ' + total + ' photos uploaded. ' + failed + ' failed.', true);
+          setStatus(done + ' of ' + total + ' photos uploaded, ' + failed + ' failed', true);
         }
       }
     }
