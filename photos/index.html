@@ -142,7 +142,9 @@
       transition: background 0.2s;
       touch-action: manipulation;
     }
-    .upload-btn:hover:not(.is-active):not(.is-waiting) { background: var(--color-brown-dark); }
+    @media (hover: hover) {
+      .upload-btn:hover:not(.is-active):not(.is-waiting) { background: var(--color-brown-dark); }
+    }
     .upload-btn:active:not(.is-active):not(.is-waiting) { background: var(--color-brown-dark); }
     .upload-btn.is-active  { background: var(--color-brown);  cursor: default; pointer-events: none; }
     .upload-btn.is-waiting { background: var(--color-border); cursor: default; pointer-events: none; }
