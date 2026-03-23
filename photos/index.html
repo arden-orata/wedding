@@ -143,7 +143,9 @@
       touch-action: manipulation;
     }
 
-    .upload-btn:hover:not(.is-active):not(.is-waiting) { background: var(--color-brown-dark); }
+    @media (hover: hover) {
+      .upload-btn:hover:not(.is-active):not(.is-waiting) { background: var(--color-brown-dark); }
+    }
     .upload-btn.is-active {
       background: var(--color-brown);
       pointer-events: none;
@@ -436,6 +438,7 @@
     var lightboxNext  = document.getElementById('lightbox__next');
     var carouselUrls  = [];
     var carouselIdx   = 0;
+    var justOpened    = false;
 
     function openLightbox(url) {
       var imgs = Array.from(document.querySelectorAll('.photo-grid__item img'));
@@ -445,6 +448,8 @@
       lightboxImg.src = carouselUrls[carouselIdx];
       lightbox.classList.add('is-open');
       document.body.style.overflow = 'hidden';
+      justOpened = true;
+      setTimeout(function () { justOpened = false; }, 350);
     }
 
     function showSlide(idx) {
@@ -463,6 +468,7 @@
     lightboxNext.addEventListener('click', function () { showSlide(carouselIdx + 1); });
 
     lightboxImg.addEventListener('click', function (e) {
+      if (justOpened) return;
       var rect = lightboxImg.getBoundingClientRect();
       if (e.clientX - rect.left < rect.width / 2) {
         showSlide(carouselIdx - 1);
@@ -472,6 +478,7 @@
     });
 
     lightbox.addEventListener('click', function (e) {
+      if (justOpened) return;
       if (e.target === lightbox) closeLightbox();
     });
 
@@ -495,11 +502,12 @@
     /* ================================================================
        UPLOAD
     ================================================================ */
-    var addBtn    = document.getElementById('add-photos-btn');
-    var cameraBtn = document.getElementById('camera-btn');
-    var fileInput = document.getElementById('file-input');
-    var statusEl  = document.getElementById('upload-status');
-    var activeBtn = null;
+    var addBtn          = document.getElementById('add-photos-btn');
+    var cameraBtn       = document.getElementById('camera-btn');
+    var fileInput       = document.getElementById('file-input');
+    var statusEl        = document.getElementById('upload-status');
+    var activeBtn       = null;
+    var uploadTruncated = false;
 
     addBtn.addEventListener('click', function () {
       activeBtn = addBtn;
@@ -524,11 +532,11 @@
     fileInput.addEventListener('change', function () {
       var all = Array.from(fileInput.files);
       if (!all.length) return;
-      var truncated = all.length > 20;
-      uploadFiles(truncated ? all.slice(0, 20) : all, truncated);
+      uploadTruncated = all.length > 20;
+      uploadFiles(uploadTruncated ? all.slice(0, 20) : all);
     });
 
-    function uploadFiles(files, truncated) {
+    function uploadFiles(files) {
       var waitingBtn = (activeBtn === addBtn) ? cameraBtn : addBtn;
       if (activeBtn) {
         activeBtn.classList.add('is-active');
@@ -591,7 +599,7 @@
         if (done + failed < total) return;
         resetAddBtn();
         if (failed === 0) {
-          if (truncated) {
+          if (uploadTruncated) {
             setStatus('First 20 uploaded — max 20 photos per upload', true);
           } else {
             setStatus(total === 1 ? 'Photo added' : total + ' photos added');
