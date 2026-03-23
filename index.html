@@ -41,12 +41,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+
+    #page-content {
+      opacity: 0;
       transition: opacity 0.6s ease;
     }
 
-    #password-gate.is-dissolving {
-      opacity: 0;
-      pointer-events: none;
+    #page-content.is-visible {
+      opacity: 1;
     }
 
     #password-gate__inner {
@@ -1042,6 +1045,8 @@
     </div>
   </div>
 
+  <div id="page-content">
+
   <!-- ════════════════════════════════════════
        SECTION 1 — Save the Date
   ════════════════════════════════════════ -->
@@ -1352,6 +1357,8 @@
 
     </div>
   </section>
+
+  </div><!-- /#page-content -->
 
   <!-- ════════════════════════════════════════
        SCRIPTS
@@ -1931,6 +1938,7 @@
         var today  = new Date().toISOString().slice(0, 10);
         if (stored && stored.unlocked && stored.expires >= today) {
           gate.style.display = 'none';
+          document.getElementById('page-content').style.opacity = '1';
           return;
         }
       } catch (e) {}
@@ -1953,14 +1961,12 @@
         var inner = document.getElementById('password-gate__inner');
         inner.style.opacity = '0';
 
-        /* Step 2: gate still opaque — scroll invisibly, then fade gate out 0.6s */
+        /* Step 2: gate still opaque — scroll invisibly, hide gate, fade in page */
         setTimeout(function () {
           window.scrollTo(0, 0);
-          gate.classList.add('is-dissolving');
-          gate.addEventListener('transitionend', function () {
-            document.body.style.overflow = '';
-            gate.style.display = 'none';
-          }, { once: true });
+          document.body.style.overflow = '';
+          gate.style.display = 'none';
+          document.getElementById('page-content').classList.add('is-visible');
         }, 600);
       }
 
