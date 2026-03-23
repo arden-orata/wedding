@@ -31,6 +31,87 @@
 
   <style>
     /* ================================================================
+       PASSWORD GATE
+    ================================================================ */
+    #password-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--color-bg, #fdfbf9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.7s ease;
+    }
+
+    #password-gate.is-dissolving {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #password-gate__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+      width: 70%;
+      max-width: 800px;
+    }
+
+    #gate-input {
+      width: 60%;
+      font-family: var(--font-sans, 'Jost', sans-serif);
+      font-weight: 400;
+      font-size: clamp(0.85rem, 2.2vw, 1rem);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-black, #1e1e1e);
+      background: #ffffff;
+      border: 0.75px solid var(--color-border, #d4b8a8);
+      padding: 0.6rem 0.75rem;
+      outline: none;
+      border-radius: var(--radius-sm, 4px);
+      text-align: center;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    #gate-input:focus {
+      border: 1.5px solid var(--color-brown, #c8967a);
+      box-shadow: var(--focus-ring, 0 0 0 2px rgba(200,150,122,0.15));
+    }
+
+    #gate-input.is-error {
+      background: #fdf0ee;
+      border-color: var(--color-pastel-red, #c0504a);
+    }
+
+    #gate-btn {
+      white-space: nowrap;
+      min-width: 14rem;
+      height: 3rem;
+      font-family: var(--font-sans, 'Jost', sans-serif);
+      font-weight: 600;
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-bg, #fdfbf9);
+      background: var(--color-brown, #c8967a);
+      border: none;
+      border-radius: var(--radius-sm, 4px);
+      padding: 0 2rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    #gate-btn:hover:not(.is-wrong) { background: var(--color-brown-dark, #b07858); }
+    #gate-btn.is-wrong             { background: var(--color-pastel-red, #c0504a); cursor: default; }
+
+    @media (max-width: 480px) {
+      #password-gate__inner { width: 90%; }
+      #gate-input           { width: 80%; font-size: 16px; }
+    }
+
+    /* ================================================================
        RESET & CUSTOM PROPERTIES
     ================================================================ */
     *,
@@ -943,6 +1024,17 @@
 <body>
 
   <!-- ════════════════════════════════════════
+       PASSWORD GATE
+  ════════════════════════════════════════ -->
+  <div id="password-gate">
+    <div id="password-gate__inner">
+      <label class="t-label" for="gate-input">What is the password?</label>
+      <input type="password" id="gate-input" autocomplete="off" spellcheck="false" />
+      <button type="button" id="gate-btn">Open Sesame</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
        SECTION 1 — Save the Date
   ════════════════════════════════════════ -->
   <section class="card">
@@ -1819,6 +1911,86 @@
           });
       });
 
+    })();
+
+    /* ════════════════════════════════════════
+       PASSWORD GATE
+    ════════════════════════════════════════ */
+    (function () {
+      var EXPIRY      = '2027-09-30';
+      var STORAGE_KEY = 'wedding_unlocked';
+      var gate        = document.getElementById('password-gate');
+
+      /* Already unlocked — hide gate instantly */
+      try {
+        var stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+        var today  = new Date().toISOString().slice(0, 10);
+        if (stored && stored.unlocked && stored.expires >= today) {
+          gate.style.display = 'none';
+          return;
+        }
+      } catch (e) {}
+
+      var input = document.getElementById('gate-input');
+      var btn   = document.getElementById('gate-btn');
+      var rsvp  = document.querySelector('.rsvp-form');
+      var SB_URL = rsvp.dataset.supabaseUrl;
+      var SB_KEY = rsvp.dataset.supabaseKey;
+
+      function unlock() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({ unlocked: true, expires: EXPIRY }));
+        } catch (e) {}
+        gate.classList.add('is-dissolving');
+        gate.addEventListener('transitionend', function () {
+          gate.style.display = 'none';
+        }, { once: true });
+      }
+
+      function checkPassword() {
+        var pw = input.value.trim();
+        if (!pw || btn.classList.contains('is-wrong')) return;
+
+        btn.disabled    = true;
+        btn.textContent = '···';
+
+        fetch(SB_URL + '/rest/v1/rpc/check_password', {
+          method: 'POST',
+          headers: {
+            'apikey':        SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY,
+            'Content-Type':  'application/json'
+          },
+          body: JSON.stringify({ p: pw })
+        })
+        .then(function (res) { return res.json(); })
+        .then(function (valid) {
+          btn.disabled = false;
+          if (valid) {
+            unlock();
+          } else {
+            btn.textContent = 'Wrong Password';
+            btn.classList.add('is-wrong');
+            input.classList.add('is-error');
+          }
+        })
+        .catch(function () {
+          btn.disabled    = false;
+          btn.textContent = 'Open Sesame';
+        });
+      }
+
+      input.addEventListener('input', function () {
+        btn.textContent = 'Open Sesame';
+        btn.classList.remove('is-wrong');
+        input.classList.remove('is-error');
+      });
+
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') checkPassword();
+      });
+
+      btn.addEventListener('click', checkPassword);
     })();
   </script>
 
