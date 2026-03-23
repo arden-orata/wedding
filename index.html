@@ -1365,7 +1365,9 @@
       /* ────────────────────────────────────────
          Configuration
       ──────────────────────────────────────── */
-      const form = document.querySelector('.rsvp-form');
+      const form        = document.querySelector('.rsvp-form');
+      const SB_URL      = form.dataset.supabaseUrl;
+      const SB_KEY      = form.dataset.supabaseKey;
       const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       /* ────────────────────────────────────────
@@ -1442,8 +1444,8 @@
          Supabase Transport
       ──────────────────────────────────────── */
       function submitToSupabase(params) {
-        var url = form.dataset.supabaseUrl + '/rest/v1/rsvps';
-        var key = form.dataset.supabaseKey;
+        var url = SB_URL + '/rest/v1/rsvps';
+        var key = SB_KEY;
 
         return fetch(url, {
           method: 'POST',
@@ -1498,23 +1500,7 @@
       ──────────────────────────────────────── */
       var guestFound   = false;
       var guestPlusOne = false;
-      var guestList    = [];
       var lookupTimer  = null;
-
-      fetch('assets/data/guests.json')
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
-          guestList = (data.guests || []).map(function (g) {
-            return {
-              firstname: g.firstname.trim().toLowerCase(),
-              lastname:  g.lastname.trim().toLowerCase(),
-              plus_one:  g.plus_one.trim()
-            };
-          });
-        })
-        .catch(function (err) {
-          console.warn('Could not load guest list:', err);
-        });
 
       /* ────────────────────────────────────────
          Title Case on Blur
@@ -1567,20 +1553,30 @@
         var lastname  = val('lastname').toLowerCase();
 
         resetForm();
-
         if (!firstname || !lastname) return;
 
-        var match = guestList.find(function (g) {
-          return g.firstname === firstname && g.lastname === lastname;
-        });
-
-        if (match) {
-          guestFound   = true;
-          guestPlusOne = match.plus_one.toLowerCase().includes('yes');
-          toggleVisible(attendanceBlock, true);
-        } else {
+        fetch(SB_URL + '/rest/v1/rpc/lookup_guest', {
+          method: 'POST',
+          headers: {
+            'apikey':        SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY,
+            'Content-Type':  'application/json'
+          },
+          body: JSON.stringify({ fname: firstname, lname: lastname })
+        })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data && data.length > 0) {
+            guestFound   = true;
+            guestPlusOne = data[0].plus_one.toLowerCase().includes('yes');
+            toggleVisible(attendanceBlock, true);
+          } else {
+            toggleVisible(guestError, true);
+          }
+        })
+        .catch(function () {
           toggleVisible(guestError, true);
-        }
+        });
       }
 
       document.getElementById('lastname').addEventListener('blur', function () {
