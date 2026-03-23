@@ -143,8 +143,14 @@
       touch-action: manipulation;
     }
 
-    .upload-btn:hover:not(:disabled) { background: var(--color-brown-dark); }
-    .upload-btn:disabled { opacity: 0.75; cursor: default; }
+    .upload-btn:hover:not(:disabled):not(.is-waiting) { background: var(--color-brown-dark); }
+    .upload-btn:disabled { cursor: default; }
+    .upload-btn.is-waiting {
+      background: var(--color-inactive);
+      cursor: default;
+      pointer-events: none;
+    }
+    .upload-btn { -webkit-tap-highlight-color: transparent; }
 
     /* ================================================================
        PHOTO GRID
@@ -515,9 +521,12 @@
     });
 
     function uploadFiles(files) {
-      addBtn.disabled    = true;
-      cameraBtn.disabled = true;
-      if (activeBtn) activeBtn.innerHTML = '<span class="btn-spinner" aria-label="Uploading\u2026"></span>';
+      var waitingBtn = (activeBtn === addBtn) ? cameraBtn : addBtn;
+      if (activeBtn) {
+        activeBtn.disabled = true;
+        activeBtn.innerHTML = '<span class="btn-spinner" aria-label="Uploading\u2026"></span>';
+      }
+      waitingBtn.classList.add('is-waiting');
       setStatus('');
 
       var grid    = document.getElementById('photo-grid');
@@ -586,7 +595,9 @@
     function resetAddBtn() {
       addBtn.disabled    = false;
       cameraBtn.disabled = false;
-      addBtn.innerHTML   = 'Upload Photos';
+      addBtn.classList.remove('is-waiting');
+      cameraBtn.classList.remove('is-waiting');
+      addBtn.innerHTML    = 'Upload Photos';
       cameraBtn.innerHTML = 'Take a Photo';
       activeBtn = null;
     }
