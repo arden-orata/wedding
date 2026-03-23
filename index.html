@@ -58,8 +58,17 @@
       max-width: 800px;
     }
 
+    #password-gate__inner label {
+      font-family: var(--font-serif, 'Cormorant Garamond', serif);
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(1rem, 2.4vw, 1.5rem);
+      letter-spacing: 0.06em;
+      color: var(--color-brown-dark, #b07858);
+    }
+
     #gate-input {
-      width: 60%;
+      width: 42%;
       font-family: var(--font-sans, 'Jost', sans-serif);
       font-weight: 400;
       font-size: clamp(0.85rem, 2.2vw, 1rem);
@@ -71,7 +80,6 @@
       padding: 0.6rem 0.75rem;
       outline: none;
       border-radius: var(--radius-sm, 4px);
-      text-align: center;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
 
@@ -87,7 +95,7 @@
 
     #gate-btn {
       white-space: nowrap;
-      min-width: 14rem;
+      width: 38%;
       height: 3rem;
       font-family: var(--font-sans, 'Jost', sans-serif);
       font-weight: 600;
@@ -98,7 +106,6 @@
       background: var(--color-brown, #c8967a);
       border: none;
       border-radius: var(--radius-sm, 4px);
-      padding: 0 2rem;
       cursor: pointer;
       transition: background 0.2s;
     }
@@ -108,7 +115,8 @@
 
     @media (max-width: 480px) {
       #password-gate__inner { width: 90%; }
-      #gate-input           { width: 80%; font-size: 16px; }
+      #gate-input           { width: 60%; font-size: 16px; }
+      #gate-btn             { width: 54%; }
     }
 
     /* ================================================================
@@ -1028,8 +1036,8 @@
   ════════════════════════════════════════ -->
   <div id="password-gate">
     <div id="password-gate__inner">
-      <label class="t-label" for="gate-input">What is the password?</label>
-      <input type="password" id="gate-input" autocomplete="off" spellcheck="false" />
+      <label for="gate-input">What is the password?</label>
+      <input type="text" id="gate-input" autocomplete="off" spellcheck="false" />
       <button type="button" id="gate-btn">Open Sesame</button>
     </div>
   </div>
