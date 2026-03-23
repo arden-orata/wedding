@@ -414,7 +414,8 @@
       img.dataset.fullUrl = url;
       img.addEventListener('load',  function () { item.classList.remove('is-loading'); });
       img.addEventListener('error', function () {
-        if (img.src !== url) { img.src = url; } else { item.remove(); }
+        if (!img.dataset.fallback) { img.dataset.fallback = '1'; img.src = url; }
+        else { item.remove(); }
       });
       img.addEventListener('click', function () { openLightbox(url); });
       item.appendChild(img);
