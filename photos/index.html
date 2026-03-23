@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Photos — Elisa &amp; Arden</title>
+
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Great+Vibes&family=Jost:wght@200;300;400;500&display=block"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* ================================================================
+       CUSTOM PROPERTIES
+    ================================================================ */
+    :root {
+      --font-serif:        'Cormorant Garamond', serif;
+      --font-sans:         'Jost', sans-serif;
+      --font-script:       'Great Vibes', cursive;
+      --color-brown:       #c8967a;
+      --color-brown-dark:  #b07858;
+      --color-black:       #1e1e1e;
+      --color-bg:          #fdfbf9;
+      --color-border:      #d4b8a8;
+      --color-placeholder: #c8b8b0;
+      --color-inactive:    #e0d0c8;
+      --color-pastel-red:  #c0504a;
+      --radius-sm:         4px;
+      --shadow-card:       0 4px 24px rgba(0,0,0,0.18);
+      --focus-ring:        0 0 0 2px rgba(200,150,122,0.15);
+    }
+
+    /* ================================================================
+       RESET
+    ================================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-bg);
+      color: var(--color-black);
+      overflow-x: hidden;
+    }
+
+    /* ================================================================
+       PASSWORD GATE  (identical to main site)
+    ================================================================ */
+    #password-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--color-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease;
+    }
+
+    #password-gate.is-dissolving {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #password-gate__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+      width: 70%;
+      max-width: 800px;
+      transition: opacity 0.6s ease;
+    }
+
+    #password-gate__inner label {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(1rem, 2.4vw, 1.5rem);
+      letter-spacing: 0.06em;
+      color: var(--color-brown-dark);
+    }
+
+    #gate-input {
+      width: 40%;
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: clamp(0.85rem, 2.2vw, 1rem);
+      letter-spacing: 0.08em;
+      color: var(--color-black);
+      background: #fff;
+      border: 0.75px solid var(--color-border);
+      padding: 0.6rem 0.75rem;
+      outline: none;
+      border-radius: var(--radius-sm);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      text-align: center;
+    }
+
+    #gate-input:focus {
+      border: 1.5px solid var(--color-brown);
+      box-shadow: var(--focus-ring);
+    }
+
+    #gate-input.is-error {
+      background: #fdf0ee;
+      border-color: var(--color-pastel-red);
+    }
+
+    #gate-btn {
+      width: 40%;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: clamp(0.75rem, 2vw, 0.85rem);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-bg);
+      background: var(--color-brown);
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    #gate-btn:hover:not(.is-wrong) { background: var(--color-brown-dark); }
+    #gate-btn.is-wrong             { background: var(--color-pastel-red); cursor: default; }
+
+    @media (max-width: 480px) {
+      #gate-input { width: 57%; font-size: 16px; }
+      #gate-btn   { width: 57%; }
+    }
+
+    /* ================================================================
+       SPINNER  (shared: gate btn + upload btn)
+    ================================================================ */
+    @keyframes btn-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .btn-spinner {
+      display: inline-block;
+      width: 1.1em;
+      height: 1.1em;
+      border: 2px solid rgba(255,255,255,0.35);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: btn-spin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+
+    /* ================================================================
+       PAGE CONTENT
+    ================================================================ */
+    #page-content {
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      min-height: 100svh;
+      padding: 0 4rem 5rem;
+    }
+
+    #page-content.is-visible { opacity: 1; }
+
+    @media (max-width: 480px) {
+      #page-content { padding: 0 1.25rem 4rem; }
+    }
+
+    /* ================================================================
+       HEADER
+    ================================================================ */
+    .photos-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2.5rem 0 2rem;
+      border-bottom: 0.75px solid var(--color-border);
+      margin-bottom: 2rem;
+    }
+
+    .photos-header__title {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .photos-header__names {
+      font-family: var(--font-serif);
+      font-weight: 600;
+      font-size: clamp(1rem, 3vw, 1.6rem);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-black);
+    }
+
+    .photos-header__sub {
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: clamp(0.7rem, 1.6vw, 0.85rem);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-brown-dark);
+    }
+
+    /* ================================================================
+       ADD PHOTOS BUTTON
+    ================================================================ */
+    .add-photos-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      height: 2.75rem;
+      padding: 0 1.5rem;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: clamp(0.7rem, 1.6vw, 0.8rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-bg);
+      background: var(--color-brown);
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .add-photos-btn:hover:not(:disabled) { background: var(--color-brown-dark); }
+    .add-photos-btn:disabled { opacity: 0.75; cursor: default; }
+
+    .add-photos-btn__icon {
+      font-size: 1em;
+      line-height: 1;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 0.6rem;
+      flex-shrink: 0;
+    }
+
+    /* ================================================================
+       PHOTO GRID
+    ================================================================ */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+
+    .photo-grid__item {
+      aspect-ratio: 1 / 1;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--color-inactive);
+    }
+
+    .photo-grid__item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .photo-grid__item:hover img {
+      transform: scale(1.03);
+    }
+
+    /* Skeleton loader while image loads */
+    .photo-grid__item.is-loading {
+      animation: skeleton-pulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes skeleton-pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.5; }
+    }
+
+    /* ================================================================
+       EMPTY STATE
+    ================================================================ */
+    .photos-empty {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 5rem 0;
+      text-align: center;
+    }
+
+    .photos-empty__heading {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      color: var(--color-brown);
+      letter-spacing: 0.04em;
+    }
+
+    .photos-empty__body {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(1rem, 2.4vw, 1.3rem);
+      color: var(--color-brown-dark);
+      max-width: 28rem;
+      line-height: 1.6;
+    }
+
+    /* ================================================================
+       UPLOAD STATUS
+    ================================================================ */
+    .upload-status {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      color: var(--color-brown-dark);
+      text-align: right;
+      min-height: 1.5em;
+      margin-bottom: 1rem;
+    }
+
+    .upload-status--error {
+      color: var(--color-pastel-red);
+    }
+
+    /* ================================================================
+       LIGHTBOX
+    ================================================================ */
+    #lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 8888;
+      background: rgba(20, 15, 10, 0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    #lightbox.is-open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    #lightbox__img {
+      max-width: 90vw;
+      max-height: 90svh;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.5);
+      display: block;
+    }
+
+    #lightbox__close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.12);
+      border: none;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    #lightbox__close:hover { background: rgba(255,255,255,0.22); }
+  </style>
+</head>
+<body>
+
+  <!-- Config -->
+  <div id="config"
+       data-supabase-url="https://fnxhwhxnhhdezyrchkpi.supabase.co"
+       data-supabase-key="sb_publishable_pQUCD_gSk5iq0dpgixEIxQ_wqggxSyB">
+  </div>
+
+  <!-- ============================================================
+       PASSWORD GATE
+  ============================================================ -->
+  <div id="password-gate">
+    <div id="password-gate__inner">
+      <label for="gate-input">What is the password?</label>
+      <input
+        type="text"
+        id="gate-input"
+        autocomplete="off"
+        spellcheck="false"
+        autocapitalize="none"
+        autocorrect="off"
+      />
+      <button type="button" id="gate-btn">Open Sesame</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       PAGE CONTENT
+  ============================================================ -->
+  <div id="page-content">
+
+    <header class="photos-header">
+      <div class="photos-header__title">
+        <span class="photos-header__names">Elisa &amp; Arden</span>
+        <span class="photos-header__sub">Photos</span>
+      </div>
+      <div class="header-actions">
+        <button class="add-photos-btn" id="add-photos-btn" type="button">
+          <span class="add-photos-btn__icon">+</span>
+          Add Photos
+        </button>
+        <button class="add-photos-btn" id="camera-btn" type="button">
+          &#x1F4F7; Take Photo
+        </button>
+      </div>
+    </header>
+
+    <p class="upload-status" id="upload-status" aria-live="polite"></p>
+
+    <div class="photo-grid" id="photo-grid">
+      <!-- Photos injected here by JS -->
+    </div>
+
+  </div><!-- /page-content -->
+
+  <!-- ============================================================
+       LIGHTBOX
+  ============================================================ -->
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button id="lightbox__close" aria-label="Close">&#x2715;</button>
+    <img id="lightbox__img" src="" alt="" />
+  </div>
+
+  <!-- Hidden file inputs -->
+  <input type="file" id="file-input" accept="image/*" multiple hidden />
+  <input type="file" id="camera-input" accept="image/*" capture="environment" hidden />
+
+  <script>
+    /* ================================================================
+       CONFIG
+    ================================================================ */
+    const cfg     = document.getElementById('config');
+    const SB_URL  = cfg.dataset.supabaseUrl;
+    const SB_KEY  = cfg.dataset.supabaseKey;
+    const BUCKET  = 'wedding-photos';
+
+    /* ================================================================
+       PASSWORD GATE
+    ================================================================ */
+    (function () {
+      var EXPIRY      = '2027-09-30';
+      var STORAGE_KEY = 'wedding_unlocked';
+      var gate        = document.getElementById('password-gate');
+      var input       = document.getElementById('gate-input');
+      var btn         = document.getElementById('gate-btn');
+
+      /* Already unlocked? */
+      try {
+        var stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+        var today  = new Date().toISOString().slice(0, 10);
+        if (stored && stored.unlocked && stored.expires >= today) {
+          revealPage();
+          return;
+        }
+      } catch (e) {}
+
+      document.body.style.overflow = 'hidden';
+
+      /* Enforce lowercase */
+      input.addEventListener('input', function () {
+        var pos = input.selectionStart;
+        input.value = input.value.toLowerCase();
+        input.setSelectionRange(pos, pos);
+      });
+
+      /* Reset wrong state on new input */
+      input.addEventListener('input', function () {
+        if (btn.classList.contains('is-wrong')) {
+          btn.classList.remove('is-wrong');
+          btn.textContent = 'Open Sesame';
+          input.classList.remove('is-error');
+        }
+      });
+
+      btn.addEventListener('click', checkPassword);
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') checkPassword();
+      });
+
+      function unlock() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({ unlocked: true, expires: EXPIRY }));
+        } catch (e) {}
+
+        var inner = document.getElementById('password-gate__inner');
+        inner.style.opacity = '0';
+
+        setTimeout(function () {
+          window.scrollTo(0, 0);
+          gate.classList.add('is-dissolving');
+          gate.addEventListener('transitionend', function () {
+            document.body.style.overflow = '';
+            gate.style.display = 'none';
+            revealPage();
+          }, { once: true });
+        }, 600);
+      }
+
+      function revealPage() {
+        document.getElementById('page-content').classList.add('is-visible');
+        loadPhotos();
+      }
+
+      function checkPassword() {
+        var pw = input.value.trim();
+        if (!pw || btn.classList.contains('is-wrong')) return;
+
+        btn.disabled  = true;
+        btn.innerHTML = '<span class="btn-spinner" aria-label="Checking\u2026"></span>';
+
+        fetch(SB_URL + '/rest/v1/rpc/check_password', {
+          method: 'POST',
+          headers: {
+            'apikey':        SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY,
+            'Content-Type':  'application/json'
+          },
+          body: JSON.stringify({ p: pw })
+        })
+        .then(function (res) { return res.json(); })
+        .then(function (valid) {
+          btn.disabled = false;
+          if (valid) {
+            unlock();
+          } else {
+            btn.textContent = 'Wrong Password';
+            btn.classList.add('is-wrong');
+            input.classList.add('is-error');
+          }
+        })
+        .catch(function () {
+          btn.disabled    = false;
+          btn.textContent = 'Open Sesame';
+        });
+      }
+    })();
+
+    /* ================================================================
+       PHOTO GRID
+    ================================================================ */
+    function loadPhotos() {
+      fetch(SB_URL + '/rest/v1/photos?order=uploaded_at.desc&select=id,url,filename', {
+        headers: {
+          'apikey':        SB_KEY,
+          'Authorization': 'Bearer ' + SB_KEY
+        }
+      })
+      .then(function (res) { return res.json(); })
+      .then(function (photos) {
+        var grid = document.getElementById('photo-grid');
+        if (!photos || photos.length === 0) {
+          renderEmpty(grid);
+        } else {
+          photos.forEach(function (p) { grid.appendChild(makeCard(p.url, p.filename)); });
+        }
+      })
+      .catch(function () {
+        renderEmpty(document.getElementById('photo-grid'));
+      });
+    }
+
+    function makeCard(url, alt) {
+      var item = document.createElement('div');
+      item.className = 'photo-grid__item is-loading';
+      var img = document.createElement('img');
+      img.alt = alt || 'Wedding photo';
+      img.src = url;
+      img.addEventListener('load',  function () { item.classList.remove('is-loading'); });
+      img.addEventListener('error', function () { item.classList.remove('is-loading'); });
+      img.addEventListener('click', function () { openLightbox(url, alt || 'Wedding photo'); });
+      item.appendChild(img);
+      return item;
+    }
+
+    function renderEmpty(grid) {
+      grid.innerHTML =
+        '<div class="photos-empty">' +
+          '<p class="photos-empty__heading">Coming Soon</p>' +
+          '<p class="photos-empty__body">Photos will appear here after the wedding. Check back soon.</p>' +
+        '</div>';
+    }
+
+    /* ================================================================
+       LIGHTBOX
+    ================================================================ */
+    var lightbox     = document.getElementById('lightbox');
+    var lightboxImg  = document.getElementById('lightbox__img');
+    var lightboxClose = document.getElementById('lightbox__close');
+
+    function openLightbox(url, alt) {
+      lightboxImg.src = url;
+      lightboxImg.alt = alt;
+      lightbox.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('is-open');
+      document.body.style.overflow = '';
+      lightboxImg.src = '';
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function (e) {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    /* ================================================================
+       UPLOAD
+    ================================================================ */
+    var addBtn      = document.getElementById('add-photos-btn');
+    var cameraBtn   = document.getElementById('camera-btn');
+    var fileInput   = document.getElementById('file-input');
+    var cameraInput = document.getElementById('camera-input');
+    var statusEl    = document.getElementById('upload-status');
+
+    addBtn.addEventListener('click', function () {
+      fileInput.value = '';
+      fileInput.click();
+    });
+
+    cameraBtn.addEventListener('click', function () {
+      cameraInput.value = '';
+      cameraInput.click();
+    });
+
+    fileInput.addEventListener('change', function () {
+      var files = Array.from(fileInput.files);
+      if (!files.length) return;
+      if (files.length > 20) {
+        setStatus('Please select up to 20 photos at a time.', true);
+        return;
+      }
+      uploadFiles(files);
+    });
+
+    cameraInput.addEventListener('change', function () {
+      var files = Array.from(cameraInput.files);
+      if (!files.length) return;
+      uploadFiles(files);
+    });
+
+    function uploadFiles(files) {
+      addBtn.disabled    = true;
+      cameraBtn.disabled = true;
+      addBtn.innerHTML   = '<span class="btn-spinner" aria-label="Uploading\u2026"></span> Uploading\u2026';
+      setStatus('');
+
+      var grid    = document.getElementById('photo-grid');
+      var empty   = grid.querySelector('.photos-empty');
+      var done    = 0;
+      var failed  = 0;
+      var total   = files.length;
+
+      files.forEach(function (file) {
+        var ext  = file.name.split('.').pop() || 'jpg';
+        var path = Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.' + ext;
+
+        fetch(SB_URL + '/storage/v1/object/' + BUCKET + '/' + path, {
+          method: 'POST',
+          headers: {
+            'apikey':        SB_KEY,
+            'Authorization': 'Bearer ' + SB_KEY,
+            'Content-Type':  file.type || 'image/jpeg',
+            'x-upsert':      'false'
+          },
+          body: file
+        })
+        .then(function (res) {
+          if (!res.ok) throw new Error('Storage upload failed: ' + res.status);
+          var publicUrl = SB_URL + '/storage/v1/object/public/' + BUCKET + '/' + path;
+          return fetch(SB_URL + '/rest/v1/photos', {
+            method: 'POST',
+            headers: {
+              'apikey':        SB_KEY,
+              'Authorization': 'Bearer ' + SB_KEY,
+              'Content-Type':  'application/json',
+              'Prefer':        'return=representation'
+            },
+            body: JSON.stringify({ storage_path: path, url: publicUrl, filename: file.name })
+          }).then(function (r) {
+            if (!r.ok) throw new Error('DB insert failed: ' + r.status);
+            return publicUrl;
+          });
+        })
+        .then(function (url) {
+          done++;
+          if (empty) { empty.remove(); empty = null; }
+          var card = makeCard(url, file.name);
+          grid.insertBefore(card, grid.firstChild);
+          checkDone();
+        })
+        .catch(function () {
+          failed++;
+          checkDone();
+        });
+      });
+
+      function checkDone() {
+        if (done + failed < total) return;
+        resetAddBtn();
+        if (failed === 0) {
+          setStatus(total === 1 ? 'Photo added.' : total + ' photos added.');
+        } else if (done === 0) {
+          setStatus('Upload failed. Please try again.', true);
+        } else {
+          setStatus(done + ' of ' + total + ' photos uploaded. ' + failed + ' failed.', true);
+        }
+      }
+    }
+
+    function resetAddBtn() {
+      addBtn.disabled    = false;
+      cameraBtn.disabled = false;
+      addBtn.innerHTML   = '<span class="add-photos-btn__icon">+</span> Add Photos';
+    }
+
+    function setStatus(msg, isError) {
+      statusEl.textContent = msg;
+      statusEl.className   = 'upload-status' + (isError ? ' upload-status--error' : '');
+    }
+  </script>
+</body>
+</html>
