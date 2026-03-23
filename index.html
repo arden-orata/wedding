@@ -41,12 +41,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: opacity 1.8s ease, filter 1.8s ease;
+      transition: opacity 3s ease-in, transform 3s ease-in;
+      transform-origin: center center;
     }
 
     #password-gate.is-dissolving {
       opacity: 0;
-      filter: blur(10px);
+      transform: scale(1.04);
       pointer-events: none;
     }
 
@@ -1939,6 +1940,9 @@
         }
       } catch (e) {}
 
+      /* Lock body scroll while gate is visible */
+      document.body.style.overflow = 'hidden';
+
       var input = document.getElementById('gate-input');
       var btn   = document.getElementById('gate-btn');
       var rsvp  = document.querySelector('.rsvp-form');
@@ -1951,6 +1955,8 @@
         } catch (e) {}
         gate.classList.add('is-dissolving');
         gate.addEventListener('transitionend', function () {
+          window.scrollTo(0, 0);
+          document.body.style.overflow = '';
           gate.style.display = 'none';
         }, { once: true });
       }
