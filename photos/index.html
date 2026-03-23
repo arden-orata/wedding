@@ -446,9 +446,8 @@
     <img id="lightbox__img" src="" alt="" />
   </div>
 
-  <!-- Hidden file inputs -->
+  <!-- Hidden file input -->
   <input type="file" id="file-input" accept="image/*" multiple hidden />
-  <input type="file" id="camera-input" accept="image/*" capture="environment" hidden />
 
   <script>
     /* ================================================================
@@ -636,11 +635,10 @@
     /* ================================================================
        UPLOAD
     ================================================================ */
-    var addBtn      = document.getElementById('add-photos-btn');
-    var cameraBtn   = document.getElementById('camera-btn');
-    var fileInput   = document.getElementById('file-input');
-    var cameraInput = document.getElementById('camera-input');
-    var statusEl    = document.getElementById('upload-status');
+    var addBtn    = document.getElementById('add-photos-btn');
+    var cameraBtn = document.getElementById('camera-btn');
+    var fileInput = document.getElementById('file-input');
+    var statusEl  = document.getElementById('upload-status');
 
     addBtn.addEventListener('click', function () {
       fileInput.value = '';
@@ -648,7 +646,15 @@
     });
 
     cameraBtn.addEventListener('click', function () {
-      cameraInput.value = '';
+      var cameraInput = document.createElement('input');
+      cameraInput.type    = 'file';
+      cameraInput.accept  = 'image/*';
+      cameraInput.capture = 'environment';
+      cameraInput.addEventListener('change', function () {
+        var files = Array.from(cameraInput.files);
+        if (!files.length) return;
+        uploadFiles(files);
+      });
       cameraInput.click();
     });
 
@@ -662,16 +668,10 @@
       uploadFiles(files);
     });
 
-    cameraInput.addEventListener('change', function () {
-      var files = Array.from(cameraInput.files);
-      if (!files.length) return;
-      uploadFiles(files);
-    });
-
     function uploadFiles(files) {
       addBtn.disabled    = true;
       cameraBtn.disabled = true;
-      addBtn.innerHTML   = '<span class="btn-spinner" aria-label="Uploading\u2026"></span> Uploading\u2026';
+      addBtn.innerHTML   = '<span class="btn-spinner" aria-label="Uploading\u2026"></span> Uploading…';
       setStatus('');
 
       var grid    = document.getElementById('photo-grid');
