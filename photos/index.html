@@ -83,7 +83,7 @@
       align-items: center;
       text-align: center;
       padding: 3rem 0 2.25rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0;
     }
 
     .photos-header .t-display {
@@ -144,7 +144,13 @@
     }
 
     .upload-btn:hover:not(:disabled):not(.is-waiting) { background: var(--color-brown-dark); }
-    .upload-btn:disabled { cursor: default; }
+    .upload-btn:disabled {
+      cursor: default;
+      background: var(--color-brown);
+      color: var(--color-bg);
+      -webkit-text-fill-color: var(--color-bg);
+      opacity: 1;
+    }
     .upload-btn.is-waiting {
       background: var(--color-inactive);
       cursor: default;
@@ -234,8 +240,7 @@
       letter-spacing: 0.06em;
       color: var(--color-brown-dark);
       text-align: center;
-      min-height: 1.5em;
-      margin-top: 1rem;
+      margin-top: 0.75rem;
     }
 
     .upload-status--error {
@@ -307,9 +312,6 @@
       background: rgba(255,255,255,0.12);
       border: none;
       border-radius: 50%;
-      color: #fff;
-      font-size: 1.8rem;
-      line-height: 1;
       cursor: pointer;
       transition: background 0.2s;
       touch-action: manipulation;
@@ -360,9 +362,13 @@
   ============================================================ -->
   <div id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
     <button id="lightbox__close" aria-label="Close">&#x2715;</button>
-    <button id="lightbox__prev" aria-label="Previous photo">&#8249;</button>
+    <button id="lightbox__prev" aria-label="Previous photo">
+      <svg width="11" height="18" viewBox="0 0 11 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 2L2 9L9 16" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
     <img id="lightbox__img" src="" alt="" />
-    <button id="lightbox__next" aria-label="Next photo">&#8250;</button>
+    <button id="lightbox__next" aria-label="Next photo">
+      <svg width="11" height="18" viewBox="0 0 11 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 2L9 9L2 16" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
   </div>
 
   <!-- Hidden file input -->
@@ -514,7 +520,7 @@
       var files = Array.from(fileInput.files);
       if (!files.length) return;
       if (files.length > 20) {
-        setStatus('Please select up to 20 photos at a time.', true);
+        setStatus('Max 20 photos per upload — please select fewer', true);
         return;
       }
       uploadFiles(files);
