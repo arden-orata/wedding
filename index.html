@@ -41,7 +41,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: opacity 1s ease;
+      transition: opacity 0.6s ease;
     }
 
     #password-gate.is-dissolving {
@@ -56,7 +56,7 @@
       gap: 1.2rem;
       width: 70%;
       max-width: 800px;
-      transition: opacity 1s ease;
+      transition: opacity 0.6s ease;
     }
 
     #password-gate__inner label {
@@ -1949,18 +1949,19 @@
           localStorage.setItem(STORAGE_KEY, JSON.stringify({ unlocked: true, expires: EXPIRY }));
         } catch (e) {}
 
-        /* Step 1: fade out inner elements (label, input, button) over 1s */
+        /* Step 1: fade out inner elements over 0.6s */
         var inner = document.getElementById('password-gate__inner');
         inner.style.opacity = '0';
 
-        /* Step 2: after inner fades, fade out the gate background over 1s */
+        /* Step 2: gate still opaque — scroll invisibly, then fade gate out 0.6s */
         setTimeout(function () {
+          window.scrollTo(0, 0);
           gate.classList.add('is-dissolving');
           gate.addEventListener('transitionend', function () {
             document.body.style.overflow = '';
             gate.style.display = 'none';
           }, { once: true });
-        }, 1000);
+        }, 600);
       }
 
       function checkPassword() {
