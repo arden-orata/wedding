@@ -124,6 +124,8 @@
     .upload-btn {
       width: min(12rem, 42vw);
       height: 3rem;
+      white-space: nowrap;
+      overflow: hidden;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -137,25 +139,13 @@
       border: none;
       border-radius: var(--radius-sm);
       cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      white-space: nowrap;
-      overflow: hidden;
+      transition: background 0.2s;
       touch-action: manipulation;
     }
-
-    @media (hover: hover) {
-      .upload-btn:hover:not(.is-active):not(.is-waiting) { background: var(--color-brown-dark); }
-    }
-    .upload-btn:active:not(.is-active):not(.is-waiting) { background: var(--color-brown-dark); transform: scale(0.96); }
-    .upload-btn.is-active {
-      background: var(--color-brown);
-      pointer-events: none;
-    }
-    .upload-btn.is-waiting {
-      background: var(--color-inactive);
-      pointer-events: none;
-    }
-    .upload-btn { -webkit-tap-highlight-color: transparent; }
+    .upload-btn:hover:not(.is-active):not(.is-waiting) { background: var(--color-brown-dark); }
+    .upload-btn:active:not(.is-active):not(.is-waiting) { background: var(--color-brown-dark); }
+    .upload-btn.is-active  { background: var(--color-brown);  cursor: default; pointer-events: none; }
+    .upload-btn.is-waiting { background: var(--color-border); cursor: default; pointer-events: none; }
 
     /* ================================================================
        PHOTO GRID
