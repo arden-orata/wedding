@@ -408,7 +408,6 @@
       var img = document.createElement('img');
       img.alt = alt || 'Wedding photo';
       img.src = thumbUrl(url);
-      img.loading = 'lazy';
       img.dataset.fullUrl = url;
       img.addEventListener('load',  function () { item.classList.remove('is-loading'); });
       img.addEventListener('error', function () { item.remove(); });
