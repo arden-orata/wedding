@@ -41,6 +41,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: opacity 0.6s ease;
+    }
+
+    #password-gate.is-dissolving {
+      opacity: 0;
+      pointer-events: none;
     }
 
     #page-content {
@@ -1234,7 +1240,8 @@
 
     <div class="rsvp-form"
          data-supabase-url="https://fnxhwhxnhhdezyrchkpi.supabase.co"
-         data-supabase-key="sb_publishable_pQUCD_gSk5iq0dpgixEIxQ_wqggxSyB">
+         data-supabase-key="sb_publishable_pQUCD_gSk5iq0dpgixEIxQ_wqggxSyB"
+         data-script-url="https://script.google.com/macros/s/AKfycbwEAltOotbmlpZbrinU-1b6wrD3Mx4-auZI1jmU0KJG2fACLnD119zl5GEyP4_amDah3g/exec">
 
       <!-- Name -->
       <div class="form-row">
@@ -1374,6 +1381,7 @@
       const form        = document.querySelector('.rsvp-form');
       const SB_URL      = form.dataset.supabaseUrl;
       const SB_KEY      = form.dataset.supabaseKey;
+      const SCRIPT_URL  = form.dataset.scriptUrl;
       const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       /* ────────────────────────────────────────
@@ -1479,6 +1487,20 @@
         }).then(function (res) {
           if (!res.ok) throw new Error('Supabase error: ' + res.status);
         });
+      }
+
+      /* ────────────────────────────────────────
+         Email Notification (fire-and-forget)
+      ──────────────────────────────────────── */
+      function notifyEmail(params) {
+        if (!SCRIPT_URL) return;
+        var qs = Object.keys(params).map(function (k) {
+          return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
+        }).join('&');
+        var s = document.createElement('script');
+        s.src = SCRIPT_URL + '?' + qs;
+        s.onload = s.onerror = function () { s.remove(); };
+        document.body.appendChild(s);
       }
 
       /* ────────────────────────────────────────
@@ -1894,6 +1916,7 @@
 
         Promise.all([submitPromise, timerPromise])
           .then(function () {
+            notifyEmail(params);
             form.classList.add('is-submitted');
             submitBtn.classList.remove('is-inactive');
             submitBtn.classList.add('is-sent');
@@ -1957,16 +1980,21 @@
           localStorage.setItem(STORAGE_KEY, JSON.stringify({ unlocked: true, expires: EXPIRY }));
         } catch (e) {}
 
-        /* Step 1: fade out inner elements over 0.6s */
+        /* Step 1: fade out inner elements (0.6s) */
         var inner = document.getElementById('password-gate__inner');
         inner.style.opacity = '0';
 
-        /* Step 2: gate still opaque — scroll invisibly, hide gate, fade in page */
+        /* Step 2: gate still fully opaque — scroll to top invisibly, then fade gate out */
         setTimeout(function () {
           window.scrollTo(0, 0);
-          document.body.style.overflow = '';
-          gate.style.display = 'none';
-          document.getElementById('page-content').classList.add('is-visible');
+          gate.classList.add('is-dissolving');
+
+          /* Step 3: once gate has faded, restore scroll & reveal page */
+          gate.addEventListener('transitionend', function () {
+            document.body.style.overflow = '';
+            gate.style.display = 'none';
+            document.getElementById('page-content').classList.add('is-visible');
+          }, { once: true });
         }, 600);
       }
 
@@ -1974,8 +2002,8 @@
         var pw = input.value.trim();
         if (!pw || btn.classList.contains('is-wrong')) return;
 
-        btn.disabled    = true;
-        btn.textContent = '···';
+        btn.disabled   = true;
+        btn.innerHTML  = '<span class="submit-btn__spinner" aria-label="Checking…"></span>';
 
         fetch(SB_URL + '/rest/v1/rpc/check_password', {
           method: 'POST',
