@@ -32,8 +32,10 @@
 
   <style>
     /* ================================================================
-       PASSWORD GATE
+       PASSWORD GATE — temporarily disabled for Google review
+       To re-enable: uncomment this block and the matching HTML + JS sections below
     ================================================================ */
+    /*
     #password-gate {
       position: fixed;
       inset: 0;
@@ -131,6 +133,7 @@
       #gate-input           { width: 57%; font-size: 16px; }
       #gate-btn             { width: 57%; }
     }
+    */
 
     /* ================================================================
        RESET & CUSTOM PROPERTIES
@@ -1045,8 +1048,10 @@
 <body>
 
   <!-- ════════════════════════════════════════
-       PASSWORD GATE
+       PASSWORD GATE — temporarily disabled for Google review
+       To re-enable: uncomment this block and the matching CSS + JS sections
   ════════════════════════════════════════ -->
+  <!--
   <div id="password-gate">
     <div id="password-gate__inner">
       <label for="gate-input">What is the password?</label>
@@ -1054,8 +1059,9 @@
       <button type="button" id="gate-btn">Open Sesame</button>
     </div>
   </div>
+  -->
 
-  <div id="page-content">
+  <div id="page-content" style="opacity:1">
 
   <!-- ════════════════════════════════════════
        SECTION 1 — Save the Date
@@ -1952,14 +1958,15 @@
     })();
 
     /* ════════════════════════════════════════
-       PASSWORD GATE
+       PASSWORD GATE — temporarily disabled for Google review
+       To re-enable: uncomment this block and the matching CSS + HTML sections
     ════════════════════════════════════════ */
+    /*
     (function () {
       var EXPIRY      = '2027-09-30';
       var STORAGE_KEY = 'wedding_unlocked';
       var gate        = document.getElementById('password-gate');
 
-      /* Already unlocked — hide gate instantly */
       try {
         var stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
         var today  = new Date().toISOString().slice(0, 10);
@@ -1970,7 +1977,6 @@
         }
       } catch (e) {}
 
-      /* Lock body scroll while gate is visible */
       document.body.style.overflow = 'hidden';
 
       var input = document.getElementById('gate-input');
@@ -1984,16 +1990,13 @@
           localStorage.setItem(STORAGE_KEY, JSON.stringify({ unlocked: true, expires: EXPIRY }));
         } catch (e) {}
 
-        /* Step 1: fade out inner elements (0.6s) */
         var inner = document.getElementById('password-gate__inner');
         inner.style.opacity = '0';
 
-        /* Step 2: gate still fully opaque — scroll to top invisibly, then fade gate out */
         setTimeout(function () {
           window.scrollTo(0, 0);
           gate.classList.add('is-dissolving');
 
-          /* Step 3: once gate has faded, restore scroll & reveal page */
           gate.addEventListener('transitionend', function () {
             document.body.style.overflow = '';
             gate.style.display = 'none';
@@ -2050,6 +2053,7 @@
 
       btn.addEventListener('click', checkPassword);
     })();
+    */
   </script>
 
 </body>
