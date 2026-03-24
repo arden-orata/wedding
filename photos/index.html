@@ -164,6 +164,7 @@
       overflow: hidden;
       cursor: pointer;
       background: var(--color-inactive);
+      will-change: transform;
     }
 
     .photo-grid__item img {
@@ -171,11 +172,12 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.3s ease;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
-    .photo-grid__item:hover img {
-      transform: scale(1.03);
+    .photo-grid__item img.is-loaded {
+      opacity: 1;
     }
 
     /* Skeleton loader while image loads */
@@ -375,6 +377,39 @@
     const SB_KEY  = cfg.dataset.supabaseKey;
     const BUCKET  = 'wedding-photos';
 
+    /* ================================================================
+       PHOTO QUEUE — photos 9+ load one at a time after first batch
+    ================================================================ */
+    var pendingQueue = [];
+    var queueBusy    = false;
+
+    function startQueue() { loadNextInQueue(); }
+
+    function loadNextInQueue() {
+      if (queueBusy || !pendingQueue.length) return;
+      queueBusy = true;
+      var next = pendingQueue.shift();
+      var item = document.createElement('div');
+      item.className = 'photo-grid__item';
+      var img = document.createElement('img');
+      img.alt = '';
+      img.dataset.fullUrl = next.url;
+      img.addEventListener('load', function () {
+        img.classList.add('is-loaded');
+        img.alt = next.filename || 'Wedding photo';
+        document.getElementById('photo-grid').appendChild(item);
+        queueBusy = false;
+        loadNextInQueue();
+      });
+      img.addEventListener('error', function () {
+        if (!img.dataset.fallback) { img.dataset.fallback = '1'; img.src = next.url; }
+        else { queueBusy = false; loadNextInQueue(); }
+      });
+      img.addEventListener('click', function () { openLightbox(next.url); });
+      img.src = thumbUrl(next.url);
+      item.appendChild(img);
+    }
+
     loadPhotos();
 
     /* ================================================================
@@ -390,11 +425,53 @@
       .then(function (res) { return res.json(); })
       .then(function (photos) {
         var grid = document.getElementById('photo-grid');
-        if (!photos || photos.length === 0) {
-          renderEmpty(grid);
-        } else {
-          photos.forEach(function (p) { grid.appendChild(makeCard(p.url, p.filename)); });
+        if (!photos || photos.length === 0) { renderEmpty(grid); return; }
+
+        var firstBatch = Math.min(15, photos.length);
+        var slots      = new Array(firstBatch);
+        var nextIdx    = 0;
+        var settled    = 0;
+
+        /* Append in strict index order — guarantees correct column alignment */
+        function flush() {
+          while (nextIdx < firstBatch && slots[nextIdx] !== undefined) {
+            if (slots[nextIdx]) grid.appendChild(slots[nextIdx]);
+            nextIdx++;
+          }
         }
+
+        function onSettled() {
+          settled++;
+          flush();
+          if (settled === firstBatch) startQueue();
+        }
+
+        /* Push photos 9+ into queue — not loaded yet */
+        photos.slice(9).forEach(function (p) {
+          pendingQueue.push({ url: p.url, filename: p.filename });
+        });
+
+        /* Load photos 0–8 in parallel, off-DOM */
+        photos.slice(0, firstBatch).forEach(function (p, i) {
+          var item = document.createElement('div');
+          item.className = 'photo-grid__item';
+          var img = document.createElement('img');
+          img.alt = '';
+          img.dataset.fullUrl = p.url;
+          img.addEventListener('load', function () {
+            img.classList.add('is-loaded');
+            img.alt = p.filename || 'Wedding photo';
+            slots[i] = item;
+            onSettled();
+          });
+          img.addEventListener('error', function () {
+            if (!img.dataset.fallback) { img.dataset.fallback = '1'; img.src = p.url; }
+            else { slots[i] = null; onSettled(); }
+          });
+          img.addEventListener('click', function () { openLightbox(p.url); });
+          img.src = thumbUrl(p.url);
+          item.appendChild(img);
+        });
       })
       .catch(function () {
         renderEmpty(document.getElementById('photo-grid'));
@@ -405,19 +482,24 @@
       return url.replace('/object/public/', '/render/image/public/') + '?width=400&quality=70';
     }
 
-    function makeCard(url, alt) {
+    /* makeCard — used only for freshly uploaded photos */
+    function makeCard(url, filename) {
       var item = document.createElement('div');
       item.className = 'photo-grid__item is-loading';
       var img = document.createElement('img');
-      img.alt = alt || 'Wedding photo';
-      img.src = thumbUrl(url);
+      img.alt = '';
       img.dataset.fullUrl = url;
-      img.addEventListener('load',  function () { item.classList.remove('is-loading'); });
+      img.addEventListener('load', function () {
+        item.classList.remove('is-loading');
+        img.classList.add('is-loaded');
+        img.alt = filename || 'Wedding photo';
+      });
       img.addEventListener('error', function () {
         if (!img.dataset.fallback) { img.dataset.fallback = '1'; img.src = url; }
         else { item.remove(); }
       });
       img.addEventListener('click', function () { openLightbox(url); });
+      img.src = thumbUrl(url);
       item.appendChild(img);
       return item;
     }
@@ -542,7 +624,7 @@
       var waitingBtn = (activeBtn === addBtn) ? cameraBtn : addBtn;
       if (activeBtn) {
         activeBtn.classList.add('is-active');
-        activeBtn.innerHTML = '<span class="btn-spinner" aria-label="Uploading\u2026"></span>';
+        activeBtn.innerHTML = '<em style="font-style:italic;letter-spacing:0.15em">Uploading</em>&nbsp;<span class="btn-spinner" aria-label="Uploading\u2026"></span>';
       }
       waitingBtn.classList.add('is-waiting');
       setStatus('');
