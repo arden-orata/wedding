@@ -456,11 +456,7 @@
     }
 
     function thumbUrl(url) {
-      return url.replace('/object/public/', '/render/image/public/') + '?width=250&quality=70';
-    }
-
-    function lightboxUrl(url) {
-      return url.replace('/object/public/', '/render/image/public/') + '?width=1600&quality=85';
+      return url;
     }
 
     /* makeCard — used only for freshly uploaded photos */
@@ -516,9 +512,8 @@
 
     function openLightbox(url) {
       var imgs     = Array.from(document.querySelectorAll('.photo-grid__item img'));
-      var fullUrls = imgs.map(function (img) { return img.dataset.fullUrl; });
-      carouselUrls = fullUrls.map(lightboxUrl);
-      carouselIdx  = fullUrls.indexOf(url);
+      carouselUrls = imgs.map(function (img) { return img.dataset.fullUrl; });
+      carouselIdx  = carouselUrls.indexOf(url);
       if (carouselIdx < 0) carouselIdx = 0;
       lightboxImg.src = carouselUrls[carouselIdx];
       lightbox.classList.add('is-open');
