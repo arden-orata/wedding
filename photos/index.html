@@ -249,7 +249,7 @@
       inset: 0;
       z-index: 8888;
       background: rgba(20, 15, 10, 0.92);
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
       opacity: 0;
@@ -573,11 +573,15 @@
       carouselUrls = imgs.map(function (img) { return img.dataset.fullUrl; });
       carouselIdx  = carouselUrls.indexOf(url);
       if (carouselIdx < 0) carouselIdx = 0;
-      showWithProgressiveLoad(carouselIdx);
-      lightbox.classList.add('is-open');
-      lockScroll();
-      justOpened = true;
-      setTimeout(function () { justOpened = false; }, 350);
+      lightbox.style.display = 'flex';
+      // Allow display:flex to paint before triggering opacity transition
+      requestAnimationFrame(function () {
+        showWithProgressiveLoad(carouselIdx);
+        lightbox.classList.add('is-open');
+        lockScroll();
+        justOpened = true;
+        setTimeout(function () { justOpened = false; }, 350);
+      });
     }
 
     function showSlide(idx) {
@@ -589,6 +593,11 @@
       lightbox.classList.remove('is-open');
       unlockScroll();
       lightboxImg.src = '';
+      // Remove from render tree after fade-out so iOS glass bar sees page background
+      lightbox.addEventListener('transitionend', function hide() {
+        lightbox.style.display = 'none';
+        lightbox.removeEventListener('transitionend', hide);
+      });
     }
 
     lightboxClose.addEventListener('click', closeLightbox);
