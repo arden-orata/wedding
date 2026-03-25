@@ -427,39 +427,27 @@
         var grid = document.getElementById('photo-grid');
         if (!photos || photos.length === 0) { renderEmpty(grid); return; }
 
-        /* Load all photos in parallel off-DOM, append in strict index order.
-           Photos only enter the grid once loaded — no empty tiles ever show. */
-        var slots   = new Array(photos.length);
-        var nextIdx = 0;
-        var settled = 0;
-
-        function flush() {
-          while (nextIdx < photos.length && slots[nextIdx] !== undefined) {
-            if (slots[nextIdx]) grid.appendChild(slots[nextIdx]);
-            nextIdx++;
-          }
-        }
-
-        photos.forEach(function (p, i) {
+        /* Add all skeleton tiles to the grid immediately (preserves order),
+           then load all thumbnails in parallel. Each fades in on load. */
+        photos.forEach(function (p) {
           var item = document.createElement('div');
-          item.className = 'photo-grid__item';
+          item.className = 'photo-grid__item is-loading';
           var img = document.createElement('img');
           img.alt = '';
           img.dataset.fullUrl = p.url;
           img.addEventListener('load', function () {
+            item.classList.remove('is-loading');
             img.classList.add('is-loaded');
             img.alt = p.filename || 'Wedding photo';
-            slots[i] = item;
-            settled++;
-            flush();
           });
           img.addEventListener('error', function () {
             if (!img.dataset.fallback) { img.dataset.fallback = '1'; img.src = p.url; }
-            else { slots[i] = null; settled++; flush(); }
+            else { item.remove(); }
           });
           img.addEventListener('click', function () { openLightbox(p.url); });
           img.src = thumbUrl(p.url);
           item.appendChild(img);
+          grid.appendChild(item);
         });
       })
       .catch(function () {
@@ -468,7 +456,11 @@
     }
 
     function thumbUrl(url) {
-      return url.replace('/object/public/', '/render/image/public/') + '?width=400&quality=70';
+      return url.replace('/object/public/', '/render/image/public/') + '?width=250&quality=70';
+    }
+
+    function lightboxUrl(url) {
+      return url.replace('/object/public/', '/render/image/public/') + '?width=1600&quality=85';
     }
 
     /* makeCard — used only for freshly uploaded photos */
@@ -523,9 +515,10 @@
     }
 
     function openLightbox(url) {
-      var imgs = Array.from(document.querySelectorAll('.photo-grid__item img'));
-      carouselUrls = imgs.map(function (img) { return img.dataset.fullUrl; });
-      carouselIdx  = carouselUrls.indexOf(url);
+      var imgs     = Array.from(document.querySelectorAll('.photo-grid__item img'));
+      var fullUrls = imgs.map(function (img) { return img.dataset.fullUrl; });
+      carouselUrls = fullUrls.map(lightboxUrl);
+      carouselIdx  = fullUrls.indexOf(url);
       if (carouselIdx < 0) carouselIdx = 0;
       lightboxImg.src = carouselUrls[carouselIdx];
       lightbox.classList.add('is-open');
