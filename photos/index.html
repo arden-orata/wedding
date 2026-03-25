@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#fdfbf9" />
   <title>Photos — Elisa &amp; Arden</title>
 
   <!-- Fonts -->
@@ -559,6 +560,7 @@
       showWithProgressiveLoad(carouselIdx);
       lightbox.classList.add('is-open');
       document.body.style.overflow = 'hidden';
+      document.querySelector('meta[name="theme-color"]').content = '#14100a';
       justOpened = true;
       setTimeout(function () { justOpened = false; }, 350);
     }
@@ -571,6 +573,7 @@
     function closeLightbox() {
       lightbox.classList.remove('is-open');
       document.body.style.overflow = '';
+      document.querySelector('meta[name="theme-color"]').content = '#fdfbf9';
       lightboxImg.src = '';
     }
 
