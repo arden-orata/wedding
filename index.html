@@ -1435,19 +1435,6 @@
       window.addEventListener('load', function () { window.scrollTo(0, 0); });
       window.scrollTo(0, 0);
 
-      /* ────────────────────────────────────────
-         iOS Viewport Fix
-         CSS viewport units (svh/dvh) cause jump
-         or rubber-band on iOS browsers during
-         address bar animation. Lock the hero card
-         to a fixed pixel height on load instead.
-      ──────────────────────────────────────── */
-      var card = document.querySelector('.card');
-      function setCardHeight() {
-        card.style.height = window.innerHeight + 'px';
-      }
-      setCardHeight();
-      window.addEventListener('load', setCardHeight);
 
       /* ────────────────────────────────────────
          Dietary Selects — populate from template
