@@ -427,51 +427,11 @@
         var grid = document.getElementById('photo-grid');
         if (!photos || photos.length === 0) { renderEmpty(grid); return; }
 
-        var firstBatch = Math.min(15, photos.length);
-        var slots      = new Array(firstBatch);
-        var nextIdx    = 0;
-        var settled    = 0;
-
-        /* Append in strict index order — guarantees correct column alignment */
-        function flush() {
-          while (nextIdx < firstBatch && slots[nextIdx] !== undefined) {
-            if (slots[nextIdx]) grid.appendChild(slots[nextIdx]);
-            nextIdx++;
-          }
-        }
-
-        function onSettled() {
-          settled++;
-          flush();
-          if (settled === firstBatch) startQueue();
-        }
-
-        /* Push photos 9+ into queue — not loaded yet */
-        photos.slice(9).forEach(function (p) {
+        /* Load all photos sequentially — each appears after the previous finishes */
+        photos.forEach(function (p) {
           pendingQueue.push({ url: p.url, filename: p.filename });
         });
-
-        /* Load photos 0–8 in parallel, off-DOM */
-        photos.slice(0, firstBatch).forEach(function (p, i) {
-          var item = document.createElement('div');
-          item.className = 'photo-grid__item';
-          var img = document.createElement('img');
-          img.alt = '';
-          img.dataset.fullUrl = p.url;
-          img.addEventListener('load', function () {
-            img.classList.add('is-loaded');
-            img.alt = p.filename || 'Wedding photo';
-            slots[i] = item;
-            onSettled();
-          });
-          img.addEventListener('error', function () {
-            if (!img.dataset.fallback) { img.dataset.fallback = '1'; img.src = p.url; }
-            else { slots[i] = null; onSettled(); }
-          });
-          img.addEventListener('click', function () { openLightbox(p.url); });
-          img.src = thumbUrl(p.url);
-          item.appendChild(img);
-        });
+        startQueue();
       })
       .catch(function () {
         renderEmpty(document.getElementById('photo-grid'));
