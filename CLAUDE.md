@@ -119,6 +119,14 @@ CSS variables:
 
 ---
 
+## Rules
+
+- **Only modify the section you're asked to work on.** Do not add "improvements" or preventive fixes to other sections. If you're editing RSVP, don't touch the hero, venue, or itinerary.
+- **Never override CSS with JS** unless there is a confirmed, reproducible bug. CSS viewport units (`svh`, `dvh`) work correctly — do not replace them with `window.innerHeight` or similar JS hacks.
+- **Do not add code that "might help later."** Every addition must solve a specific, currently-broken problem.
+
+---
+
 ## Tone & Copy Style
 - Elegant, warm, personal
 - Mix of uppercase labels and italic serif body text
