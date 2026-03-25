@@ -36,7 +36,7 @@
        RESET
     ================================================================ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; background: var(--color-bg); }
     body {
       font-family: var(--font-sans);
       background: var(--color-bg);
@@ -442,7 +442,11 @@
       return url.replace('/' + BUCKET + '/', '/' + BUCKET + '/thumbs/');
     }
 
-    function resizeImage(file, maxWidth) {
+    function mediumUrl(url) {
+      return url.replace('/' + BUCKET + '/', '/' + BUCKET + '/medium/');
+    }
+
+    function resizeImage(file, maxWidth, quality) {
       return new Promise(function (resolve) {
         var img = new Image();
         img.onload = function () {
@@ -451,7 +455,7 @@
           canvas.width  = img.width * scale;
           canvas.height = img.height * scale;
           canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-          canvas.toBlob(resolve, 'image/jpeg', 0.75);
+          canvas.toBlob(resolve, 'image/jpeg', quality || 0.75);
           URL.revokeObjectURL(img.src);
         };
         img.src = URL.createObjectURL(file);
@@ -502,12 +506,13 @@
     var fullResCache  = {};
 
     function showWithProgressiveLoad(idx) {
-      var fullUrl  = carouselUrls[idx];
-      var thumb    = thumbUrl(fullUrl);
+      var origUrl = carouselUrls[idx];
+      var medium  = mediumUrl(origUrl);
+      var thumb   = thumbUrl(origUrl);
 
-      // If full-res is already cached, show it directly
-      if (fullResCache[fullUrl]) {
-        lightboxImg.src = fullUrl;
+      // If medium is already cached, show it directly
+      if (fullResCache[medium]) {
+        lightboxImg.src = medium;
         preloadAdjacent(idx);
         return;
       }
@@ -515,33 +520,34 @@
       // Show thumbnail instantly (already cached from grid)
       lightboxImg.src = thumb;
 
-      // Load full-res in background, swap when ready
-      var full = new Image();
-      full.onload = function () {
-        fullResCache[fullUrl] = true;
-        // Only swap if we're still on this slide
+      // Load medium-res in background, swap when ready
+      var img = new Image();
+      img.onload = function () {
+        fullResCache[medium] = true;
         if (carouselIdx === idx) {
-          lightboxImg.src = fullUrl;
+          lightboxImg.src = medium;
         }
         preloadAdjacent(idx);
       };
-      full.src = fullUrl;
+      img.onerror = function () {
+        // No medium version — fall back to original
+        if (carouselIdx === idx) {
+          lightboxImg.src = origUrl;
+        }
+        preloadAdjacent(idx);
+      };
+      img.src = medium;
     }
 
     function preloadAdjacent(idx) {
       var n = carouselUrls.length;
       if (n < 2) return;
       [(idx - 1 + n) % n, (idx + 1) % n].forEach(function (i) {
-        var fullUrl = carouselUrls[i];
-        if (fullResCache[fullUrl]) return;
-        // Preload thumbnail first, then full-res
-        var t = new Image();
-        t.onload = function () {
-          var f = new Image();
-          f.onload = function () { fullResCache[fullUrl] = true; };
-          f.src = fullUrl;
-        };
-        t.src = thumbUrl(fullUrl);
+        var medium = mediumUrl(carouselUrls[i]);
+        if (fullResCache[medium]) return;
+        var m = new Image();
+        m.onload = function () { fullResCache[medium] = true; };
+        m.src = medium;
       });
     }
 
@@ -674,10 +680,23 @@
           if (!res.ok) throw new Error('Storage upload failed: ' + res.status);
           var publicUrl = SB_URL + '/storage/v1/object/public/' + BUCKET + '/' + path;
 
-          // Fire-and-forget: generate + upload thumbnail
-          resizeImage(file, 400).then(function (blob) {
+          // Fire-and-forget: generate + upload thumbnail and medium
+          resizeImage(file, 400, 0.75).then(function (blob) {
             if (!blob) return;
             fetch(SB_URL + '/storage/v1/object/' + BUCKET + '/thumbs/' + path, {
+              method: 'POST',
+              headers: {
+                'apikey':        SB_KEY,
+                'Authorization': 'Bearer ' + SB_KEY,
+                'Content-Type':  'image/jpeg',
+                'x-upsert':      'false'
+              },
+              body: blob
+            });
+          });
+          resizeImage(file, 1600, 0.85).then(function (blob) {
+            if (!blob) return;
+            fetch(SB_URL + '/storage/v1/object/' + BUCKET + '/medium/' + path, {
               method: 'POST',
               headers: {
                 'apikey':        SB_KEY,
