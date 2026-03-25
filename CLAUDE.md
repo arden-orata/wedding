@@ -124,6 +124,7 @@ CSS variables:
 - **Only modify the section you're asked to work on.** Do not add "improvements" or preventive fixes to other sections. If you're editing RSVP, don't touch the hero, venue, or itinerary.
 - **Never override CSS with JS** unless there is a confirmed, reproducible bug. CSS viewport units (`svh`, `dvh`) work correctly — do not replace them with `window.innerHeight` or similar JS hacks.
 - **Do not add code that "might help later."** Every addition must solve a specific, currently-broken problem.
+- **If something looks different between browsers on the same device**, ask about browser settings (Safari Page Zoom, text size) before changing code. The CSS on this site is well-scoped and uses `vw`-based `clamp()` — browser-specific rendering differences are almost always a settings issue, not a code issue.
 
 ---
 
