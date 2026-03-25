@@ -427,11 +427,40 @@
         var grid = document.getElementById('photo-grid');
         if (!photos || photos.length === 0) { renderEmpty(grid); return; }
 
-        /* Load all photos sequentially — each appears after the previous finishes */
-        photos.forEach(function (p) {
-          pendingQueue.push({ url: p.url, filename: p.filename });
+        /* Load all photos in parallel off-DOM, append in strict index order.
+           Photos only enter the grid once loaded — no empty tiles ever show. */
+        var slots   = new Array(photos.length);
+        var nextIdx = 0;
+        var settled = 0;
+
+        function flush() {
+          while (nextIdx < photos.length && slots[nextIdx] !== undefined) {
+            if (slots[nextIdx]) grid.appendChild(slots[nextIdx]);
+            nextIdx++;
+          }
+        }
+
+        photos.forEach(function (p, i) {
+          var item = document.createElement('div');
+          item.className = 'photo-grid__item';
+          var img = document.createElement('img');
+          img.alt = '';
+          img.dataset.fullUrl = p.url;
+          img.addEventListener('load', function () {
+            img.classList.add('is-loaded');
+            img.alt = p.filename || 'Wedding photo';
+            slots[i] = item;
+            settled++;
+            flush();
+          });
+          img.addEventListener('error', function () {
+            if (!img.dataset.fallback) { img.dataset.fallback = '1'; img.src = p.url; }
+            else { slots[i] = null; settled++; flush(); }
+          });
+          img.addEventListener('click', function () { openLightbox(p.url); });
+          img.src = thumbUrl(p.url);
+          item.appendChild(img);
         });
-        startQueue();
       })
       .catch(function () {
         renderEmpty(document.getElementById('photo-grid'));
@@ -484,6 +513,15 @@
     var carouselIdx   = 0;
     var justOpened    = false;
 
+    function preloadAdjacent(idx) {
+      var n = carouselUrls.length;
+      if (n < 2) return;
+      [(idx - 1 + n) % n, (idx + 1) % n].forEach(function (i) {
+        var pre = new Image();
+        pre.src = carouselUrls[i];
+      });
+    }
+
     function openLightbox(url) {
       var imgs = Array.from(document.querySelectorAll('.photo-grid__item img'));
       carouselUrls = imgs.map(function (img) { return img.dataset.fullUrl; });
@@ -494,11 +532,13 @@
       document.body.style.overflow = 'hidden';
       justOpened = true;
       setTimeout(function () { justOpened = false; }, 350);
+      preloadAdjacent(carouselIdx);
     }
 
     function showSlide(idx) {
       carouselIdx = (idx + carouselUrls.length) % carouselUrls.length;
       lightboxImg.src = carouselUrls[carouselIdx];
+      preloadAdjacent(carouselIdx);
     }
 
     function closeLightbox() {
