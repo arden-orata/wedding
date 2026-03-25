@@ -1053,6 +1053,7 @@
       color: var(--color-brown-dark);
     }
     .whatsapp-link:hover { color: var(--color-brown); }
+    .whatsapp-cta, .whatsapp-link { pointer-events: auto; }
     .whatsapp-icon {
       width: 1.2em;
       height: 1.2em;
@@ -1971,7 +1972,7 @@
             submitBtn.classList.remove('is-inactive');
             submitBtn.classList.add('is-sent');
             submitBtn.style.background = '';
-            submitBtn.textContent = isAttending ? 'See you there' : 'Sent';
+            submitBtn.textContent = isAttending ? 'See you in Bali!' : 'Sent';
             submitStatus.className = 'submit-status';
             if (isAttending) {
               submitStatus.innerHTML =
