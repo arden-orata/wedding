@@ -378,37 +378,20 @@
     const BUCKET  = 'wedding-photos';
 
     /* ================================================================
-       PHOTO QUEUE — photos 9+ load one at a time after first batch
+       LAZY-LOAD OBSERVER
     ================================================================ */
-    var pendingQueue = [];
-    var queueBusy    = false;
-
-    function startQueue() { loadNextInQueue(); }
-
-    function loadNextInQueue() {
-      if (queueBusy || !pendingQueue.length) return;
-      queueBusy = true;
-      var next = pendingQueue.shift();
-      var item = document.createElement('div');
-      item.className = 'photo-grid__item';
-      var img = document.createElement('img');
-      img.alt = '';
-      img.dataset.fullUrl = next.url;
-      img.addEventListener('load', function () {
-        img.classList.add('is-loaded');
-        img.alt = next.filename || 'Wedding photo';
-        document.getElementById('photo-grid').appendChild(item);
-        queueBusy = false;
-        loadNextInQueue();
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var img = entry.target.querySelector('img');
+          if (img && img.dataset.lazySrc) {
+            img.src = img.dataset.lazySrc;
+            delete img.dataset.lazySrc;
+          }
+          observer.unobserve(entry.target);
+        }
       });
-      img.addEventListener('error', function () {
-        if (!img.dataset.fallback) { img.dataset.fallback = '1'; img.src = next.url; }
-        else { queueBusy = false; loadNextInQueue(); }
-      });
-      img.addEventListener('click', function () { openLightbox(next.url); });
-      img.src = thumbUrl(next.url);
-      item.appendChild(img);
-    }
+    }, { rootMargin: '300px' });
 
     loadPhotos();
 
@@ -445,9 +428,10 @@
             else { item.remove(); }
           });
           img.addEventListener('click', function () { openLightbox(p.url); });
-          img.src = thumbUrl(p.url);
+          img.dataset.lazySrc = thumbUrl(p.url);
           item.appendChild(img);
           grid.appendChild(item);
+          observer.observe(item);
         });
       })
       .catch(function () {
@@ -456,7 +440,23 @@
     }
 
     function thumbUrl(url) {
-      return url;
+      return url.replace('/' + BUCKET + '/', '/' + BUCKET + '/thumbs/');
+    }
+
+    function resizeImage(file, maxWidth) {
+      return new Promise(function (resolve) {
+        var img = new Image();
+        img.onload = function () {
+          var scale = Math.min(1, maxWidth / img.width);
+          var canvas = document.createElement('canvas');
+          canvas.width  = img.width * scale;
+          canvas.height = img.height * scale;
+          canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+          canvas.toBlob(resolve, 'image/jpeg', 0.75);
+          URL.revokeObjectURL(img.src);
+        };
+        img.src = URL.createObjectURL(file);
+      });
     }
 
     /* makeCard — used only for freshly uploaded photos */
@@ -640,6 +640,22 @@
         .then(function (res) {
           if (!res.ok) throw new Error('Storage upload failed: ' + res.status);
           var publicUrl = SB_URL + '/storage/v1/object/public/' + BUCKET + '/' + path;
+
+          // Fire-and-forget: generate + upload thumbnail
+          resizeImage(file, 400).then(function (blob) {
+            if (!blob) return;
+            fetch(SB_URL + '/storage/v1/object/' + BUCKET + '/thumbs/' + path, {
+              method: 'POST',
+              headers: {
+                'apikey':        SB_KEY,
+                'Authorization': 'Bearer ' + SB_KEY,
+                'Content-Type':  'image/jpeg',
+                'x-upsert':      'false'
+              },
+              body: blob
+            });
+          });
+
           return fetch(SB_URL + '/rest/v1/photos', {
             method: 'POST',
             headers: {
