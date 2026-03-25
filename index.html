@@ -1671,20 +1671,16 @@
         });
       }
 
-      document.getElementById('lastname').addEventListener('blur', function () {
-        clearTimeout(lookupTimer);
-        doLookup();
-      });
-
-      document.getElementById('lastname').addEventListener('input', function () {
-        /* Reset and hide error while typing — only evaluate on blur */
+      function scheduleLookup() {
         clearTimeout(lookupTimer);
         resetForm();
-      });
+        if (val('firstname') && val('lastname')) {
+          lookupTimer = setTimeout(doLookup, 900);
+        }
+      }
 
-      document.getElementById('firstname').addEventListener('blur', function () {
-        if (val('lastname')) doLookup();
-      });
+      document.getElementById('firstname').addEventListener('input', scheduleLookup);
+      document.getElementById('lastname').addEventListener('input', scheduleLookup);
 
       /* ────────────────────────────────────────
          Attendance Radios
