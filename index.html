@@ -1430,6 +1430,23 @@
       const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       /* ────────────────────────────────────────
+         Guest List Preload
+         Fetch the full guest list immediately so
+         name lookups are instant (no per-check
+         Supabase roundtrip needed).
+      ──────────────────────────────────────── */
+      var guestListCache = null;
+      fetch(SB_URL + '/rest/v1/guests?select=firstname,lastname,plus_one', {
+        headers: {
+          'apikey':        SB_KEY,
+          'Authorization': 'Bearer ' + SB_KEY
+        }
+      })
+      .then(function (res) { return res.json(); })
+      .then(function (data) { guestListCache = Array.isArray(data) ? data : null; })
+      .catch(function () { guestListCache = null; });
+
+      /* ────────────────────────────────────────
          Scroll Restoration
       ──────────────────────────────────────── */
       if ('scrollRestoration' in history) {
@@ -1608,13 +1625,34 @@
       /* ────────────────────────────────────────
          Guest Lookup
       ──────────────────────────────────────── */
+      function applyLookupResult(match) {
+        if (match) {
+          guestFound   = true;
+          guestPlusOne = match.plus_one && match.plus_one.toLowerCase().includes('yes');
+          toggleVisible(attendanceBlock, true);
+        } else {
+          toggleVisible(guestError, true);
+        }
+      }
+
       function doLookup() {
-        var firstname = val('firstname').toLowerCase();
-        var lastname  = val('lastname').toLowerCase();
+        var firstname = val('firstname').toLowerCase().trim();
+        var lastname  = val('lastname').toLowerCase().trim();
 
         resetForm();
         if (!firstname || !lastname) return;
 
+        /* Use preloaded cache if available — instant, no network call */
+        if (guestListCache) {
+          var match = guestListCache.find(function (g) {
+            return g.firstname.toLowerCase() === firstname &&
+                   g.lastname.toLowerCase()  === lastname;
+          }) || null;
+          applyLookupResult(match);
+          return;
+        }
+
+        /* Fallback: cache not ready yet, call Supabase directly */
         fetch(SB_URL + '/rest/v1/rpc/lookup_guest', {
           method: 'POST',
           headers: {
@@ -1626,13 +1664,7 @@
         })
         .then(function (res) { return res.json(); })
         .then(function (data) {
-          if (data && data.length > 0) {
-            guestFound   = true;
-            guestPlusOne = data[0].plus_one.toLowerCase().includes('yes');
-            toggleVisible(attendanceBlock, true);
-          } else {
-            toggleVisible(guestError, true);
-          }
+          applyLookupResult(data && data.length > 0 ? data[0] : null);
         })
         .catch(function () {
           toggleVisible(guestError, true);
