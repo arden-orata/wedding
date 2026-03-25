@@ -496,6 +496,22 @@
     /* ================================================================
        LIGHTBOX + CAROUSEL
     ================================================================ */
+    var scrollY = 0;
+
+    function lockScroll() {
+      scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top      = '-' + scrollY + 'px';
+      document.body.style.width    = '100%';
+    }
+
+    function unlockScroll() {
+      document.body.style.position = '';
+      document.body.style.top      = '';
+      document.body.style.width    = '';
+      window.scrollTo(0, scrollY);
+    }
+
     var lightbox      = document.getElementById('lightbox');
     var lightboxImg   = document.getElementById('lightbox__img');
     var lightboxClose = document.getElementById('lightbox__close');
@@ -559,7 +575,7 @@
       if (carouselIdx < 0) carouselIdx = 0;
       showWithProgressiveLoad(carouselIdx);
       lightbox.classList.add('is-open');
-      document.body.style.overflow = 'hidden';
+      lockScroll();
       justOpened = true;
       setTimeout(function () { justOpened = false; }, 350);
     }
@@ -571,7 +587,7 @@
 
     function closeLightbox() {
       lightbox.classList.remove('is-open');
-      document.body.style.overflow = '';
+      unlockScroll();
       lightboxImg.src = '';
     }
 
