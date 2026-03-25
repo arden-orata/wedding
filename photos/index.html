@@ -499,13 +499,49 @@
     var carouselUrls  = [];
     var carouselIdx   = 0;
     var justOpened    = false;
+    var fullResCache  = {};
+
+    function showWithProgressiveLoad(idx) {
+      var fullUrl  = carouselUrls[idx];
+      var thumb    = thumbUrl(fullUrl);
+
+      // If full-res is already cached, show it directly
+      if (fullResCache[fullUrl]) {
+        lightboxImg.src = fullUrl;
+        preloadAdjacent(idx);
+        return;
+      }
+
+      // Show thumbnail instantly (already cached from grid)
+      lightboxImg.src = thumb;
+
+      // Load full-res in background, swap when ready
+      var full = new Image();
+      full.onload = function () {
+        fullResCache[fullUrl] = true;
+        // Only swap if we're still on this slide
+        if (carouselIdx === idx) {
+          lightboxImg.src = fullUrl;
+        }
+        preloadAdjacent(idx);
+      };
+      full.src = fullUrl;
+    }
 
     function preloadAdjacent(idx) {
       var n = carouselUrls.length;
       if (n < 2) return;
       [(idx - 1 + n) % n, (idx + 1) % n].forEach(function (i) {
-        var pre = new Image();
-        pre.src = carouselUrls[i];
+        var fullUrl = carouselUrls[i];
+        if (fullResCache[fullUrl]) return;
+        // Preload thumbnail first, then full-res
+        var t = new Image();
+        t.onload = function () {
+          var f = new Image();
+          f.onload = function () { fullResCache[fullUrl] = true; };
+          f.src = fullUrl;
+        };
+        t.src = thumbUrl(fullUrl);
       });
     }
 
@@ -514,18 +550,16 @@
       carouselUrls = imgs.map(function (img) { return img.dataset.fullUrl; });
       carouselIdx  = carouselUrls.indexOf(url);
       if (carouselIdx < 0) carouselIdx = 0;
-      lightboxImg.src = carouselUrls[carouselIdx];
+      showWithProgressiveLoad(carouselIdx);
       lightbox.classList.add('is-open');
       document.body.style.overflow = 'hidden';
       justOpened = true;
       setTimeout(function () { justOpened = false; }, 350);
-      preloadAdjacent(carouselIdx);
     }
 
     function showSlide(idx) {
       carouselIdx = (idx + carouselUrls.length) % carouselUrls.length;
-      lightboxImg.src = carouselUrls[carouselIdx];
-      preloadAdjacent(carouselIdx);
+      showWithProgressiveLoad(carouselIdx);
     }
 
     function closeLightbox() {
