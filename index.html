@@ -21,8 +21,8 @@
   <meta name="twitter:description" content="❤️" />
   <meta name="twitter:image"       content="https://ardenelisa.com/assets/images/Thumbnail.JPG" />
 
-  <!-- Vendor Styles -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css" />
+  <!-- Vendor Styles (RSVP removed) -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css" /> -->
 
   <!-- Fonts -->
   <link
@@ -31,106 +31,22 @@
   />
 
   <style>
-    /* ================================================================
-       PASSWORD GATE
+    /* PASSWORD GATE — commented out
+    ================================================================
+    #password-gate { ... }
+    #password-gate.is-dissolving { ... }
+    #page-content { opacity: 0; ... }
+    #page-content.is-visible { opacity: 1; }
+    #password-gate__inner { ... }
+    #password-gate__inner label { ... }
+    #gate-input { ... }
+    #gate-input:focus { ... }
+    #gate-input.is-error { ... }
+    #gate-btn { ... }
+    #gate-btn:hover:not(.is-wrong) { ... }
+    #gate-btn.is-wrong { ... }
+    @media (max-width: 480px) { ... }
     ================================================================ */
-    #password-gate {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: var(--color-bg, #fdfbf9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.6s ease;
-    }
-
-    #password-gate.is-dissolving {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    #page-content {
-      opacity: 0;
-      transition: opacity 0.6s ease;
-    }
-
-    #page-content.is-visible {
-      opacity: 1;
-    }
-
-    #password-gate__inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.2rem;
-      width: 70%;
-      max-width: 800px;
-      transition: opacity 0.6s ease;
-    }
-
-    #password-gate__inner label {
-      font-family: var(--font-serif, 'Cormorant Garamond', serif);
-      font-style: italic;
-      font-weight: 500;
-      font-size: clamp(1rem, 2.4vw, 1.5rem);
-      letter-spacing: 0.06em;
-      color: var(--color-brown-dark, #b07858);
-    }
-
-    #gate-input {
-      width: 40%;
-      font-family: var(--font-sans, 'Jost', sans-serif);
-      font-weight: 400;
-      font-size: clamp(0.85rem, 2.2vw, 1rem);
-      letter-spacing: 0.08em;
-      color: var(--color-black, #1e1e1e);
-      background: #ffffff;
-      border: 0.75px solid var(--color-border, #d4b8a8);
-      padding: 0.6rem 0.75rem;
-      outline: none;
-      border-radius: var(--radius-sm, 4px);
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    #gate-input:focus {
-      border: 1.5px solid var(--color-brown, #c8967a);
-      box-shadow: var(--focus-ring, 0 0 0 2px rgba(200,150,122,0.15));
-    }
-
-    #gate-input.is-error {
-      background: #fdf0ee;
-      border-color: var(--color-pastel-red, #c0504a);
-    }
-
-    #gate-btn {
-      white-space: nowrap;
-      width: 40%;
-      height: 3rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-sans, 'Jost', sans-serif);
-      font-weight: 600;
-      font-size: clamp(0.85rem, 2vw, 1rem);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--color-bg, #fdfbf9);
-      background: var(--color-brown, #c8967a);
-      border: none;
-      border-radius: var(--radius-sm, 4px);
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    #gate-btn:hover:not(.is-wrong) { background: var(--color-brown-dark, #b07858); }
-    #gate-btn.is-wrong             { background: var(--color-pastel-red, #c0504a); cursor: default; }
-
-    @media (max-width: 480px) {
-      #password-gate__inner { width: 90%; }
-      #gate-input           { width: 57%; font-size: 16px; }
-      #gate-btn             { width: 57%; }
-    }
 
     /* ================================================================
        RESET & CUSTOM PROPERTIES
@@ -609,9 +525,8 @@
       }
     }
 
-    /* ================================================================
-       SECTION 4 — RSVP FORM
-    ================================================================ */
+    /* SECTION 4 — RSVP FORM — commented out
+    ================================================================
     .rsvp-section {
       width: 100%;
       background: var(--color-bg);
@@ -631,10 +546,10 @@
       display: flex;
       flex-direction: column;
       gap: 1.2rem;
-      padding: 0 4px;   /* gives focus box-shadows 4px of space before the edge */
+      padding: 0 4px;   /* gives focus box-shadows 4px of space before the edge * /
     }
 
-    /* ── Form layout ── */
+    /* ── Form layout ── * /
     .form-row {
       display: flex;
       gap: 1rem;
@@ -658,7 +573,7 @@
     }
 
     /* Attendance and Plus One labels are section headings — italicised to
-       match the form's serif label style */
+       match the form's serif label style * /
     #attendance-block > label,
     #plus-one-block > label {
       font-style: italic;
@@ -684,7 +599,7 @@
 
     /* Suppress browser autofill yellow/blue background.
        box-shadow inset is the only reliable cross-browser way to override
-       the -webkit-autofill background — background-color is ignored. */
+       the -webkit-autofill background — background-color is ignored. * /
     .form-field input:-webkit-autofill,
     .form-field input:-webkit-autofill:hover,
     .form-field input:-webkit-autofill:focus {
@@ -718,7 +633,7 @@
 
     /* ── intl-tel-input field overrides ──
        Only the field display is styled here. The dropdown is left entirely
-       to the browser/OS so iOS uses its native wheel picker. */
+       to the browser/OS so iOS uses its native wheel picker. * /
     .iti                      { width: 100%; }
     .iti__selected-flag       { background: #ffffff; padding: 0 0.5rem; }
     .iti__selected-flag:hover,
@@ -735,7 +650,7 @@
     .phone-row .phone-code   { flex: 0 0 auto; width: 9rem; }
     .phone-row .phone-number { flex: 1; }
 
-    /* ── Dietary row ── */
+    /* ── Dietary row ── * /
     .dietary-row {
       display: flex;
       gap: 1rem;
@@ -746,7 +661,7 @@
     .dietary-row .dietary-other         { flex: 1; display: none; }
     .dietary-row .dietary-other.visible { display: flex; }
 
-    /* ── Radio buttons ── */
+    /* ── Radio buttons ── * /
     .attendance-options {
       display: flex;
       gap: 2rem;
@@ -809,7 +724,7 @@
        overflow-y: hidden is required for the max-height reveal animation.
        overflow-x must stay visible so focus box-shadows on inputs
        aren't clipped at the left and right edges of the container.
-    ── */
+    ── * /
     #attendance-block {
       overflow-x: visible;
       overflow-y: hidden;
@@ -875,12 +790,12 @@
     #plus-one-fields.is-visible {
       max-height: 600px;
       opacity: 1;
-      margin-top: 0.6rem; /* extra gap between Attending Solo and Plus One First Name */
+      margin-top: 0.6rem; /* extra gap between Attending Solo and Plus One First Name * /
     }
 
     /* Form frozen state — applied after successful submission.
        pointer-events: none on the form prevents any further interaction.
-       Inputs visually dim to communicate they are no longer editable. */
+       Inputs visually dim to communicate they are no longer editable. * /
     .rsvp-form.is-submitted {
       pointer-events: none;
     }
@@ -896,13 +811,13 @@
        spinner → "See you there" / "Response received").
        The spinner replaces the text node inside the button via JS — the button
        dimensions never change regardless of what's inside it.
-    ── */
+    ── * /
     .submit-btn {
       margin-top: 1.5rem;
       align-self: center;
       width: 16rem;
-      height: 3rem;                 /* fixed height — never grows with content */
-      white-space: nowrap;          /* never wraps text to a second line */
+      height: 3rem;                 /* fixed height — never grows with content * /
+      white-space: nowrap;          /* never wraps text to a second line * /
       overflow: hidden;
       display: inline-flex;
       align-items: center;
@@ -926,7 +841,7 @@
     .submit-btn.is-inactive { background: var(--color-border); cursor: default; -webkit-tap-highlight-color: transparent; }
     .submit-btn.is-sent     { background: var(--color-border); cursor: default; }
 
-    /* ── Field error highlight — shown when submit attempted with missing fields ── */
+    /* ── Field error highlight — shown when submit attempted with missing fields ── * /
     .field-error input,
     .field-error select {
       background: #fdf0ee !important;
@@ -939,7 +854,7 @@
 
     /* Loading spinner — pure CSS, shown inside the button during the JSONP request.
        Best practice: replace button content with a spinner rather than adding dots
-       or text, so the button size stays locked and the state is unambiguous. */
+       or text, so the button size stays locked and the state is unambiguous. * /
     @keyframes btn-spin {
       to { transform: rotate(360deg); }
     }
@@ -960,7 +875,7 @@
        a jarring red — this keeps the emotional tone warm even when correcting.
        True validation failures (e.g. email format) use a slightly deeper tone
        so they read as instructive rather than alarming.
-    ── */
+    ── * /
     .guest-error {
       overflow: hidden;
       max-height: 0;
@@ -1067,18 +982,20 @@
       .attendance-options  { flex-direction: column; gap: 1rem; }
 
       /* iOS Safari auto-zooms on inputs with font-size < 16px.
-         !important is intentional — overrides component-level clamp() values. */
+         !important is intentional — overrides component-level clamp() values. * /
       .form-field input,
       .form-field select,
       .iti__search-input {
         font-size: 16px !important;
       }
     }
+    ================================================================ */
   </style>
 </head>
 
 <body>
 
+  <!-- PASSWORD GATE — commented out
   <div id="password-gate">
     <div id="password-gate__inner">
       <label for="gate-input">What is the password?</label>
@@ -1086,8 +1003,9 @@
       <button type="button" id="gate-btn">Open Sesame</button>
     </div>
   </div>
+  -->
 
-  <div id="page-content">
+  <div id="page-content" style="opacity:1">
 
   <!-- ════════════════════════════════════════
        SECTION 1 — Save the Date
@@ -1253,7 +1171,7 @@
     </div>
   </section>
 
-  <!-- Dietary options template (reused for guest + plus one) -->
+  <!-- RSVP — commented out
   <template id="dietary-options">
     <option value="none">None</option>
     <option value="vegetarian">Vegetarian</option>
@@ -1268,9 +1186,9 @@
     <option value="others">Others</option>
   </template>
 
-  <!-- ════════════════════════════════════════
+  <!~~ ════════════════════════════════════════
        SECTION 4 — RSVP
-  ════════════════════════════════════════ -->
+  ════════════════════════════════════════ ~~>
   <section class="rsvp-section">
     <p class="rsvp-heading t-display">RSVP</p>
 
@@ -1279,7 +1197,7 @@
          data-supabase-key="sb_publishable_pQUCD_gSk5iq0dpgixEIxQ_wqggxSyB"
          data-script-url="https://script.google.com/macros/s/AKfycbwEAltOotbmlpZbrinU-1b6wrD3Mx4-auZI1jmU0KJG2fACLnD119zl5GEyP4_amDah3g/exec">
 
-      <!-- Name -->
+      <!~~ Name ~~>
       <div class="form-row">
         <div class="form-field">
           <label for="firstname">First Name</label>
@@ -1291,10 +1209,10 @@
         </div>
       </div>
 
-      <!-- Guest not found -->
+      <!~~ Guest not found ~~>
       <p class="guest-error" id="guest-error">We couldn't find your name on the guest list. Please check your entry.</p>
 
-      <!-- Attendance -->
+      <!~~ Attendance ~~>
       <div class="form-field" id="attendance-block">
         <label>Attendance</label>
         <div class="attendance-options">
@@ -1311,13 +1229,13 @@
         </div>
       </div>
 
-      <!-- Attending fields (conditionally visible when guest selects YES)
+      <!~~ Attending fields (conditionally visible when guest selects YES)
            Order: own contact details first, then ask about plus-one.
            This follows progressive disclosure best practice — collect the
-           most certain information (yourself) before the conditional (guest). -->
+           most certain information (yourself) before the conditional (guest). ~~>
       <div id="attending-fields">
 
-        <!-- Mobile -->
+        <!~~ Mobile ~~>
         <div class="form-field">
           <label>Mobile Number</label>
           <div class="phone-row">
@@ -1327,14 +1245,14 @@
           </div>
         </div>
 
-        <!-- Email -->
+        <!~~ Email ~~>
         <div class="form-field">
           <label for="email">Email</label>
           <input type="email" id="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" />
           <span class="email-error" id="email-error">Please make sure your email is valid</span>
         </div>
 
-        <!-- Dietary -->
+        <!~~ Dietary ~~>
         <div class="form-field">
           <label>Dietary Restriction</label>
           <div class="dietary-row">
@@ -1347,10 +1265,10 @@
           </div>
         </div>
 
-      </div><!-- /attending-fields -->
+      </div><!~~ /attending-fields ~~>
 
-      <!-- Plus One radio — revealed after attending-fields so the guest
-           completes their own details before being asked about a companion -->
+      <!~~ Plus One radio — revealed after attending-fields so the guest
+           completes their own details before being asked about a companion ~~>
       <div class="form-field" id="plus-one-block">
         <label>Plus One</label>
         <div class="attendance-options">
@@ -1367,7 +1285,7 @@
         </div>
       </div>
 
-      <!-- Plus one fields — revealed only when plus-one radio = yes -->
+      <!~~ Plus one fields — revealed only when plus-one radio = yes ~~>
       <div id="plus-one-fields">
         <div class="form-row">
           <div class="form-field">
@@ -1390,7 +1308,7 @@
             </div>
           </div>
         </div>
-      </div><!-- /plus-one-fields -->
+      </div><!~~ /plus-one-fields ~~>
 
       <button type="button" class="submit-btn is-inactive" id="submit-btn">Submit</button>
       <div class="submit-feedback">
@@ -1409,20 +1327,24 @@
 
     </div>
   </section>
+  -->
 
   </div><!-- /#page-content -->
 
   <!-- ════════════════════════════════════════
        SCRIPTS
   ════════════════════════════════════════ -->
+  <!-- RSVP script — commented out
   <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+  -->
   <script>
+    /* RSVP IIFE — commented out
     (function () {
       'use strict';
 
       /* ────────────────────────────────────────
          Configuration
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       const form        = document.querySelector('.rsvp-form');
       const SB_URL      = form.dataset.supabaseUrl;
       const SB_KEY      = form.dataset.supabaseKey;
@@ -1434,7 +1356,7 @@
          Fetch the full guest list immediately so
          name lookups are instant (no per-check
          Supabase roundtrip needed).
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       var guestListCache = null;
       fetch(SB_URL + '/rest/v1/guests?select=firstname,lastname,plus_one', {
         headers: {
@@ -1448,7 +1370,7 @@
 
       /* ────────────────────────────────────────
          Scroll Restoration
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
       }
@@ -1458,7 +1380,7 @@
 
       /* ────────────────────────────────────────
          Dietary Selects — populate from template
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       var dietaryTemplate = document.getElementById('dietary-options');
       ['dietary', 'plus-dietary'].forEach(function (id) {
         document.getElementById(id).appendChild(dietaryTemplate.content.cloneNode(true));
@@ -1469,7 +1391,7 @@
          The dropdown is left to the browser/OS default (no useFullscreenPopup
          override) so iOS uses its native wheel picker, which works correctly.
          The flag + dial code chip in the field is rendered by intl-tel-input CSS.
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       var phoneInput = document.getElementById('phone');
       var iti = intlTelInput(phoneInput, {
         initialCountry:    'us',
@@ -1488,13 +1410,13 @@
 
       /* ────────────────────────────────────────
          DOM Utilities
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       function val(id) {
         return document.getElementById(id).value.trim();
       }
 
       function toTitleCase(str) {
-        return str.replace(/\w\S*/g, function (word) {
+        return str.replace(/\w\S* /g, function (word) {
           return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
         });
       }
@@ -1505,7 +1427,7 @@
 
       /* ────────────────────────────────────────
          Supabase Transport
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       function submitToSupabase(params) {
         var url = SB_URL + '/rest/v1/rsvps';
         var key = SB_KEY;
@@ -1540,7 +1462,7 @@
 
       /* ────────────────────────────────────────
          Email Notification (fire-and-forget)
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       function notifyEmail(params) {
         if (!SCRIPT_URL) return;
         var qs = Object.keys(params).map(function (k) {
@@ -1554,7 +1476,7 @@
 
       /* ────────────────────────────────────────
          Element References
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       var attYes          = document.getElementById('att-yes');
       var attNo           = document.getElementById('att-no');
       var radioYes        = document.getElementById('radio-yes');
@@ -1570,18 +1492,18 @@
       var submitStatus     = document.getElementById('submit-status');
       var emailError       = document.getElementById('email-error');
       var formErrors       = document.getElementById('form-errors');
-      var submitAttempted  = false; /* errors only shown after first tap on disabled button */
+      var submitAttempted  = false; /* errors only shown after first tap on disabled button * /
 
       /* ────────────────────────────────────────
          Guest List State
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       var guestFound   = false;
       var guestPlusOne = false;
       var lookupTimer  = null;
 
       /* ────────────────────────────────────────
          Title Case on Blur
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       ['firstname', 'lastname', 'plus-firstname', 'plus-lastname'].forEach(function (id) {
         var el = document.getElementById(id);
         if (el) {
@@ -1593,18 +1515,18 @@
 
       /* ────────────────────────────────────────
          Phone — digits only
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       phoneInput.addEventListener('input', function () {
         this.value = this.value.replace(/\D/g, '');
       });
 
       /* ────────────────────────────────────────
          Form Reset
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       function resetForm() {
         guestFound      = false;
         guestPlusOne    = false;
-        submitAttempted = false;   /* clear so errors don't show on fresh lookup */
+        submitAttempted = false;   /* clear so errors don't show on fresh lookup * /
 
         toggleVisible(guestError, false);
         toggleVisible(attendanceBlock, false);
@@ -1624,7 +1546,7 @@
 
       /* ────────────────────────────────────────
          Guest Lookup
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       function applyLookupResult(match) {
         if (match) {
           guestFound   = true;
@@ -1642,7 +1564,7 @@
         resetForm();
         if (!firstname || !lastname) return;
 
-        /* Use preloaded cache if available — instant, no network call */
+        /* Use preloaded cache if available — instant, no network call * /
         if (guestListCache) {
           var match = guestListCache.find(function (g) {
             return g.firstname.toLowerCase() === firstname &&
@@ -1652,7 +1574,7 @@
           return;
         }
 
-        /* Fallback: cache not ready yet, call Supabase directly */
+        /* Fallback: cache not ready yet, call Supabase directly * /
         fetch(SB_URL + '/rest/v1/rpc/lookup_guest', {
           method: 'POST',
           headers: {
@@ -1684,7 +1606,7 @@
 
       /* ────────────────────────────────────────
          Attendance Radios
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       attYes.addEventListener('change', function () {
         if (!this.checked) return;
         document.getElementById('radio-yes').classList.remove('radio-error');
@@ -1714,7 +1636,7 @@
 
       /* ────────────────────────────────────────
          Plus One Radios
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       plusYes.addEventListener('change', function () {
         if (!this.checked) return;
         document.getElementById('radio-plus-yes').classList.remove('radio-error');
@@ -1741,7 +1663,7 @@
 
       /* ────────────────────────────────────────
          Dietary "Others" Toggle
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       function setupDietary(selectId, otherFieldId, otherInputId) {
         document.getElementById(selectId).addEventListener('change', function () {
           document.getElementById(otherFieldId).classList.toggle('visible', this.value === 'others');
@@ -1757,7 +1679,7 @@
 
       /* ────────────────────────────────────────
          Email Validation
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       document.getElementById('email').addEventListener('input', function () {
         this.closest('.form-field').classList.remove('field-error');
         toggleVisible(emailError, false);
@@ -1767,7 +1689,7 @@
       document.getElementById('email').addEventListener('blur', function () {
         var v = this.value.trim();
         /* Show warning if field has any content that isn't a valid email,
-           or if field is empty (user tabbed past without filling it) */
+           or if field is empty (user tabbed past without filling it) * /
         if (v !== '' && !EMAIL_REGEX.test(v)) {
           toggleVisible(emailError, true);
         } else {
@@ -1777,7 +1699,7 @@
 
       /* ────────────────────────────────────────
          Input Change Listeners
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       ['firstname', 'lastname', 'phone', 'plus-firstname', 'plus-lastname', 'plus-dietary-other'].forEach(function (id) {
         var el = document.getElementById(id);
         if (el) el.addEventListener('input', function () {
@@ -1786,7 +1708,7 @@
         });
       });
 
-      /* Dietary "other" inputs — target the wrapper div directly */
+      /* Dietary "other" inputs — target the wrapper div directly * /
       document.getElementById('dietary-other').addEventListener('input', function () {
         document.getElementById('dietary-other-field').classList.remove('field-error');
         checkValidity();
@@ -1798,9 +1720,9 @@
 
       /* ────────────────────────────────────────
          Validity Check
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       function updateErrorSummary() {
-        /* Always clear highlights first */
+        /* Always clear highlights first * /
         ['firstname', 'lastname', 'phone', 'email', 'dietary', 'plus-firstname', 'plus-lastname', 'plus-dietary'].forEach(function (id) {
           var el = document.getElementById(id);
           if (el) el.closest('.form-field').classList.remove('field-error');
@@ -1818,7 +1740,7 @@
 
         var errors = [];
 
-        /* Name fields empty or guest not found */
+        /* Name fields empty or guest not found * /
         if (!val('firstname') || !val('lastname')) {
           if (!val('firstname')) document.getElementById('firstname').closest('.form-field').classList.add('field-error');
           if (!val('lastname'))  document.getElementById('lastname').closest('.form-field').classList.add('field-error');
@@ -1834,18 +1756,18 @@
           return;
         }
 
-        /* Attendance not chosen */
+        /* Attendance not chosen * /
         if (!attYes.checked && !attNo.checked) {
           errors.push('Please choose your attendance');
           document.getElementById('radio-yes').classList.add('radio-error');
           document.getElementById('radio-no').classList.add('radio-error');
           formErrors.textContent = errors.join(' · ');
-          return; /* nothing else relevant until attendance is chosen */
+          return; /* nothing else relevant until attendance is chosen * /
         }
 
         if (!attYes.checked) { formErrors.textContent = ''; return; }
 
-        /* Attending fields */
+        /* Attending fields * /
         if (!val('phone')) {
           errors.push('Mobile number is required');
           document.getElementById('phone').closest('.form-field').classList.add('field-error');
@@ -1880,7 +1802,7 @@
         else if (plusDietaryBlank)
           errors.push('Please specify your plus one\'s dietary restriction');
 
-        /* Plus one not chosen yet */
+        /* Plus one not chosen yet * /
         if (guestPlusOne && plusOneBlock.classList.contains('is-visible')) {
           if (!plusYes.checked && !plusNo.checked) {
             errors.push('Please choose your plus one preference');
@@ -1932,12 +1854,12 @@
          Submit — single handler, always fires
          Button is never actually disabled so iOS
          Safari always delivers the click event.
-      ──────────────────────────────────────── */
+      ──────────────────────────────────────── * /
       submitBtn.addEventListener('click', async function () {
-        /* Already sent — do nothing */
+        /* Already sent — do nothing * /
         if (submitBtn.classList.contains('is-sent')) return;
 
-        /* Not ready — show errors */
+        /* Not ready — show errors * /
         if (isInactive()) {
           submitAttempted = true;
           updateErrorSummary();
@@ -1966,7 +1888,7 @@
         };
 
         /* Spin for exactly 2 seconds AND wait for the JSONP result.
-           Whichever takes longer wins — then show success or failure. */
+           Whichever takes longer wins — then show success or failure. * /
         setInactive();
         submitBtn.innerHTML = '<span class="submit-btn__spinner" aria-label="Sending…"></span>';
         submitBtn.style.background = 'var(--color-brown)';
@@ -2007,10 +1929,9 @@
       });
 
     })();
+    RSVP IIFE end */
 
-    /* ════════════════════════════════════════
-       PASSWORD GATE
-    ════════════════════════════════════════ */
+    /* PASSWORD GATE IIFE — commented out
     (function () {
       var EXPIRY      = '2027-09-30';
       var STORAGE_KEY = 'wedding_unlocked';
@@ -2102,6 +2023,7 @@
 
       btn.addEventListener('click', checkPassword);
     })();
+    PASSWORD GATE IIFE end */
   </script>
 
 </body>
