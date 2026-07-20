@@ -21,8 +21,8 @@
   <meta name="twitter:description" content="❤️" />
   <meta name="twitter:image"       content="https://ardenelisa.com/assets/images/Thumbnail.JPG" />
 
-  <!-- Vendor Styles -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css" />
+  <!-- Vendor Styles (commented out — RSVP removed) -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css" /> -->
 
   <!-- Fonts -->
   <link
@@ -31,9 +31,8 @@
   />
 
   <style>
-    /* ================================================================
-       PASSWORD GATE
-    ================================================================ */
+    /* PASSWORD GATE — commented out
+    ================================================================
     #password-gate {
       position: fixed;
       inset: 0;
@@ -131,6 +130,7 @@
       #gate-input           { width: 57%; font-size: 16px; }
       #gate-btn             { width: 57%; }
     }
+    ================================================================ */
 
     /* ================================================================
        RESET & CUSTOM PROPERTIES
@@ -609,9 +609,8 @@
       }
     }
 
-    /* ================================================================
-       SECTION 4 — RSVP FORM
-    ================================================================ */
+    /* SECTION 4 — RSVP FORM — commented out
+    ================================================================
     .rsvp-section {
       width: 100%;
       background: var(--color-bg);
@@ -1074,11 +1073,13 @@
         font-size: 16px !important;
       }
     }
+    ================================================================ */
   </style>
 </head>
 
 <body>
 
+  <!-- PASSWORD GATE — commented out
   <div id="password-gate">
     <div id="password-gate__inner">
       <label for="gate-input">What is the password?</label>
@@ -1088,6 +1089,7 @@
   </div>
 
   <div id="page-content">
+  -->
 
   <!-- ════════════════════════════════════════
        SECTION 1 — Save the Date
@@ -1253,7 +1255,7 @@
     </div>
   </section>
 
-  <!-- Dietary options template (reused for guest + plus one) -->
+  <!-- RSVP — commented out
   <template id="dietary-options">
     <option value="none">None</option>
     <option value="vegetarian">Vegetarian</option>
@@ -1268,9 +1270,9 @@
     <option value="others">Others</option>
   </template>
 
-  <!-- ════════════════════════════════════════
+  <!~~ ════════════════════════════════════════
        SECTION 4 — RSVP
-  ════════════════════════════════════════ -->
+  ════════════════════════════════════════ ~~>
   <section class="rsvp-section">
     <p class="rsvp-heading t-display">RSVP</p>
 
@@ -1279,7 +1281,7 @@
          data-supabase-key="sb_publishable_pQUCD_gSk5iq0dpgixEIxQ_wqggxSyB"
          data-script-url="https://script.google.com/macros/s/AKfycbwEAltOotbmlpZbrinU-1b6wrD3Mx4-auZI1jmU0KJG2fACLnD119zl5GEyP4_amDah3g/exec">
 
-      <!-- Name -->
+      <!~~ Name ~~>
       <div class="form-row">
         <div class="form-field">
           <label for="firstname">First Name</label>
@@ -1291,10 +1293,10 @@
         </div>
       </div>
 
-      <!-- Guest not found -->
+      <!~~ Guest not found ~~>
       <p class="guest-error" id="guest-error">We couldn't find your name on the guest list. Please check your entry.</p>
 
-      <!-- Attendance -->
+      <!~~ Attendance ~~>
       <div class="form-field" id="attendance-block">
         <label>Attendance</label>
         <div class="attendance-options">
@@ -1311,13 +1313,13 @@
         </div>
       </div>
 
-      <!-- Attending fields (conditionally visible when guest selects YES)
+      <!~~ Attending fields (conditionally visible when guest selects YES)
            Order: own contact details first, then ask about plus-one.
            This follows progressive disclosure best practice — collect the
-           most certain information (yourself) before the conditional (guest). -->
+           most certain information (yourself) before the conditional (guest). ~~>
       <div id="attending-fields">
 
-        <!-- Mobile -->
+        <!~~ Mobile ~~>
         <div class="form-field">
           <label>Mobile Number</label>
           <div class="phone-row">
@@ -1327,14 +1329,14 @@
           </div>
         </div>
 
-        <!-- Email -->
+        <!~~ Email ~~>
         <div class="form-field">
           <label for="email">Email</label>
           <input type="email" id="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" />
           <span class="email-error" id="email-error">Please make sure your email is valid</span>
         </div>
 
-        <!-- Dietary -->
+        <!~~ Dietary ~~>
         <div class="form-field">
           <label>Dietary Restriction</label>
           <div class="dietary-row">
@@ -1347,10 +1349,10 @@
           </div>
         </div>
 
-      </div><!-- /attending-fields -->
+      </div><!~~ /attending-fields ~~>
 
-      <!-- Plus One radio — revealed after attending-fields so the guest
-           completes their own details before being asked about a companion -->
+      <!~~ Plus One radio — revealed after attending-fields so the guest
+           completes their own details before being asked about a companion ~~>
       <div class="form-field" id="plus-one-block">
         <label>Plus One</label>
         <div class="attendance-options">
@@ -1367,7 +1369,7 @@
         </div>
       </div>
 
-      <!-- Plus one fields — revealed only when plus-one radio = yes -->
+      <!~~ Plus one fields — revealed only when plus-one radio = yes ~~>
       <div id="plus-one-fields">
         <div class="form-row">
           <div class="form-field">
@@ -1390,7 +1392,7 @@
             </div>
           </div>
         </div>
-      </div><!-- /plus-one-fields -->
+      </div><!~~ /plus-one-fields ~~>
 
       <button type="button" class="submit-btn is-inactive" id="submit-btn">Submit</button>
       <div class="submit-feedback">
@@ -1409,12 +1411,12 @@
 
     </div>
   </section>
-
-  </div><!-- /#page-content -->
+  -->
 
   <!-- ════════════════════════════════════════
        SCRIPTS
   ════════════════════════════════════════ -->
+  <!-- RSVP + PASSWORD GATE scripts — commented out
   <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
   <script>
     (function () {
@@ -2103,6 +2105,7 @@
       btn.addEventListener('click', checkPassword);
     })();
   </script>
+  -->
 
 </body>
 </html>
