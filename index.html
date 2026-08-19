@@ -144,7 +144,10 @@
       align-items: center;
       justify-content: flex-end;
       width: 100%;
-      height: calc(100vw * 2.2);
+      aspect-ratio: 1 / 2.2;
+      flex: 0 0 auto;
+      min-height: 0;
+      overflow: hidden;
       background: #fff;
       padding: 0 clamp(1rem, 6.2vw, 5rem);
     }
