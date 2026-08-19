@@ -48,13 +48,17 @@
         font-family: var(--font-serif);
         font-style: italic;
         font-weight: 500;
-        font-size: clamp(1.5rem, 3.6vw, 2.25rem);
+        font-size: clamp(1.275rem, 3.06vw, 1.91rem);
         letter-spacing: 0.06em;
         color: var(--color-brown-dark);
         text-align: center;
         line-height: 1.8;
         padding: 2rem;
-        padding-bottom: 12vh;
+        padding-bottom: 18vh;
+      }
+
+      .desktop-gate__sign-off {
+        font-size: 70%;
       }
 
       #page-content {
@@ -174,9 +178,8 @@
       align-items: center;
       justify-content: flex-end;
       width: 100%;
-      aspect-ratio: 1 / 2.2;
-      flex: 0 0 auto;
-      min-height: 0;
+      height: calc(100vw * 2.2);
+      max-height: calc(100vw * 2.2);
       background: #fff;
       padding: 0 clamp(1rem, 6.2vw, 5rem);
     }
@@ -1013,7 +1016,7 @@
   <div class="desktop-gate">
     Our website is designed for mobile viewing.<br>
     Please visit us on your phone.<br><br>
-    Arden &amp; Elisa
+    <span class="desktop-gate__sign-off">Arden &amp; Elisa</span>
   </div>
 
   <div id="page-content">
