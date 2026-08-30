@@ -212,11 +212,15 @@
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.15s ease;
     }
 
     .rsvp-btn:hover {
       background: var(--color-brown-dark);
+    }
+
+    .rsvp-btn:active {
+      transform: scale(0.95);
     }
 
     /* ================================================================
@@ -532,7 +536,7 @@
       <p class="hero-names t-display"><span>Elisa</span><span class="hero-ampersand">&amp;</span><span>Arden</span></p>
       <p class="hero-date t-label">AUGUST 20<span class="date-range-dash">–</span>21, 2027</p>
       <p class="hero-location t-body">Bali, Indonesia</p>
-      <button type="button" class="rsvp-btn">RSVP</button>
+      <a href="#rsvp" class="rsvp-btn">RSVP</a>
     </div>
     <img
       class="flower"
