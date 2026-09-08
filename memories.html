@@ -131,6 +131,14 @@
       background: #F2E8D8;
     }
 
+    .memories-page img {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .memories-page img.loaded {
+      opacity: 1;
+    }
+
     .back-link {
       position: relative;
       z-index: 1;
@@ -163,102 +171,106 @@
     <a href="wedding" class="back-link">← back to main page</a>
     <span class="t-display" style="color:#b07858;letter-spacing:0.08em;font-weight:400;position:relative;z-index:1">Memories</span>
     <div style="position:relative;z-index:1;align-self:center;margin-top:3em;width:59.5%;text-align:center">
-      <img src="assets/images/Boston.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <img src="assets/images/New Hampshire.jpg" alt="" role="presentation" loading="eager" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">New Hampshire, Winter 2023</p>
+    </div>
+    <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:59.5%;text-align:center">
+      <img data-src="assets/images/Boston.JPG" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">Boston, Spring 2023</p>
     </div>
     <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:70%;text-align:center">
-      <img src="assets/images/Azerbaijan.JPG?v=2" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <img data-src="assets/images/Azerbaijan.JPG?v=2" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">Azerbaijan, Spring 2023</p>
     </div>
     <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:59.5%;text-align:center">
-      <img src="assets/images/Graduation.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <img data-src="assets/images/Graduation.JPG" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">Cambridge, Spring 2023</p>
     </div>
-    <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:70%;text-align:center">
+    <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:84%;text-align:center">
       <div style="display:flex;gap:0.5em;align-items:flex-end">
-        <img src="assets/images/Turkey1.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:44%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
-        <img src="assets/images/Turkey2.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:55%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+        <img data-src="assets/images/Turkey1.JPG" alt="" role="presentation" decoding="async" style="width:44%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+        <img data-src="assets/images/Turkey2.JPG" alt="" role="presentation" decoding="async" style="width:55%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       </div>
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">Turkey, Summer 2023</p>
     </div>
     <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:59.5%;text-align:center">
-      <img src="assets/images/Jordan.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <img data-src="assets/images/Jordan.JPG" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">Jordan, Summer 2023</p>
     </div>
-    <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:50.6%;text-align:center">
-      <img src="assets/images/London.png" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+    <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:43%;text-align:center">
+      <img data-src="assets/images/London.png" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">First birthday together<br>London, Summer 2023</p>
     </div>
     <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:59.5%;text-align:center">
-      <img src="assets/images/Morocco.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <img data-src="assets/images/Morocco.JPG" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">Morocco, Summer 2023</p>
     </div>
-    <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:59.5%;text-align:center">
-      <img src="assets/images/Peru.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
-      <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">Peru, Fall 2023</p>
+    <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:68.4%;text-align:center">
+      <img data-src="assets/images/Peru.JPG" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">Machu Picchu, Fall 2023</p>
     </div>
-    <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:59.5%;text-align:center">
-      <img src="assets/images/Bali.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+    <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:50.6%;text-align:center">
+      <img data-src="assets/images/Bali.JPG" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">Bali, Winter 2023</p>
     </div>
     <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:71.4%;text-align:center">
-      <img src="assets/images/Philippines.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <img data-src="assets/images/Philippines.JPG" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">Philippines, Summer 2024</p>
     </div>
     <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:59.5%;text-align:center">
-      <img src="assets/images/Canada.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <img data-src="assets/images/Canada.JPG" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">Canada, Spring 2024</p>
     </div>
     <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:59.5%;text-align:center">
-      <img src="assets/images/NYC2.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <img data-src="assets/images/NYC2.JPG" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">New York, Summer 2024</p>
     </div>
     <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:59.5%;text-align:center">
-      <img src="assets/images/NYC4.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <img data-src="assets/images/NYC4.JPG" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">New York, Summer 2024</p>
     </div>
     <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:59.5%;text-align:center">
-      <img src="assets/images/Yellowstone.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <img data-src="assets/images/Yellowstone.JPG" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">Yellowstone, Summer 2024</p>
     </div>
     <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:59.5%;text-align:center">
-      <img src="assets/images/NYC.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <img data-src="assets/images/NYC.JPG" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">New York, Fall 2024</p>
     </div>
     <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:59.5%;text-align:center">
-      <img src="assets/images/Italy.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <img data-src="assets/images/Italy.JPG" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">Italy, Summer 2024</p>
     </div>
     <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:59.5%;text-align:center">
-      <img src="assets/images/Paris.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <img data-src="assets/images/Paris.JPG" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">Paris, Summer 2024</p>
     </div>
     <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:59.5%;text-align:center">
-      <img src="assets/images/Norway.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <img data-src="assets/images/Norway.JPG" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">Norway, Winter 2024</p>
     </div>
     <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:59.5%;text-align:center">
-      <img src="assets/images/India.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <img data-src="assets/images/India.JPG" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">India, Winter 2025</p>
     </div>
     <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:59.5%;text-align:center">
-      <img src="assets/images/Pacific Northwest.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <img data-src="assets/images/Pacific Northwest.JPG" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">Pacific Northwest, Spring 2025</p>
     </div>
     <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:59.5%;text-align:center">
-      <img src="assets/images/Amsterdam.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <img data-src="assets/images/Amsterdam.JPG" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">Amsterdam, Summer 2025</p>
     </div>
     <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:59.5%;text-align:center">
-      <img src="assets/images/Madrid.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <img data-src="assets/images/Madrid.JPG" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">Madrid, Summer 2025</p>
     </div>
     <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:59.5%;text-align:center">
-      <img src="assets/images/NYC3.jpg" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <img data-src="assets/images/NYC3.jpg" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">New York, Summer 2025</p>
     </div>
     <div style="position:relative;z-index:1;align-self:center;margin-top:2.4em;width:59.5%;text-align:center">
-      <img src="assets/images/Mexico.JPG" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
+      <img data-src="assets/images/Mexico.JPG" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;box-shadow:0 4px 22px rgba(80,45,20,0.48)" />
       <p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0.4em;text-align:center">Mexico, Winter 2026</p>
     </div>
   </section>
@@ -326,16 +338,33 @@
         path.setAttribute('d', d);
       }
 
-      var loaded = 0;
-      var total = imgs.length;
-      function onLoad() {
-        loaded++;
-        if (loaded >= total) drawLine();
+      var imgList = Array.prototype.slice.call(imgs);
+      var currentIndex = 0;
+
+      function loadNext() {
+        if (currentIndex >= imgList.length) {
+          drawLine();
+          return;
+        }
+        var img = imgList[currentIndex];
+        currentIndex++;
+
+        function onReady() {
+          img.classList.add('loaded');
+          loadNext();
+        }
+
+        if (img.src && img.complete) {
+          onReady();
+        } else if (img.dataset.src) {
+          img.addEventListener('load', onReady);
+          img.src = img.dataset.src;
+        } else {
+          img.addEventListener('load', onReady);
+        }
       }
-      for (var i = 0; i < total; i++) {
-        if (imgs[i].complete) { loaded++; } else { imgs[i].addEventListener('load', onLoad); }
-      }
-      if (loaded >= total) drawLine();
+
+      loadNext();
 
       window.addEventListener('resize', drawLine);
     })();
