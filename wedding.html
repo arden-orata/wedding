@@ -698,12 +698,12 @@
       var size = container.offsetWidth;
 
       var labelData = [
-        { lat: -8.779056, lng: 115.118030, name: 'Jumeirah Bali', bold: true, isPin: true },
+        { lat: -7.5, lng: 115.118030, name: 'Jumeirah Bali', bold: true, isPin: true },
         { lat: -6, lng: 100, name: 'Singapore', bold: false },
         { lat: 14, lng: 121, name: 'Philippines', bold: false },
-        { lat: -8, lng: 130, name: 'Indonesia', bold: false },
+        { lat: -6, lng: 130, name: 'Indonesia', bold: false },
         { lat: 15, lng: 98, name: 'Thailand', bold: false },
-        { lat: 42, lng: 95, name: 'China', bold: false },
+        { lat: 30, lng: 107, name: 'China', bold: false },
         { lat: 18, lng: 75, name: 'India', bold: false },
         { lat: 42, lng: 142, name: 'Japan', bold: false },
         { lat: -28, lng: 135, name: 'Australia', bold: false },
@@ -733,7 +733,7 @@
         .backgroundColor('rgba(0,0,0,0)')
         .width(size)
         .height(size)
-        .pointOfView({ lat: -8.779056, lng: 115.118030, altitude: 2.0 })
+        .pointOfView({ lat: 30, lng: 0, altitude: 2.5 })
         .htmlElementsData(labelData)
         .htmlElement(function (d) {
           var el = document.createElement('div');
@@ -761,9 +761,27 @@
 
       globe.controls().enableZoom = false;
 
-      setTimeout(function () {
-        globe.pointOfView({ lat: -8.779056, lng: 115.118030, altitude: 2.0 }, 0);
-      }, 100);
+      var hasSpun = false;
+      function spinToBali() {
+        if (hasSpun) return;
+        hasSpun = true;
+        globe.pointOfView({ lat: 5, lng: 105, altitude: 2.0 }, 2000);
+      }
+
+      var section = document.getElementById('the-wedding');
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            spinToBali();
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.5 });
+      observer.observe(container);
+
+      document.querySelector('a[href="#the-wedding"]').addEventListener('click', function () {
+        setTimeout(spinToBali, 600);
+      });
 
       function isInsideCircle(e) {
         var rect = container.getBoundingClientRect();
