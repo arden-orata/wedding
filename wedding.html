@@ -492,6 +492,41 @@
       object-fit: contain;
       align-self: center;
     }
+    #our-story img {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    #our-story img.loaded {
+      opacity: 1;
+    }
+
+    .map-link {
+      display: block;
+      width: 70%;
+      aspect-ratio: 1 / 1;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      text-decoration: none;
+      position: relative;
+    }
+
+    .map-link iframe {
+      display: block;
+      width: 100%;
+      height: calc(100% + 286px);
+      border: 0;
+      pointer-events: none;
+      position: absolute;
+      top: -143px;
+    }
+
+    .map-caption {
+      margin-top: 1.2rem;
+      color: var(--color-brown-dark);
+      font-size: clamp(0.85rem, 2vw, 1.1rem);
+      text-align: center;
+    }
   </style>
 </head>
 
@@ -549,10 +584,10 @@
   </section>
 
   <!-- Temporary test sections — remove when done -->
-  <section id="our-story" class="test-section" style="min-height:215vw;flex-direction:column;justify-content:flex-start;align-items:flex-start;padding-top:1.35em;padding-left:1.35em;background:#F2E8D8;position:relative"><svg id="story-line" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none"><path id="story-path" fill="none" stroke="rgba(176,120,88,0.114)" stroke-width="1.38" stroke-linecap="round" stroke-dasharray="8 6"/></svg><span class="t-display" style="color:#b07858;letter-spacing:0.08em;font-weight:400">Our Story</span><div style="display:flex;width:100%;margin-top:1.58em;gap:0.6em;align-items:center"><div style="width:50%;flex-shrink:0;position:relative"><img id="img-first" src="assets/images/Firstdate.jpg" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;position:relative;z-index:1;box-shadow:0 4px 22px rgba(80,45,20,0.48)" /><p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0;text-align:center;position:absolute;width:100%">Boston, Spring 2023</p></div><p style="font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:clamp(1rem,2.4vw,1.5rem);letter-spacing:0.06em;color:var(--color-brown-dark);text-align:left;padding-right:0.8em">Our first walk along the Charles River, back in business school. A friend happened to spot us, and quietly snapped this photo. Neither of us knew yet where it would lead.</p></div><a href="memories" style="align-self:center;margin-top:auto;transform:translateX(-1em);display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-sans);font-weight:400;font-size:clamp(0.88rem,2.29vw,1.23rem);letter-spacing:0.04em;text-decoration:underline;text-decoration-color:rgba(176,120,88,0.5);text-underline-offset:0.25em;color:var(--color-brown-dark);background:none;border:none;cursor:pointer;position:relative;z-index:1">click for more photos</a><div style="display:flex;width:100%;margin-top:auto;margin-bottom:2.69em;gap:0.6em;align-items:center"><p style="font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:clamp(1rem,2.4vw,1.5rem);letter-spacing:0.06em;color:var(--color-brown-dark);text-align:right;padding-left:0.6em">Three years and many adventures later, we got engaged on a hike above Lake Oeschinen!</p><div style="width:50%;flex-shrink:0;position:relative;margin-right:1.35em"><img id="img-proposal" src="assets/images/Proposal.jpg?v=2" alt="" role="presentation" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:10px;position:relative;z-index:1;box-shadow:0 4px 22px rgba(80,45,20,0.48)" /><p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0;text-align:center;position:absolute;width:100%">Switzerland, Summer 2026</p></div></div></section>
-  <section id="the-wedding" class="test-section" style="background:#F5EDE4;flex-direction:column;justify-content:flex-start;align-items:center;padding-top:1.35em"><span class="t-display" style="color:#b07858;letter-spacing:0.08em;font-weight:400">The Wedding</span></section>
-  <section id="day-1" class="test-section" style="background:#E8DED2;justify-content:flex-start;align-items:flex-start;padding-top:1.35em;padding-left:1.35em"><span class="t-display" style="color:#b07858;letter-spacing:0.08em;font-weight:400">Day 1 Details</span></section>
-  <section id="day-2" class="test-section" style="background:#F0E4D6;justify-content:flex-start;align-items:flex-start;padding-top:1.35em;padding-left:1.35em"><span class="t-display" style="color:#b07858;letter-spacing:0.08em;font-weight:400">Day 2 Details</span></section>
+  <section id="our-story" class="test-section" style="min-height:215vw;flex-direction:column;justify-content:flex-start;align-items:flex-start;padding-top:1.35em;padding-left:1.35em;background:#F2E8D8;position:relative"><svg id="story-line" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none"><path id="story-path" fill="none" stroke="rgba(176,120,88,0.114)" stroke-width="1.38" stroke-linecap="round" stroke-dasharray="8 6"/></svg><span class="t-display" style="color:#b07858;letter-spacing:0.08em;font-weight:400">Our Story</span><div style="display:flex;width:100%;margin-top:1.58em;gap:0.6em;align-items:center"><div style="width:50%;flex-shrink:0;position:relative"><img id="img-first" data-src="assets/images/Firstdate.jpg" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;position:relative;z-index:1;box-shadow:0 4px 22px rgba(80,45,20,0.48)" /><p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0;text-align:center;position:absolute;width:100%">Boston, Spring 2023</p></div><p style="font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:clamp(1rem,2.4vw,1.5rem);letter-spacing:0;color:var(--color-brown-dark);text-align:left;padding-right:0.8em">Our first walk along the Charles River, back in business school. A friend happened to spot us, and quietly snapped this photo. Neither of us knew yet where it would lead.</p></div><a href="memories" style="align-self:center;margin-top:auto;transform:translateX(-1em);display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-sans);font-weight:400;font-size:clamp(0.88rem,2.29vw,1.23rem);letter-spacing:0.04em;text-decoration:underline;text-decoration-color:rgba(176,120,88,0.5);text-underline-offset:0.25em;color:var(--color-brown-dark);background:none;border:none;cursor:pointer;position:relative;z-index:1">click for more photos</a><div style="display:flex;width:100%;margin-top:auto;margin-bottom:2.69em;gap:0.6em;align-items:center"><p style="font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:clamp(1rem,2.4vw,1.5rem);letter-spacing:0;color:var(--color-brown-dark);text-align:right">Three years and many<br>adventures later, we<br>got engaged in Lake<br>Oeschinen! Despite our<br>differences, we found<br>home in each other.</p><div style="width:50%;flex-shrink:0;position:relative;margin-right:1.35em"><img id="img-proposal" data-src="assets/images/Proposal.jpg?v=2" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;position:relative;z-index:1;box-shadow:0 4px 22px rgba(80,45,20,0.48)" /><p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0;text-align:center;position:absolute;width:100%">Switzerland, Summer 2026</p></div></div></section>
+  <section id="the-wedding" class="test-section" style="background:url('assets/images/wedding.png') center/cover no-repeat;flex-direction:column;justify-content:flex-start;align-items:center;padding-top:1.35em;aspect-ratio:887/1774"><span class="t-display" style="color:#fff;letter-spacing:0.08em;font-weight:400">The Wedding</span><div class="map-link" style="margin-top:2em"><iframe src="https://earth.google.com/web/@-8.779056,115.118030,0a,15000000d,35y,0h,0t,0r" title="Jumeirah Bali on Google Earth" style="pointer-events:auto"></iframe></div><p class="map-caption t-body" style="color:#fff">spin the globe to explore</p></section>
+  <section id="day-1" class="test-section" style="background:#fff;flex-direction:column;justify-content:flex-start;align-items:flex-start;padding-top:1.35em;padding-left:1.35em"><span class="t-display" style="color:#b07858;letter-spacing:0.08em;font-weight:400">Day 1 Details</span></section>
+  <section id="day-2" class="test-section" style="background:#fff;flex-direction:column;justify-content:flex-start;align-items:flex-start;padding-top:1.35em;padding-left:1.35em"><span class="t-display" style="color:#b07858;letter-spacing:0.08em;font-weight:400">Day 2 Details</span></section>
   <section id="travel" class="test-section" style="background:#E5DDD4;justify-content:flex-start;align-items:flex-start;padding-top:1.35em;padding-left:1.35em"><span class="t-display" style="color:#b07858;letter-spacing:0.08em;font-weight:400;font-size:clamp(2.8rem,10.4vw,8.8rem)">Travel &amp; Accommodation</span></section>
   <section id="registry" class="test-section" style="background:#F2E8DC;justify-content:flex-start;align-items:flex-start;padding-top:1.35em;padding-left:1.35em"><span class="t-display" style="color:#b07858;letter-spacing:0.08em;font-weight:400">Registry</span></section>
   <section id="faq" class="test-section" style="background:#EAE0D4;justify-content:flex-start;align-items:flex-start;padding-top:1.35em;padding-left:1.35em"><span class="t-display" style="color:#b07858;letter-spacing:0.08em;font-weight:400">FAQ</span></section>
@@ -610,7 +645,7 @@
       });
     })();
 
-    // Draw reverse-S line between the two Our Story images
+    // Sequential image loader + reverse-S line
     (function () {
       var section = document.getElementById('our-story');
       var img1 = document.getElementById('img-first');
@@ -622,15 +657,11 @@
         var r1 = img1.getBoundingClientRect();
         var r2 = img2.getBoundingClientRect();
 
-        // Start: center of the right edge of image 1, relative to section
         var x1 = r1.right - sRect.left;
         var y1 = r1.top + r1.height / 2 - sRect.top;
-
-        // End: center of the left edge of image 2, relative to section
         var x2 = r2.left - sRect.left;
         var y2 = r2.top + r2.height / 2 - sRect.top;
 
-        // Control points for reverse S curve
         var sw = sRect.width;
         var cpx1 = sw * 1.52;
         var cpy1 = y1 + (y2 - y1) * 0.33;
@@ -645,15 +676,19 @@
         );
       }
 
-      // Wait for images to load before measuring
-      var loaded = 0;
-      function onLoad() {
-        loaded++;
-        if (loaded >= 2) drawLine();
+      function loadImage(img, callback) {
+        img.addEventListener('load', function () {
+          img.classList.add('loaded');
+          callback();
+        });
+        img.src = img.dataset.src;
       }
-      if (img1.complete) { loaded++; } else { img1.addEventListener('load', onLoad); }
-      if (img2.complete) { loaded++; } else { img2.addEventListener('load', onLoad); }
-      if (loaded >= 2) drawLine();
+
+      loadImage(img1, function () {
+        loadImage(img2, function () {
+          drawLine();
+        });
+      });
 
       window.addEventListener('resize', drawLine);
     })();
