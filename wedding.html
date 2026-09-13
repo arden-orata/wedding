@@ -502,23 +502,18 @@
 
     .map-link {
       display: block;
-      width: 70%;
+      width: 88%;
       aspect-ratio: 1 / 1;
-      border-radius: 8px;
+      border-radius: 50%;
       overflow: hidden;
-      box-shadow: var(--shadow-card);
-      text-decoration: none;
       position: relative;
+      clip-path: circle(50%);
+      touch-action: none;
     }
 
-    .map-link iframe {
-      display: block;
-      width: 100%;
-      height: calc(100% + 286px);
-      border: 0;
-      pointer-events: none;
-      position: absolute;
-      top: -143px;
+    .map-link canvas {
+      width: 100% !important;
+      height: 100% !important;
     }
 
     .map-caption {
@@ -585,7 +580,7 @@
 
   <!-- Temporary test sections — remove when done -->
   <section id="our-story" class="test-section" style="min-height:215vw;flex-direction:column;justify-content:flex-start;align-items:flex-start;padding-top:1.35em;padding-left:1.35em;background:#F2E8D8;position:relative"><svg id="story-line" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none"><path id="story-path" fill="none" stroke="rgba(176,120,88,0.114)" stroke-width="1.38" stroke-linecap="round" stroke-dasharray="8 6"/></svg><span class="t-display" style="color:#b07858;letter-spacing:0.08em;font-weight:400">Our Story</span><div style="display:flex;width:100%;margin-top:1.58em;gap:0.6em;align-items:center"><div style="width:50%;flex-shrink:0;position:relative"><img id="img-first" data-src="assets/images/Firstdate.jpg" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;position:relative;z-index:1;box-shadow:0 4px 22px rgba(80,45,20,0.48)" /><p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0;text-align:center;position:absolute;width:100%">Boston, Spring 2023</p></div><p style="font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:clamp(1rem,2.4vw,1.5rem);letter-spacing:0;color:var(--color-brown-dark);text-align:left;padding-right:0.8em">Our first walk along the Charles River, back in business school. A friend happened to spot us, and quietly snapped this photo. Neither of us knew yet where it would lead.</p></div><a href="memories" style="align-self:center;margin-top:auto;transform:translateX(-1em);display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-sans);font-weight:400;font-size:clamp(0.88rem,2.29vw,1.23rem);letter-spacing:0.04em;text-decoration:underline;text-decoration-color:rgba(176,120,88,0.5);text-underline-offset:0.25em;color:var(--color-brown-dark);background:none;border:none;cursor:pointer;position:relative;z-index:1">click for more photos</a><div style="display:flex;width:100%;margin-top:auto;margin-bottom:2.69em;gap:0.6em;align-items:center"><p style="font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:clamp(1rem,2.4vw,1.5rem);letter-spacing:0;color:var(--color-brown-dark);text-align:right">Three years and many<br>adventures later, we<br>got engaged in Lake<br>Oeschinen! Despite our<br>differences, we found<br>home in each other.</p><div style="width:50%;flex-shrink:0;position:relative;margin-right:1.35em"><img id="img-proposal" data-src="assets/images/Proposal.jpg?v=2" alt="" role="presentation" decoding="async" style="width:100%;height:auto;border-radius:10px;position:relative;z-index:1;box-shadow:0 4px 22px rgba(80,45,20,0.48)" /><p style="font-family:var(--font-sans);font-weight:300;font-size:clamp(0.8rem,2vw,1.1rem);letter-spacing:0.04em;color:#555;margin-top:0;text-align:center;position:absolute;width:100%">Switzerland, Summer 2026</p></div></div></section>
-  <section id="the-wedding" class="test-section" style="background:url('assets/images/wedding.png') center/cover no-repeat;flex-direction:column;justify-content:flex-start;align-items:center;padding-top:1.35em;aspect-ratio:887/1774"><span class="t-display" style="color:#fff;letter-spacing:0.08em;font-weight:400">The Wedding</span><div class="map-link" style="margin-top:2em"><iframe src="https://earth.google.com/web/@-8.779056,115.118030,0a,15000000d,35y,0h,0t,0r" title="Jumeirah Bali on Google Earth" style="pointer-events:auto"></iframe></div><p class="map-caption t-body" style="color:#fff">spin the globe to explore</p></section>
+  <section id="the-wedding" class="test-section" style="background:url('assets/images/wedding.png?v=2') center/cover no-repeat;flex-direction:column;justify-content:flex-start;align-items:center;padding-top:1.35em;aspect-ratio:1000/2300"><span class="t-display" style="color:#F4EAD1;letter-spacing:0.08em;font-weight:400">The Wedding</span><p class="t-label" style="color:#F5DF85;font-weight:500;font-size:clamp(1.17rem,3.042vw,1.638rem);margin-top:0.6em">AUGUST 20<span style="letter-spacing:0">–</span>21, 2027</p><p class="t-label" style="color:#F5DF85;font-size:clamp(0.99rem,2.574vw,1.386rem);margin-top:0.2em;letter-spacing:0.05em;text-transform:capitalize">Jumeirah Bali, Indonesia</p><p style="font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:clamp(1rem,2.4vw,1.5rem);letter-spacing:0;color:#fff;margin-top:1.2em;text-align:center;padding:0 1.5em">We're so glad to celebrate this new chapter<br>with our favorite people from all over the world.<br>We've designed these two days for us to<br>relax, connect, and celebrate together.</p><p style="font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:clamp(1rem,2.4vw,1.5rem);letter-spacing:0;color:#fff;margin-top:0.8em;text-align:center;padding:0 1.5em">Day one will be a welcome dinner and<br>Balinese festivities. Day two will be our vows,<br>followed by a formal dinner and dancing.</p><div class="map-link" id="globe-container" style="margin-top:0.3em"></div></section>
   <section id="day-1" class="test-section" style="background:#fff;flex-direction:column;justify-content:flex-start;align-items:flex-start;padding-top:1.35em;padding-left:1.35em"><span class="t-display" style="color:#b07858;letter-spacing:0.08em;font-weight:400">Day 1 Details</span></section>
   <section id="day-2" class="test-section" style="background:#fff;flex-direction:column;justify-content:flex-start;align-items:flex-start;padding-top:1.35em;padding-left:1.35em"><span class="t-display" style="color:#b07858;letter-spacing:0.08em;font-weight:400">Day 2 Details</span></section>
   <section id="travel" class="test-section" style="background:#E5DDD4;justify-content:flex-start;align-items:flex-start;padding-top:1.35em;padding-left:1.35em"><span class="t-display" style="color:#b07858;letter-spacing:0.08em;font-weight:400;font-size:clamp(2.8rem,10.4vw,8.8rem)">Travel &amp; Accommodation</span></section>
@@ -691,6 +686,108 @@
       });
 
       window.addEventListener('resize', drawLine);
+    })();
+  </script>
+
+  <script src="//unpkg.com/globe.gl"></script>
+  <script>
+    (function () {
+      var container = document.getElementById('globe-container');
+      if (!container) return;
+
+      var size = container.offsetWidth;
+
+      var labelData = [
+        { lat: -8.779056, lng: 115.118030, name: 'Jumeirah Bali', bold: true, isPin: true },
+        { lat: -6, lng: 100, name: 'Singapore', bold: false },
+        { lat: 14, lng: 121, name: 'Philippines', bold: false },
+        { lat: -8, lng: 130, name: 'Indonesia', bold: false },
+        { lat: 15, lng: 98, name: 'Thailand', bold: false },
+        { lat: 42, lng: 95, name: 'China', bold: false },
+        { lat: 18, lng: 75, name: 'India', bold: false },
+        { lat: 42, lng: 142, name: 'Japan', bold: false },
+        { lat: -28, lng: 135, name: 'Australia', bold: false },
+        { lat: 4, lng: 95, name: 'Malaysia', bold: false },
+        { lat: 50, lng: -2, name: 'France', bold: false },
+        { lat: 48, lng: 30, name: 'Romania', bold: false },
+        { lat: 52, lng: 18, name: 'Austria', bold: false },
+        { lat: 40, lng: -100, name: 'USA', bold: false },
+        { lat: -18, lng: 36, name: 'Swaziland', bold: false },
+        { lat: 5, lng: 42, name: 'Ethiopia', bold: false },
+        { lat: 28, lng: -105, name: 'Mexico', bold: false },
+        { lat: 44, lng: 52, name: 'Azerbaijan', bold: false },
+        { lat: 0, lng: -72, name: 'Colombia', bold: false },
+        { lat: 36, lng: 128, name: 'South Korea', bold: false },
+        { lat: 58, lng: -8, name: 'Great Britain', bold: false },
+        { lat: -35, lng: 22, name: 'South Africa', bold: false },
+        { lat: 52, lng: -100, name: 'Canada', bold: false },
+        { lat: 56, lng: 8, name: 'Germany', bold: false },
+        { lat: 44, lng: 10, name: 'Italy', bold: false },
+        { lat: 10, lng: -5, name: 'Ghana', bold: false },
+        { lat: 42, lng: -8, name: 'Spain', bold: false }
+      ];
+
+      var globe = Globe()
+        .globeImageUrl('//unpkg.com/three-globe/example/img/earth-day.jpg')
+        .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
+        .backgroundColor('rgba(0,0,0,0)')
+        .width(size)
+        .height(size)
+        .pointOfView({ lat: -8.779056, lng: 115.118030, altitude: 2.0 })
+        .htmlElementsData(labelData)
+        .htmlElement(function (d) {
+          var el = document.createElement('div');
+          el.style.pointerEvents = 'none';
+          el.style.whiteSpace = 'nowrap';
+          el.style.textAlign = 'center';
+          if (d.isPin) {
+            el.innerHTML = '<svg width="20" height="28" viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.373 0 0 5.373 0 12c0 9 12 24 12 24s12-15 12-24c0-6.627-5.373-12-12-12z" fill="#c0504a"/><circle cx="12" cy="12" r="5" fill="#fff"/></svg>'
+              + '<div style="color:#d94040;font-family:var(--font-sans);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;text-shadow:0 1px 4px rgba(0,0,0,0.7);margin-top:-5px">' + d.name + '</div>';
+            el.style.transform = 'translate(-50%, -100%)';
+          } else {
+            el.style.color = '#fff';
+            el.style.fontFamily = 'var(--font-sans)';
+            el.style.fontSize = '11px';
+            el.style.fontWeight = '300';
+            el.style.textTransform = 'uppercase';
+            el.style.letterSpacing = '0.06em';
+            el.style.textShadow = '0 1px 4px rgba(0,0,0,0.7)';
+            el.textContent = d.name;
+          }
+          return el;
+        })
+        .enablePointerInteraction(true)
+        (container);
+
+      globe.controls().enableZoom = false;
+
+      setTimeout(function () {
+        globe.pointOfView({ lat: -8.779056, lng: 115.118030, altitude: 2.0 }, 0);
+      }, 100);
+
+      function isInsideCircle(e) {
+        var rect = container.getBoundingClientRect();
+        var cx = rect.left + rect.width / 2;
+        var cy = rect.top + rect.height / 2;
+        var r = rect.width / 2;
+        var x = (e.touches ? e.touches[0].clientX : e.clientX) - cx;
+        var y = (e.touches ? e.touches[0].clientY : e.clientY) - cy;
+        return (x * x + y * y) <= (r * r);
+      }
+
+      ['mousedown', 'touchstart'].forEach(function (evt) {
+        container.addEventListener(evt, function (e) {
+          if (!isInsideCircle(e)) {
+            e.stopPropagation();
+            e.preventDefault();
+          }
+        }, true);
+      });
+
+      window.addEventListener('resize', function () {
+        var w = container.offsetWidth;
+        globe.width(w).height(w);
+      });
     })();
   </script>
 
