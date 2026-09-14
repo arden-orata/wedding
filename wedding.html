@@ -589,15 +589,15 @@
 
     .star {
       position: absolute;
-      border-radius: 50%;
       background: #fff;
       opacity: 0;
+      clip-path: polygon(50% 0%, 53% 43%, 100% 50%, 53% 57%, 50% 100%, 47% 57%, 0% 50%, 47% 43%);
       animation: twinkle var(--dur) ease-in-out var(--delay) infinite;
     }
 
     @keyframes twinkle {
-      0%, 100% { opacity: 0; }
-      50% { opacity: var(--peak); }
+      0%, 100% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: var(--peak); transform: scale(1); }
     }
   </style>
 </head>
@@ -671,19 +671,31 @@
     (function() {
       var c = document.getElementById('stars-container');
       if (!c) return;
-      for (var i = 0; i < 25; i++) {
+      function makeStar(left, top, size, dur, delay, peak) {
         var s = document.createElement('div');
         s.className = 'star';
-        var size = (Math.random() * 1.5 + 0.8) + 'px';
-        s.style.width = size;
-        s.style.height = size;
-        s.style.left = (Math.random() * 100) + '%';
-        s.style.top = (Math.random() * 100) + '%';
-        s.style.setProperty('--dur', (Math.random() * 4 + 4) + 's');
-        s.style.setProperty('--delay', (Math.random() * 6) + 's');
-        s.style.setProperty('--peak', (Math.random() * 0.3 + 0.4).toFixed(2));
+        s.style.width = size + 'px';
+        s.style.height = size + 'px';
+        s.style.left = left + '%';
+        s.style.top = top + '%';
+        s.style.setProperty('--dur', dur + 's');
+        s.style.setProperty('--delay', delay + 's');
+        s.style.setProperty('--peak', peak.toFixed(2));
         c.appendChild(s);
       }
+      for (var i = 0; i < 25; i++) {
+        makeStar(
+          Math.random() * 100,
+          Math.random() * 100,
+          Math.random() * 3 + 3,
+          Math.random() * 4 + 4,
+          Math.random() * 6,
+          Math.random() * 0.3 + 0.4
+        );
+      }
+      makeStar(8, 28, 5, 6, 1, 0.6);
+      makeStar(15, 22, 4, 7, 3, 0.5);
+      makeStar(5, 38, 4.5, 5.5, 0.5, 0.55);
     })();
   </script>
 
