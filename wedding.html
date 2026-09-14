@@ -261,18 +261,21 @@
       overflow: hidden;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
-      will-change: width, height;
+      will-change: width, height, background;
       transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
                   height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  background 0.3s ease,
                   box-shadow 0.3s ease;
     }
 
     .menu-dropdown.is-open {
       width: 16rem;
+      background: rgba(253,251,249,1);
       box-shadow: var(--shadow-card);
       cursor: default;
       transition: width 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
                   height 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+                  background 0.35s ease,
                   box-shadow 0.35s ease;
     }
 
