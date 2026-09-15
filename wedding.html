@@ -784,6 +784,47 @@
   </script>
 
   <script>
+    (function() {
+      var globe = document.getElementById('globe-container');
+      if (!globe) return;
+      var audio = new Audio('assets/audio/A sky full of stars.mp3');
+      audio.loop = true;
+      audio.volume = 0.3;
+      var playing = false;
+      var fadingOut = null;
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.95) {
+            if (fadingOut) { clearInterval(fadingOut); fadingOut = null; }
+            audio.volume = 0.3;
+            if (!playing) {
+              audio.play().then(function() { playing = true; }).catch(function() {});
+            }
+          } else if (playing) {
+            var vol = audio.volume;
+            fadingOut = setInterval(function() {
+              vol -= 0.015;
+              if (vol <= 0) {
+                clearInterval(fadingOut);
+                fadingOut = null;
+                audio.pause();
+                audio.currentTime = 0;
+                audio.volume = 0.3;
+                playing = false;
+              } else {
+                audio.volume = vol;
+              }
+            }, 50);
+          }
+        });
+      }, { threshold: [0, 0.95] });
+
+      observer.observe(globe);
+    })();
+  </script>
+
+  <script>
     (function () {
       var overlay  = document.getElementById('menu-overlay');
       var dropdown = document.getElementById('menu-dropdown');
