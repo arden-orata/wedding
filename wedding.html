@@ -672,6 +672,52 @@
       color: var(--color-black);
       margin-top: 0.3em;
     }
+
+    /* ── RSVP form ── */
+    .rsvp-form-row {
+      display: flex;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .rsvp-form-field {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 0.4rem;
+    }
+
+    .rsvp-form-field label {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(1rem, 2.4vw, 1.5rem);
+      letter-spacing: 0.06em;
+      color: var(--color-brown-dark);
+    }
+
+    .rsvp-form-field input {
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: clamp(0.85rem, 2.2vw, 1rem);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-black);
+      background: #ffffff;
+      border: 0.75px solid var(--color-border);
+      padding: 0.6rem 0.75rem;
+      outline: none;
+      width: 100%;
+      border-radius: var(--radius-sm);
+      -webkit-appearance: none;
+      appearance: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .rsvp-form-field input:focus {
+      border: 1.5px solid var(--color-brown);
+      box-shadow: var(--focus-ring);
+    }
   </style>
 </head>
 
@@ -736,7 +782,7 @@
   <section id="travel" class="test-section" style="background:#E5DDD4;justify-content:flex-start;align-items:flex-start;padding-top:1.35em;padding-left:1.35em"><span class="t-display" style="color:#b07858;letter-spacing:0.08em;font-weight:400;font-size:clamp(2.8rem,10.4vw,8.8rem)">Travel &amp; Accommodation</span></section>
   <section id="registry" class="test-section" style="background:#F2E8DC;flex-direction:column;justify-content:flex-start;align-items:flex-start;padding:1.35em 1.35em 4em"><span class="t-display" style="color:#b07858;letter-spacing:0.08em;font-weight:400">Registry</span><p class="t-body" style="color:var(--color-brown-dark);margin-top:1.5em;padding-right:0.5em">Your presence at our wedding is the greatest gift we could ask for, especially the journey many of you are making to celebrate with us. For those who have kindly asked, we've created a registry. Please know that we appreciate your love and support. Thank you <span style="font-size:0.67em">&#10084;</span></p><p class="t-label" style="color:var(--color-black);margin-top:2em;margin-bottom:0.8em">Italy Honeymoon Fund</p><div style="display:flex;flex-direction:column;align-items:flex-start;width:100%;margin-top:0.5em;padding-left:0.8em"><div style="height:clamp(1.76rem,4.95vw,2.42rem);display:flex;align-items:center"><img src="assets/images/Venmo.webp" alt="Venmo" style="height:clamp(1.6rem,4.5vw,2.2rem);width:auto;border-radius:6px"></div><div style="width:calc(100% - 0.8em);border-bottom:1px solid rgba(176,120,88,0.1);margin:0.715em 0"></div><div style="height:clamp(1.76rem,4.95vw,2.42rem);display:flex;align-items:center"><img src="assets/images/Paypal.webp" alt="PayPal" style="height:clamp(1.52rem,4.275vw,2.09rem);width:auto;border-radius:6px"></div><div style="width:calc(100% - 0.8em);border-bottom:1px solid rgba(176,120,88,0.1);margin:0.715em 0"></div><div style="height:clamp(1.76rem,4.95vw,2.42rem);display:flex;align-items:center"><img src="assets/images/Cashapp.png" alt="Cash App" style="height:clamp(1.76rem,4.95vw,2.42rem);width:auto;border-radius:6px"></div><div style="width:calc(100% - 0.8em);border-bottom:1px solid rgba(176,120,88,0.1);margin:0.715em 0"></div><div style="height:clamp(1.76rem,4.95vw,2.42rem);display:flex;align-items:center"><img src="assets/images/Zelle.png" alt="Zelle" style="height:clamp(1.4rem,3.8vw,1.9rem);width:auto;border-radius:6px"></div><div style="width:calc(100% - 0.8em);border-bottom:1px solid rgba(176,120,88,0.1);margin:0.715em 0"></div><div style="height:clamp(1.76rem,4.95vw,2.42rem);display:flex;align-items:center"><img src="assets/images/Paynow.png" alt="PayNow" style="height:clamp(1.18rem,3.317vw,1.622rem);width:auto;border-radius:0"></div><div style="width:calc(100% - 0.8em);border-bottom:1px solid rgba(176,120,88,0.1);margin:0.715em 0"></div><div style="height:clamp(1.76rem,4.95vw,2.42rem);display:flex;align-items:center"><img src="assets/images/Gcash.png" alt="GCash" style="height:clamp(1.76rem,4.95vw,2.42rem);width:auto;border-radius:6px"></div></div></section>
   <section id="faq" class="test-section" style="background:#fff;flex-direction:column;justify-content:flex-start;align-items:flex-start;padding:1.35em 1.35em 2em"><span class="t-display" style="color:#b07858;letter-spacing:0.08em;font-weight:400">FAQ</span><div style="width:100%;margin-top:0.585em"><details class="faq-item"><summary>Are kids welcome?</summary><div class="faq-answer"><p>Kids are welcome at the welcome dinner, ceremony, and cocktail hour. The dinner reception and evening party are adults-only. Let us know if you'd like help arranging babysitting.</p></div></details><details class="faq-item"><summary>Can I bring a plus one?</summary><div class="faq-answer"><p>We can only accommodate guests listed on your invitation.</p></div></details><details class="faq-item"><summary>Will events be indoors or outdoors?</summary><div class="faq-answer"><p>The Welcome Dinner at Akasa has both indoor and outdoor space. The ceremony, cocktail hour, and dinner reception at the Trowulan fountain area are outdoors, weather permitting. Flooring is mostly concrete with some tables on grass — plan footwear accordingly.</p></div></details><details class="faq-item"><summary>What's the weather, and what to pack?</summary><div class="faq-answer"><p>Bali is tropically warm year-round (27–31°C / 80–88°F). Bring breathable linen or cotton, sunscreen, a hat, portable fan, insect repellent, and sunglasses.</p></div></details><details class="faq-item"><summary>Cards, cash, and tipping?</summary><div class="faq-answer"><p>Visa/Mastercard work at most hotels, beach clubs, and sit-down restaurants. Carry small bills (IDR 20,000/50,000/100,000) for street vendors, markets, warungs, parking, temple entry, and driver tips. Tipping isn't mandatory, but 5–10% or rounding up is customary for drivers, guides, and service staff.</p></div></details><details class="faq-item"><summary>Getting around Bali?</summary><div class="faq-answer"><p><span class="faq-sub">1. Private car + driver</span> — best for day trips, groups, or multi-stop sightseeing. Book via your hotel, Klook, GetYourGuide, or BlueBird (metered taxi).</p><p><span class="faq-sub">2. Grab/Gojek</span> — fast ride-hailing for cars or motorbike taxis.</p><p><span class="faq-sub">3. Scooters</span> — common locally, but risky in heavy traffic unless you're experienced and hold an International Driving Permit. Helmets are legally required.</p><p>Avoid unmarked taxis that won't use the meter.</p></div></details><details class="faq-item"><summary>Top places to visit?</summary><div class="faq-answer"><p><span class="faq-sub">1. Uluwatu & the Bukit Peninsula (South)</span> — cliffs, surf breaks, sunset beach clubs (Savaya, Single Fin), Uluwatu Temple.</p><p><span class="faq-sub">2. Seminyak & Canggu (Southwest)</span> — dining, shopping, cafes, beach clubs (Potato Head, Finns).</p><p><span class="faq-sub">3. Ubud (Central)</span> — cultural heart; Tegallalang Rice Terraces, Sacred Monkey Forest, craft markets, sound healing, waterfall hikes.</p><p><span class="faq-sub">4. Nusa Penida & Nusa Lembongan</span> — 30–45 min speedboat from Sanur; Kelingking "T-Rex" Beach, manta ray snorkeling.</p><p><span class="faq-sub">5. North & East Bali (Sidemen, Amed, Munduk)</span> — quiet mountain views, rice fields, diving.</p></div></details><details class="faq-item"><summary>Cultural and religious etiquette?</summary><div class="faq-answer"><p>Cover shoulders and knees at temples (sarongs usually available to rent). Never sit higher than an officiating priest.</p><p>Step around daily flower/incense offerings on the ground — don't step on them.</p><p>Hand items to people with your right hand (the left is considered unclean).</p><p>Don't touch anyone's head, including children's. Point with your thumb or open hand, not your index finger.</p><p>Keep swimwear to beach/pool areas, and avoid public displays of anger.</p></div></details><details class="faq-item"><summary>Can I drink the tap water?</summary><div class="faq-answer"><p>No — drink filtered or bottled water only, including for brushing teeth if you have a sensitive stomach. Ice at established resorts/restaurants is made from purified water and is safe.</p></div></details><details class="faq-item"><summary>What power plug is used?</summary><div class="faq-answer"><p>Type C and Type F (round two-prong, European-style), 230V/50Hz. Bring a universal adapter.</p></div></details><details class="faq-item"><summary>Staying connected?</summary><div class="faq-answer"><p>An e-SIM is easiest — buy one online before you leave via Airalo or Holafly.</p></div></details><details class="faq-item"><summary>Still have questions?</summary><div class="faq-answer"><p>Join our Wedding WhatsApp Group for live updates and weekend coordination — drop any questions there.</p></div></details></div></section>
-  <section id="rsvp" class="test-section" style="background:#fdfbf9;justify-content:flex-start;align-items:flex-start;padding-top:1.35em;padding-left:1.35em"><span class="t-display" style="color:#b07858;letter-spacing:0.08em;font-weight:400">RSVP</span></section>
+  <section id="rsvp" class="test-section" style="background:#fdfbf9;flex-direction:column;justify-content:flex-start;align-items:flex-start;padding:1.35em 1.35em 2em"><span class="t-display" style="color:#b07858;letter-spacing:0.08em;font-weight:400">RSVP</span><div class="rsvp-form-row" style="margin-top:1.5em"><div class="rsvp-form-field"><label for="rsvp-firstname">First Name</label><input type="text" id="rsvp-firstname" name="firstname" autocomplete="given-name" inputmode="text" /></div><div class="rsvp-form-field"><label for="rsvp-lastname">Last Name</label><input type="text" id="rsvp-lastname" name="lastname" autocomplete="family-name" inputmode="text" /></div></div><button type="button" class="rsvp-btn" style="margin-top:1.5em;align-self:center">RSVP</button></section>
 
   </div>
 
