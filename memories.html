@@ -394,7 +394,7 @@
 
   <script>
     (function() {
-      var ENDPOINT = 'https://script.google.com/macros/s/AKfycbx4tyV4RIwQYKJD8vibqvUVXX-l-GDHYqCCg5U27BmoHINXty_tNoxnkbFh1AX0y9W9/exec';
+      var ENDPOINT = 'https://script.google.com/macros/s/AKfycbwaZhecUP_2f4DZJqV9jXWMl04RP19GmMBxbZyAISXw1WhvKTYe95jsljPgImZz6wPu/exec';
 
       function getDeviceId() {
         var id = localStorage.getItem('_did');
@@ -431,13 +431,11 @@
         return 'Other';
       }
 
-      localStorage.setItem('_visited_memories', 'Yes');
-
       function send(event, detail, geo) {
         var data = {
           event: event,
           detail: detail || '',
-          visitedMemories: 'Yes',
+          visitedMemories: '',
           deviceId: getDeviceId(),
           ip: geo ? geo.ip : '',
           city: geo ? geo.city : '',
