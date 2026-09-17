@@ -392,5 +392,74 @@
     })();
   </script>
 
+  <script>
+    (function() {
+      var ENDPOINT = 'https://script.google.com/macros/s/AKfycby2mym4u1ltYVd9iDmfBrL9u7hX5NeaymBBcNqP2sPBOtFKGHubLFtwkiWLV2b73hBQ/exec';
+
+      function getDeviceId() {
+        var id = localStorage.getItem('_did');
+        if (!id) { id = crypto.randomUUID(); localStorage.setItem('_did', id); }
+        return id;
+      }
+
+      function getDeviceType() {
+        var ua = navigator.userAgent;
+        if (/tablet|ipad|playbook|silk/i.test(ua)) return 'tablet';
+        if (/mobile|iphone|ipod|android.*mobile|windows phone/i.test(ua)) return 'mobile';
+        return 'desktop';
+      }
+
+      function getBrowser() {
+        var ua = navigator.userAgent;
+        if (ua.indexOf('CriOS') > -1) return 'Chrome iOS';
+        if (ua.indexOf('FxiOS') > -1) return 'Firefox iOS';
+        if (ua.indexOf('Edg') > -1) return 'Edge';
+        if (ua.indexOf('OPR') > -1 || ua.indexOf('Opera') > -1) return 'Opera';
+        if (ua.indexOf('Chrome') > -1) return 'Chrome';
+        if (ua.indexOf('Safari') > -1) return 'Safari';
+        if (ua.indexOf('Firefox') > -1) return 'Firefox';
+        return 'Other';
+      }
+
+      function getOS() {
+        var ua = navigator.userAgent;
+        if (ua.indexOf('iPhone') > -1 || ua.indexOf('iPad') > -1) return 'iOS';
+        if (ua.indexOf('Android') > -1) return 'Android';
+        if (ua.indexOf('Mac OS') > -1) return 'macOS';
+        if (ua.indexOf('Windows') > -1) return 'Windows';
+        if (ua.indexOf('Linux') > -1) return 'Linux';
+        return 'Other';
+      }
+
+      localStorage.setItem('_visited_memories', 'Yes');
+
+      function send(event, detail, geo) {
+        var data = {
+          event: event,
+          detail: detail || '',
+          visitedMemories: 'Yes',
+          deviceId: getDeviceId(),
+          ip: geo ? geo.ip : '',
+          city: geo ? geo.city : '',
+          region: geo ? geo.region : '',
+          country: geo ? geo.country_name : '',
+          deviceType: getDeviceType(),
+          browser: getBrowser(),
+          os: getOS(),
+          screen: screen.width + 'x' + screen.height,
+          language: navigator.language || '',
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || '',
+          referrer: document.referrer || ''
+        };
+        navigator.sendBeacon(ENDPOINT, JSON.stringify(data));
+      }
+
+      fetch('https://ipapi.co/json/')
+        .then(function(r) { return r.json(); })
+        .then(function(geo) { send('page_view', 'memories.html', geo); })
+        .catch(function() { send('page_view', 'memories.html', null); });
+    })();
+  </script>
+
 </body>
 </html>
