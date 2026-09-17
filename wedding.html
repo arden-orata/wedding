@@ -1173,14 +1173,22 @@
         new Image().src = ENDPOINT + '?data=' + encodeURIComponent(JSON.stringify(data));
       }
 
+      var rsvpLocked = false;
+
       fetch('https://ipapi.co/json/')
         .then(function(r) { return r.json(); })
         .then(function(geo) {
-          send('page_view', 'wedding.html', geo);
+          if (!sessionStorage.getItem('_pv')) {
+            send('page_view', 'wedding.html', geo);
+            sessionStorage.setItem('_pv', '1');
+          }
 
           var rsvpBtn = document.getElementById('rsvp-submit');
           if (rsvpBtn) {
             rsvpBtn.addEventListener('click', function() {
+              if (rsvpLocked) return;
+              rsvpLocked = true;
+              setTimeout(function() { rsvpLocked = false; }, 2000);
               var fn = document.getElementById('rsvp-firstname').value.trim();
               var ln = document.getElementById('rsvp-lastname').value.trim();
               send('rsvp_click', (fn || '') + ' ' + (ln || ''), geo);
@@ -1194,7 +1202,12 @@
             });
           }
         })
-        .catch(function() { send('page_view', 'wedding.html', null); });
+        .catch(function() {
+          if (!sessionStorage.getItem('_pv')) {
+            send('page_view', 'wedding.html', null);
+            sessionStorage.setItem('_pv', '1');
+          }
+        });
     })();
   </script>
 

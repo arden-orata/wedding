@@ -453,8 +453,18 @@
 
       fetch('https://ipapi.co/json/')
         .then(function(r) { return r.json(); })
-        .then(function(geo) { send('page_view', 'memories.html', geo); })
-        .catch(function() { send('page_view', 'memories.html', null); });
+        .then(function(geo) {
+          if (!sessionStorage.getItem('_pv_mem')) {
+            send('page_view', 'memories.html', geo);
+            sessionStorage.setItem('_pv_mem', '1');
+          }
+        })
+        .catch(function() {
+          if (!sessionStorage.getItem('_pv_mem')) {
+            send('page_view', 'memories.html', null);
+            sessionStorage.setItem('_pv_mem', '1');
+          }
+        });
     })();
   </script>
 
