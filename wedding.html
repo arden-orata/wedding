@@ -1170,16 +1170,13 @@
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || '',
           referrer: document.referrer || ''
         };
-        fetch(ENDPOINT + '?data=' + encodeURIComponent(JSON.stringify(data)), { mode: 'no-cors' });
+        new Image().src = ENDPOINT + '?data=' + encodeURIComponent(JSON.stringify(data));
       }
 
       fetch('https://ipapi.co/json/')
         .then(function(r) { return r.json(); })
         .then(function(geo) {
-          if (!sessionStorage.getItem('_pv')) {
-            send('page_view', 'wedding.html', geo);
-            sessionStorage.setItem('_pv', '1');
-          }
+          send('page_view', 'wedding.html', geo);
 
           var rsvpBtn = document.getElementById('rsvp-submit');
           if (rsvpBtn) {
@@ -1197,12 +1194,7 @@
             });
           }
         })
-        .catch(function() {
-          if (!sessionStorage.getItem('_pv')) {
-            send('page_view', 'wedding.html', null);
-            sessionStorage.setItem('_pv', '1');
-          }
-        });
+        .catch(function() { send('page_view', 'wedding.html', null); });
     })();
   </script>
 
