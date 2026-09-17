@@ -1157,7 +1157,6 @@
         var data = {
           event: event,
           detail: detail || '',
-          visitedMemories: '',
           deviceId: getDeviceId(),
           ip: geo ? geo.ip : '',
           city: geo ? geo.city : '',
@@ -1177,7 +1176,10 @@
       fetch('https://ipapi.co/json/')
         .then(function(r) { return r.json(); })
         .then(function(geo) {
-          send('page_view', 'wedding.html', geo);
+          if (!sessionStorage.getItem('_pv')) {
+            send('page_view', 'wedding.html', geo);
+            sessionStorage.setItem('_pv', '1');
+          }
 
           var rsvpBtn = document.getElementById('rsvp-submit');
           if (rsvpBtn) {
@@ -1195,7 +1197,12 @@
             });
           }
         })
-        .catch(function() { send('page_view', 'wedding.html', null); });
+        .catch(function() {
+          if (!sessionStorage.getItem('_pv')) {
+            send('page_view', 'wedding.html', null);
+            sessionStorage.setItem('_pv', '1');
+          }
+        });
     })();
   </script>
 
