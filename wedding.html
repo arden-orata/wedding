@@ -1116,7 +1116,7 @@
 
   <script>
     (function() {
-      var ENDPOINT = 'https://script.google.com/macros/s/AKfycbxgqRwAhUNAtnVbOpXBVRCcaxZpYCohxS0QSDrGNydoUmF4ueI16tTzBU3MM6hFTmhS/exec';
+      var ENDPOINT = 'https://script.google.com/macros/s/AKfycbzmg5Bly5G0DT4KggvgtFd_Qhn14cTW30lOkyJyTs7LdkB0pAN66YcrRpfJY8BkpWHg/exec';
 
       function getDeviceId() {
         var id = localStorage.getItem('_did');
@@ -1153,7 +1153,13 @@
         return 'Other';
       }
 
-      function send(event, detail, geo) {
+      function getConnection() {
+        var c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        if (!c) return '';
+        return c.effectiveType || '';
+      }
+
+      function send(event, detail, geo, extra) {
         var data = {
           event: event,
           detail: detail || '',
@@ -1166,18 +1172,63 @@
           browser: getBrowser(),
           os: getOS(),
           screen: screen.width + 'x' + screen.height,
+          pixelRatio: window.devicePixelRatio || '',
+          cpuCores: navigator.hardwareConcurrency || '',
+          connection: getConnection(),
           language: navigator.language || '',
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || '',
-          referrer: document.referrer || ''
+          referrer: document.referrer || '',
+          visibleTime: (extra && extra.visibleTime) || '',
+          deepestSection: (extra && extra.deepestSection) || ''
         };
         new Image().src = ENDPOINT + '?data=' + encodeURIComponent(JSON.stringify(data));
       }
 
       var rsvpLocked = false;
+      var visibleStart = Date.now();
+      var visibleTotal = 0;
+      var sectionOrder = ['our-story','the-wedding','day-1','day-2','travel','registry','faq','rsvp'];
+      var sectionNames = {'our-story':'Our Story','the-wedding':'The Wedding','day-1':'Day One','day-2':'Day Two','travel':'Travel','registry':'Registry','faq':'FAQ','rsvp':'RSVP'};
+      var deepestIndex = -1;
+      var deepestSection = '';
+
+      document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+          visibleTotal += Date.now() - visibleStart;
+        } else {
+          visibleStart = Date.now();
+        }
+      });
+
+      sectionOrder.forEach(function(id, i) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        var obs = new IntersectionObserver(function(entries) {
+          if (entries[0].isIntersecting && i > deepestIndex) {
+            deepestIndex = i;
+            deepestSection = sectionNames[id];
+          }
+        }, { threshold: 0.3 });
+        obs.observe(el);
+      });
+
+      function sendSessionEnd(geo) {
+        if (sessionStorage.getItem('_se')) return;
+        visibleTotal += Date.now() - visibleStart;
+        var secs = Math.round(visibleTotal / 1000);
+        var mins = Math.floor(secs / 60);
+        var rem = secs % 60;
+        var timeStr = mins + 'm ' + rem + 's';
+        send('session_end', 'wedding.html', geo, { visibleTime: timeStr, deepestSection: deepestSection });
+        sessionStorage.setItem('_se', '1');
+      }
+
+      var cachedGeo = null;
 
       fetch('https://ipapi.co/json/')
         .then(function(r) { return r.json(); })
         .then(function(geo) {
+          cachedGeo = geo;
           if (!sessionStorage.getItem('_pv')) {
             send('page_view', 'wedding.html', geo);
             sessionStorage.setItem('_pv', '1');
@@ -1208,6 +1259,13 @@
             sessionStorage.setItem('_pv', '1');
           }
         });
+
+      document.addEventListener('visibilitychange', function() {
+        if (document.hidden) sendSessionEnd(cachedGeo);
+      });
+      window.addEventListener('pagehide', function() {
+        sendSessionEnd(cachedGeo);
+      });
     })();
   </script>
 
