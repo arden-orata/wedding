@@ -231,6 +231,8 @@
 
     .rsvp-btn.is-loading {
       pointer-events: none;
+      min-width: 16rem;
+      min-height: 3rem;
     }
 
     .rsvp-spinner {
@@ -1419,7 +1421,7 @@
       }
 
       var cachedGeo = null;
-      var cachedGuests = [{ f: 'arden', l: 'orata' }];
+      var cachedGuests = [];
 
       fetch('https://ipapi.co/json/')
         .then(function(r) { return r.json(); })
@@ -1445,10 +1447,10 @@
             });
           }
 
-          // fetch(ENDPOINT + '?action=get_guestlist')
-          //   .then(function(r) { return r.json(); })
-          //   .then(function(result) { cachedGuests = result.guests || []; })
-          //   .catch(function() {});
+          fetch(ENDPOINT + '?action=get_guestlist')
+            .then(function(r) { return r.json(); })
+            .then(function(result) { cachedGuests = result.guests || []; })
+            .catch(function() {});
         })
         .catch(function() {
           if (!sessionStorage.getItem('_pv')) {
@@ -1670,14 +1672,16 @@
               .then(function(r) { return r.json(); })
               .then(function(result) {
                 if (result.success) {
-                  rsvpOptions.style.display = 'none';
-                  rsvpFields.style.display = 'none';
-                  rsvpBtn.style.display = 'none';
-                  rsvpHint.style.display = 'none';
-                  if (selected.value === 'Regretfully declines') {
-                    rsvpThankyou.innerHTML = 'Thank you for letting us know.<br>We’ll miss you!';
-                  }
-                  rsvpThankyou.style.display = 'block';
+                  setTimeout(function() {
+                    rsvpOptions.style.display = ‘none’;
+                    rsvpFields.style.display = ‘none’;
+                    rsvpBtn.style.display = ‘none’;
+                    rsvpHint.style.display = ‘none’;
+                    if (selected.value === ‘Regretfully declines’) {
+                      rsvpThankyou.innerHTML = ‘Thank you for letting us know.<br>We’ll miss you!’;
+                    }
+                    rsvpThankyou.style.display = ‘block’;
+                  }, 2000);
                 }
               })
               .catch(function() {
