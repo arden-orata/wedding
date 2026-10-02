@@ -1459,6 +1459,7 @@
           }
         });
 
+      alert('DEBUG 1: RSVP script starting');
       var rsvpBtn = document.getElementById('rsvp-submit');
       var rsvpHint = document.getElementById('rsvp-hint');
       var rsvpOptions = document.getElementById('rsvp-options');
@@ -1509,6 +1510,7 @@
       }
 
       function updateRsvpBtn() {
+        alert('DEBUG 3: updateRsvpBtn fired, stage=' + rsvpStage);
         if (rsvpStage !== 'lookup') {
           rsvpStage = 'lookup';
           rsvpLocked = false;
@@ -1524,6 +1526,7 @@
       }
       fnInput.addEventListener('input', updateRsvpBtn);
       lnInput.addEventListener('input', updateRsvpBtn);
+      alert('DEBUG 2: input listeners registered');
 
       rsvpPhone.addEventListener('input', function() {
         this.value = this.value.replace(/\D/g, '');
