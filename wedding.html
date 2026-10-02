@@ -1459,7 +1459,6 @@
           }
         });
 
-      alert('DEBUG 1: RSVP script starting');
       var rsvpBtn = document.getElementById('rsvp-submit');
       var rsvpHint = document.getElementById('rsvp-hint');
       var rsvpOptions = document.getElementById('rsvp-options');
@@ -1510,7 +1509,6 @@
       }
 
       function updateRsvpBtn() {
-        alert('DEBUG 3: updateRsvpBtn fired, stage=' + rsvpStage);
         if (rsvpStage !== 'lookup') {
           rsvpStage = 'lookup';
           rsvpLocked = false;
@@ -1526,7 +1524,6 @@
       }
       fnInput.addEventListener('input', updateRsvpBtn);
       lnInput.addEventListener('input', updateRsvpBtn);
-      alert('DEBUG 2: input listeners registered');
 
       rsvpPhone.addEventListener('input', function() {
         this.value = this.value.replace(/\D/g, '');
@@ -1676,14 +1673,14 @@
               .then(function(result) {
                 if (result.success) {
                   setTimeout(function() {
-                    rsvpOptions.style.display = ‘none’;
-                    rsvpFields.style.display = ‘none’;
-                    rsvpBtn.style.display = ‘none’;
-                    rsvpHint.style.display = ‘none’;
-                    if (selected.value === ‘Regretfully declines’) {
-                      rsvpThankyou.innerHTML = ‘Thank you for letting us know.<br>We’ll miss you!’;
+                    rsvpOptions.style.display = 'none';
+                    rsvpFields.style.display = 'none';
+                    rsvpBtn.style.display = 'none';
+                    rsvpHint.style.display = 'none';
+                    if (selected.value === 'Regretfully declines') {
+                      rsvpThankyou.innerHTML = "Thank you for letting us know.<br>We'll miss you!";
                     }
-                    rsvpThankyou.style.display = ‘block’;
+                    rsvpThankyou.style.display = 'block';
                   }, 2000);
                 }
               })
