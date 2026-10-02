@@ -1517,6 +1517,8 @@
           rsvpFields.style.display = 'none';
           document.querySelectorAll('input[name="rsvp-response"]').forEach(function(r) { r.checked = false; });
           rsvpBtn.classList.remove('is-loading');
+          rsvpBtn.style.width = '';
+          rsvpBtn.style.height = '';
           rsvpBtn.innerHTML = 'RSVP';
         }
         var hasName = fnInput.value.trim() && lnInput.value.trim();
@@ -1637,18 +1639,21 @@
               if (checkGuestLocal(fn, ln)) { handleGuestFound(); }
               else { handleGuestNotFound(); }
             } else {
-              rsvpBtn.textContent = '';
+              rsvpBtn.style.width = rsvpBtn.offsetWidth + 'px';
+              rsvpBtn.style.height = rsvpBtn.offsetHeight + 'px';
               rsvpBtn.innerHTML = '<span class="rsvp-spinner"></span>';
               rsvpBtn.classList.add('is-loading');
               fetch(ENDPOINT + '?action=check_guest&firstName=' + encodeURIComponent(fn) + '&lastName=' + encodeURIComponent(ln))
                 .then(function(r) { return r.json(); })
                 .then(function(result) {
                   rsvpBtn.classList.remove('is-loading');
+                  rsvpBtn.style.width = '';
+                  rsvpBtn.style.height = '';
                   rsvpBtn.innerHTML = 'RSVP';
                   if (result.found) { handleGuestFound(); }
                   else { handleGuestNotFound(); }
                 })
-                .catch(function() { rsvpBtn.classList.remove('is-loading'); rsvpBtn.innerHTML = 'RSVP'; });
+                .catch(function() { rsvpBtn.classList.remove('is-loading'); rsvpBtn.style.width = ''; rsvpBtn.style.height = ''; rsvpBtn.innerHTML = 'RSVP'; });
             }
           } else if (rsvpStage === 'submit') {
             var selected = document.querySelector('input[name="rsvp-response"]:checked');
@@ -1659,7 +1664,8 @@
             }
             rsvpLocked = true;
             setRsvpActive(false);
-            rsvpBtn.textContent = '';
+            rsvpBtn.style.width = rsvpBtn.offsetWidth + 'px';
+            rsvpBtn.style.height = rsvpBtn.offsetHeight + 'px';
             rsvpBtn.innerHTML = '<span class="rsvp-spinner"></span>';
             rsvpBtn.classList.add('is-loading');
             var email = rsvpEmail.value.trim();
@@ -1686,6 +1692,8 @@
               })
               .catch(function() {
                 rsvpBtn.classList.remove('is-loading');
+                rsvpBtn.style.width = '';
+                rsvpBtn.style.height = '';
                 rsvpBtn.innerHTML = 'RSVP';
                 setRsvpActive(true);
                 rsvpLocked = false;
