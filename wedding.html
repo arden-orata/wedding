@@ -1916,6 +1916,7 @@
             var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
             var plusOneRadio = document.querySelector('input[name="rsvp-plusone"]:checked');
             var hasPlusOne = guestHasPlusOne && plusOneRadio && plusOneRadio.value === 'Yes';
+            var plusOneAnswer = guestHasPlusOne ? (plusOneRadio ? plusOneRadio.value : 'NA') : 'NA';
             var plusOneFn = '';
             var plusOneLn = '';
             var plusOneDietaryStr = '';
@@ -1926,7 +1927,7 @@
               plusOneDietaryStr = poDietary.indexOf('other') > -1 ? poDietary.filter(function(d) { return d !== 'other'; }).concat([rsvpPlusOneDietaryOther.value.trim()]).join(', ') : poDietary.join(', ');
             }
             try { send('rsvp_response', fn + ' ' + ln + ' — ' + selected.value, cachedGeo); } catch(e) {}
-            fetch(ENDPOINT + '?action=rsvp_response&firstName=' + encodeURIComponent(fn) + '&lastName=' + encodeURIComponent(ln) + '&response=' + encodeURIComponent(selected.value) + '&email=' + encodeURIComponent(email) + '&dialCode=' + encodeURIComponent(dialCode) + '&phone=' + encodeURIComponent(phoneNum) + '&dietary=' + encodeURIComponent(dietaryStr) + '&timezone=' + encodeURIComponent(tz) + '&plusOneFn=' + encodeURIComponent(plusOneFn) + '&plusOneLn=' + encodeURIComponent(plusOneLn) + '&plusOneDietary=' + encodeURIComponent(plusOneDietaryStr) + '&deviceId=' + encodeURIComponent(getDeviceId()))
+            fetch(ENDPOINT + '?action=rsvp_response&firstName=' + encodeURIComponent(fn) + '&lastName=' + encodeURIComponent(ln) + '&response=' + encodeURIComponent(selected.value) + '&email=' + encodeURIComponent(email) + '&dialCode=' + encodeURIComponent(dialCode) + '&phone=' + encodeURIComponent(phoneNum) + '&dietary=' + encodeURIComponent(dietaryStr) + '&timezone=' + encodeURIComponent(tz) + '&plusOneAnswer=' + encodeURIComponent(plusOneAnswer) + '&plusOneFn=' + encodeURIComponent(plusOneFn) + '&plusOneLn=' + encodeURIComponent(plusOneLn) + '&plusOneDietary=' + encodeURIComponent(plusOneDietaryStr) + '&deviceId=' + encodeURIComponent(getDeviceId()))
               .then(function(r) { return r.json(); })
               .then(function(result) {
                 if (result.success) {

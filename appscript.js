@@ -13,7 +13,7 @@ function doGet(e) {
   }
 
   if (params.action === 'rsvp_response') {
-    return rsvpResponse(params.firstName, params.lastName, params.response, params.email, params.timezone, params.dialCode, params.phone, params.dietary, params.plusOneFn, params.plusOneLn, params.plusOneDietary, params.deviceId);
+    return rsvpResponse(params.firstName, params.lastName, params.response, params.email, params.timezone, params.dialCode, params.phone, params.dietary, params.plusOneAnswer, params.plusOneFn, params.plusOneLn, params.plusOneDietary, params.deviceId);
   }
 
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Logs');
@@ -81,13 +81,13 @@ function checkGuest(firstName, lastName) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-function rsvpResponse(firstName, lastName, response, email, timezone, dialCode, phone, dietary, plusOneFn, plusOneLn, plusOneDietary, deviceId) {
+function rsvpResponse(firstName, lastName, response, email, timezone, dialCode, phone, dietary, plusOneAnswer, plusOneFn, plusOneLn, plusOneDietary, deviceId) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('RSVP');
   var now = new Date();
   var date = Utilities.formatDate(now, Session.getScriptTimeZone(), 'yyyy-MM-dd');
   var time = Utilities.formatDate(now, Session.getScriptTimeZone(), 'HH:mm:ss');
 
-  sheet.appendRow([date, time, timezone || '', firstName, lastName, response, email || '', dialCode || '', phone || '', dietary || '', plusOneFn || '', plusOneLn || '', plusOneDietary || '', deviceId || '']);
+  sheet.appendRow([date, time, timezone || '', firstName, lastName, response, email || '', dialCode || '', phone || '', dietary || '', plusOneAnswer || 'NA', plusOneFn || '', plusOneLn || '', plusOneDietary || '', deviceId || '']);
 
   try {
     sendConfirmationEmail({
