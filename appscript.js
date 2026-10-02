@@ -13,7 +13,7 @@ function doGet(e) {
   }
 
   if (params.action === 'rsvp_response') {
-    return rsvpResponse(params.firstName, params.lastName, params.response, params.email, params.timezone, params.phone, params.dietary);
+    return rsvpResponse(params.firstName, params.lastName, params.response, params.email, params.timezone, params.dialCode, params.phone, params.dietary);
   }
 
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Logs');
@@ -79,13 +79,13 @@ function checkGuest(firstName, lastName) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-function rsvpResponse(firstName, lastName, response, email, timezone, phone, dietary) {
+function rsvpResponse(firstName, lastName, response, email, timezone, dialCode, phone, dietary) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('RSVP');
   var now = new Date();
   var date = Utilities.formatDate(now, Session.getScriptTimeZone(), 'yyyy-MM-dd');
   var time = Utilities.formatDate(now, Session.getScriptTimeZone(), 'HH:mm:ss');
 
-  sheet.appendRow([date, time, timezone || '', firstName, lastName, response, email || '', phone || '', dietary || '']);
+  sheet.appendRow([date, time, timezone || '', firstName, lastName, response, email || '', dialCode || '', phone || '', dietary || '']);
 
   try {
     sendConfirmationEmail({
