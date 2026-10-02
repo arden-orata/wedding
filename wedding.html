@@ -1774,6 +1774,7 @@
               return;
             }
             rsvpLocked = true;
+            rsvpBtn.disabled = true;
             setRsvpActive(false);
             rsvpBtn.style.width = rsvpBtn.offsetWidth + 'px';
             rsvpBtn.style.height = rsvpBtn.offsetHeight + 'px';
@@ -1811,6 +1812,7 @@
                   rsvpBtn.innerHTML = 'RSVP';
                   setRsvpActive(true);
                   lockFields(false);
+                  rsvpBtn.disabled = false;
                   rsvpLocked = false;
                 }
               })
@@ -1821,6 +1823,7 @@
                 rsvpBtn.innerHTML = 'RSVP';
                 setRsvpActive(true);
                 lockFields(false);
+                rsvpBtn.disabled = false;
                 rsvpLocked = false;
               });
           }
