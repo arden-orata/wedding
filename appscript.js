@@ -1,5 +1,5 @@
 var EMAIL_FROM_NAME = 'Elisa & Arden';
-var EMAIL_SUBJECT   = 'We received your RSVP 🌿';
+var EMAIL_SUBJECT   = 'We received your RSVP ❤️';
 
 function doGet(e) {
   var params = e.parameter;
