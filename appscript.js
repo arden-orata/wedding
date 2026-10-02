@@ -146,7 +146,7 @@ function buildAttendingEmail(data, firstName) {
   h.push('<p style="margin:12px 0 0;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;color:#fff;font-family:Helvetica Neue,Arial,sans-serif;">AUGUST 20–21, 2027</p>');
   h.push('<p style="margin:4px 0 0;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;color:#fff;font-family:Helvetica Neue,Arial,sans-serif;">JUMEIRAH BALI, INDONESIA</p>');
   h.push('</td></tr>');
-  h.push('<tr><td style="padding:40px 32px 32px;">');
+  h.push('<tr><td style="padding:32px 32px 32px;">');
   var greeting = plusOneName ? ('Dear ' + firstName + ' &amp; ' + (data.plusOneFn || plusOneName) + ',') : ('Dear ' + firstName + ',');
   h.push('<p style="margin:0 0 16px;font-size:16px;color:#3a3028;">' + greeting + '</p>');
   h.push('<p style="margin:0 0 24px;font-size:15px;line-height:1.7;color:#3a3028;">We\'re so happy you\'ll be joining us! Your RSVP has been received and we can\'t wait to celebrate with you in Bali.</p>');
