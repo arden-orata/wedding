@@ -1738,7 +1738,8 @@
             rsvpBtn.innerHTML = '<span class="rsvp-spinner"></span>';
             rsvpBtn.classList.add('is-loading');
             var email = rsvpEmail.value.trim();
-            var phone = '+' + iti.getSelectedCountryData().dialCode + ' ' + rsvpPhone.value.trim();
+            var phoneNum = rsvpPhone.value.trim();
+            var phone = phoneNum ? '+' + (iti.getSelectedCountryData().dialCode || '1') + ' ' + phoneNum : '';
             var dietary = getSelectedDietary();
             var dietaryStr = dietary.indexOf('other') > -1 ? dietary.filter(function(d) { return d !== 'other'; }).concat([rsvpDietaryOther.value.trim()]).join(', ') : dietary.join(', ');
             var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
@@ -1758,6 +1759,13 @@
                     }
                     rsvpThankyou.style.display = 'block';
                   }, 2000);
+                } else {
+                  rsvpBtn.classList.remove('is-loading');
+                  rsvpBtn.style.width = '';
+                  rsvpBtn.style.height = '';
+                  rsvpBtn.innerHTML = 'RSVP';
+                  setRsvpActive(true);
+                  rsvpLocked = false;
                 }
               })
               .catch(function() {
