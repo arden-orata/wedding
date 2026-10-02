@@ -30,10 +30,17 @@ Use these existing classes — do not create new ones unless necessary.
 
 | Class | Used for | Font | Size |
 |-------|----------|------|------|
-| `.t-display` | SAVE, DATE, RSVP, day headings | Serif 300 | `clamp(3.5rem, 13vw, 11rem)` |
-| `.t-names` | ELISA & ARDEN, event titles | Serif 600 Uppercase | `clamp(1.6rem, 5.2vw, 3.6rem)` |
-| `.t-label` | VENUE, SCHEDULE, date line, radio labels | Sans 400 Uppercase | `clamp(1rem, 2.6vw, 1.4rem)` |
-| `.t-body` | Italic captions, location, body copy | Serif 500 Italic | `clamp(1rem, 2.4vw, 1.5rem)` |
+| `.t-display` | SAVE, DATE, RSVP, day headings | Serif 300 | `var(--font-size-display)` |
+| `.t-names` | ELISA & ARDEN, event titles | Serif 600 Uppercase | `var(--font-size-heading)` |
+| `.t-label` | VENUE, SCHEDULE, date line, radio labels | Sans 400 Uppercase | `var(--font-size-body)` |
+| `.t-body` | Italic captions, location, body copy | Serif 500 Italic | `var(--font-size-body)` |
+
+Font size variables:
+```css
+--font-size-display:    clamp(3.5rem, 13vw, 11rem);
+--font-size-heading:    clamp(1.6rem, 5.2vw, 3.6rem);
+--font-size-body:       clamp(1.1rem, 2.86vw, 1.54rem);
+```
 
 ---
 
