@@ -1426,7 +1426,11 @@
           visibleTime: (extra && extra.visibleTime) || '',
           deepestSection: (extra && extra.deepestSection) || ''
         };
-        new Image().src = ENDPOINT + '?data=' + encodeURIComponent(JSON.stringify(data));
+        if (extra && extra.beacon) {
+          navigator.sendBeacon(ENDPOINT, JSON.stringify(data));
+        } else {
+          new Image().src = ENDPOINT + '?data=' + encodeURIComponent(JSON.stringify(data));
+        }
       }
 
       var rsvpLocked = false;
@@ -1464,7 +1468,7 @@
         var mins = Math.floor(secs / 60);
         var rem = secs % 60;
         var timeStr = mins + 'm ' + rem + 's';
-        send('session_end', 'wedding.html', geo, { visibleTime: timeStr, deepestSection: deepestSection });
+        send('session_end', 'wedding.html', geo, { visibleTime: timeStr, deepestSection: deepestSection, beacon: true });
         sessionStorage.setItem('_se', '1');
       }
 

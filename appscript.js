@@ -1,6 +1,14 @@
 var EMAIL_FROM_NAME = 'Elisa & Arden';
 var EMAIL_SUBJECT   = 'We received your RSVP ❤️';
 
+function doPost(e) {
+  var data = JSON.parse(e.postData.contents);
+  logEvent(data);
+  return ContentService
+    .createTextOutput(JSON.stringify({ status: 'ok' }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
 function doGet(e) {
   var params = e.parameter;
 
@@ -16,8 +24,16 @@ function doGet(e) {
     return rsvpResponse(params.firstName, params.lastName, params.response, params.email, params.timezone, params.dialCode, params.phone, params.dietary, params.plusOneAnswer, params.plusOneFn, params.plusOneLn, params.plusOneDietary, params.deviceId);
   }
 
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Logs');
   var data = JSON.parse(params.data);
+  logEvent(data);
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ status: 'ok' }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function logEvent(data) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Logs');
 
   if (sheet.getLastRow() === 0) {
     sheet.appendRow([
@@ -45,10 +61,6 @@ function doGet(e) {
     data.language || '', data.timezone || '', data.referrer || '',
     data.visibleTime || '', data.deepestSection || ''
   ]);
-
-  return ContentService
-    .createTextOutput(JSON.stringify({ status: 'ok' }))
-    .setMimeType(ContentService.MimeType.JSON);
 }
 
 function getGuestlist() {
