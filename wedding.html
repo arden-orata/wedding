@@ -1001,6 +1001,35 @@
       color: var(--color-black);
     }
 
+    .rsvp-form-field input:disabled {
+      color: var(--color-placeholder);
+    }
+    .rsvp-radio:has(input:disabled) {
+      pointer-events: none;
+    }
+    .rsvp-radio:has(input:disabled) .rsvp-radio__label {
+      color: var(--color-placeholder);
+    }
+    .rsvp-radio:has(input:disabled) .rsvp-radio__circle {
+      border-color: var(--color-placeholder);
+    }
+    .rsvp-radio input:disabled:checked + .rsvp-radio__circle::after {
+      background: var(--color-placeholder);
+    }
+    .rsvp-check:has(input:disabled) {
+      pointer-events: none;
+    }
+    .rsvp-check:has(input:disabled) .rsvp-check__label {
+      color: var(--color-placeholder);
+    }
+    .rsvp-check:has(input:disabled) .rsvp-check__box {
+      border-color: var(--color-placeholder);
+    }
+    .rsvp-check input:disabled:checked + .rsvp-check__box {
+      background: var(--color-placeholder);
+      border-color: var(--color-placeholder);
+    }
+
     .rsvp-dietary-other-wrap {
       display: none;
       margin-top: 0.75em;
