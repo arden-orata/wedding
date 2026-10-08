@@ -1044,6 +1044,8 @@
     .iti__selected-flag:hover,
     .iti__selected-flag:focus { background: #f5ede8; }
     .iti__flag-container { border-right: 0.75px solid var(--color-border); }
+    .iti:has(input:disabled) .iti__selected-dial-code { color: var(--color-placeholder); }
+    .iti:has(input:disabled) .iti__flag-container { pointer-events: none; }
     .iti__country.iti__highlight { background: #f5ede8; }
     #rsvp-phone { border-radius: 10px; }
   </style>

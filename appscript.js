@@ -164,18 +164,18 @@ function buildAttendingEmail(data, firstName) {
   h.push('<p style="margin:0 0 24px;font-size:15px;line-height:1.7;color:#3a3028;">We\'re so happy you\'ll be joining us! Your RSVP has been received and we can\'t wait to celebrate with you in Bali.</p>');
   h.push('<table cellpadding="0" cellspacing="0" style="margin:0 0 24px 20px;">');
   h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:top;">Name</td>');
-  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;">' + data.firstname + ' ' + data.lastname + '</td></tr>');
+  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:top;">' + data.firstname + ' ' + data.lastname + '</td></tr>');
   h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:top;">Attending</td>');
-  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;">Yes</td></tr>');
+  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:top;">Yes</td></tr>');
   h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:top;">Mobile</td>');
-  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;">' + (data.dialCode || '') + ' ' + (data.phone || '') + '</td></tr>');
+  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:top;">' + (data.dialCode || '') + ' ' + (data.phone || '') + '</td></tr>');
   h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:top;">Dietary</td>');
-  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;">' + dietary + '</td></tr>');
+  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:top;">' + dietary + '</td></tr>');
   if (plusOneName) {
     h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:top;">Plus One</td>');
-    h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;">' + plusOneName + '</td></tr>');
+    h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:top;">' + plusOneName + '</td></tr>');
     h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:top;">Guest Dietary</td>');
-    h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;">' + (plusOneDietary || 'none') + '</td></tr>');
+    h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:top;">' + (plusOneDietary || 'none') + '</td></tr>');
   }
   h.push('</table>');
   h.push('<p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:#3a3028;">If any of the details above need updating, simply submit another RSVP and we\'ll use your latest response.</p>');
