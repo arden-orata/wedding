@@ -150,7 +150,7 @@ function buildAttendingEmail(data, firstName) {
   var h = [];
   h.push('<!DOCTYPE html>');
   h.push('<html><body style="margin:0;padding:0;background:#ffffff;font-family:Georgia,serif;">');
-  h.push('<table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;padding:40px 20px;">');
+  h.push('<table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;padding:20px 20px 40px;">');
   h.push('<tr><td align="center">');
   h.push('<table width="560" cellpadding="0" cellspacing="0" style="background:#f5efe9;border-radius:10px;overflow:hidden;">');
   h.push('<tr><td align="center" style="background:#c8967a;padding:40px 40px 32px;">');
@@ -194,7 +194,7 @@ function buildDecliningEmail(firstName) {
   var h = [];
   h.push('<!DOCTYPE html>');
   h.push('<html><body style="margin:0;padding:0;background:#ffffff;font-family:Georgia,serif;">');
-  h.push('<table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;padding:40px 20px;">');
+  h.push('<table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;padding:20px 20px 40px;">');
   h.push('<tr><td align="center">');
   h.push('<table width="560" cellpadding="0" cellspacing="0" style="background:#f5efe9;border-radius:10px;overflow:hidden;">');
   h.push('<tr><td align="center" style="background:#c8967a;padding:40px 40px 32px;">');
