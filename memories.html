@@ -402,6 +402,12 @@
         return id;
       }
 
+      var blockedDevices = ['5845dffe-40c8-4d46-b323-0079e19a3962','c407593a-ae80-4ad3-9cad-38d51b0efdba','821957f5-7470-4f21-b0af-da8567f87f6e'];
+      if (blockedDevices.indexOf(getDeviceId()) > -1) {
+        window.location.replace('wedding.html');
+        return;
+      }
+
       function getDeviceType() {
         var ua = navigator.userAgent;
         if (/tablet|ipad|playbook|silk/i.test(ua)) return 'tablet';

@@ -1588,7 +1588,9 @@
           var memoriesLink = document.querySelector('a[href="memories"]');
           if (memoriesLink) {
             var isSG = (geo.city || '').toLowerCase() === 'singapore' || (geo.country_name || '').toLowerCase() === 'singapore';
-            if (!isSG) {
+            var blockedDevices = ['5845dffe-40c8-4d46-b323-0079e19a3962','c407593a-ae80-4ad3-9cad-38d51b0efdba','821957f5-7470-4f21-b0af-da8567f87f6e'];
+            var isBlocked = blockedDevices.indexOf(getDeviceId()) > -1;
+            if (!isSG && !isBlocked) {
               memoriesLink.style.display = 'inline-flex';
             }
             if (isSG) {
