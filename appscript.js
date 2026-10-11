@@ -21,7 +21,7 @@ function doGet(e) {
   }
 
   if (params.action === 'rsvp_response') {
-    return rsvpResponse(params.firstName, params.lastName, params.response, params.email, params.timezone, params.dialCode, params.phone, params.dietary, params.plusOneAnswer, params.plusOneFn, params.plusOneLn, params.plusOneDietary, params.deviceId);
+    return rsvpResponse(params.firstName, params.lastName, params.response, params.email, params.timezone, params.dialCode, params.phone, params.dietary, params.plusOneAnswer, params.plusOneFn, params.plusOneLn, params.plusOneDietary, params.bringingKids, params.joiningDinner, params.plusOneJoiningDinner, params.deviceId);
   }
 
   var data = JSON.parse(params.data);
@@ -93,13 +93,13 @@ function checkGuest(firstName, lastName) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-function rsvpResponse(firstName, lastName, response, email, timezone, dialCode, phone, dietary, plusOneAnswer, plusOneFn, plusOneLn, plusOneDietary, deviceId) {
+function rsvpResponse(firstName, lastName, response, email, timezone, dialCode, phone, dietary, plusOneAnswer, plusOneFn, plusOneLn, plusOneDietary, bringingKids, joiningDinner, plusOneJoiningDinner, deviceId) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('RSVP');
   var now = new Date();
   var date = Utilities.formatDate(now, Session.getScriptTimeZone(), 'yyyy-MM-dd');
   var time = Utilities.formatDate(now, Session.getScriptTimeZone(), 'HH:mm:ss');
 
-  sheet.appendRow([date, time, timezone || '', firstName, lastName, response, email || '', dialCode || '', phone || '', dietary || '', plusOneAnswer || 'NA', plusOneFn || '', plusOneLn || '', plusOneDietary || '', deviceId || '']);
+  sheet.appendRow([date, time, timezone || '', firstName, lastName, response, email || '', dialCode || '', phone || '', dietary || '', plusOneAnswer || 'NA', plusOneFn || '', plusOneLn || '', plusOneDietary || '', bringingKids || 'NA', joiningDinner || '', plusOneJoiningDinner || '', deviceId || '']);
 
   try {
     sendConfirmationEmail({
@@ -112,7 +112,10 @@ function rsvpResponse(firstName, lastName, response, email, timezone, dialCode, 
       dietary: dietary || '',
       plusOneFn: plusOneFn || '',
       plusOneLn: plusOneLn || '',
-      plusOneDietary: plusOneDietary || ''
+      plusOneDietary: plusOneDietary || '',
+      bringingKids: bringingKids || '',
+      joiningDinner: joiningDinner || '',
+      plusOneJoiningDinner: plusOneJoiningDinner || ''
     });
   } catch (err) {
     console.error('Email error: ' + err.message);
@@ -163,19 +166,29 @@ function buildAttendingEmail(data, firstName) {
   h.push('<p style="margin:0 0 16px;font-size:16px;color:#3a3028;">' + greeting + '</p>');
   h.push('<p style="margin:0 0 24px;font-size:15px;line-height:1.7;color:#3a3028;">We\'re so happy you\'ll be joining us! Your RSVP has been received and we can\'t wait to celebrate with you in Bali.</p>');
   h.push('<table cellpadding="0" cellspacing="0" style="margin:0 0 24px 20px;">');
-  h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:top;">Name</td>');
-  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:top;">' + data.firstname + ' ' + data.lastname + '</td></tr>');
-  h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:top;">Attending</td>');
-  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:top;">Yes</td></tr>');
-  h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:top;">Mobile</td>');
-  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:top;">' + (data.dialCode || '') + ' ' + (data.phone || '') + '</td></tr>');
-  h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:top;">Dietary</td>');
-  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:top;">' + dietary + '</td></tr>');
+  h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Name</td>');
+  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + data.firstname + ' ' + data.lastname + '</td></tr>');
+  h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Attending</td>');
+  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">Yes</td></tr>');
+  h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Mobile</td>');
+  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + (data.dialCode || '') + ' ' + (data.phone || '') + '</td></tr>');
+  h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Dietary</td>');
+  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + dietary + '</td></tr>');
   if (plusOneName) {
-    h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:top;">Plus One</td>');
-    h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:top;">' + plusOneName + '</td></tr>');
-    h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:top;">Guest Dietary</td>');
-    h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:top;">' + (plusOneDietary || 'none') + '</td></tr>');
+    h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Plus One</td>');
+    h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + plusOneName + '</td></tr>');
+    h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Guest Dietary</td>');
+    h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + (plusOneDietary || 'none') + '</td></tr>');
+  }
+  if (data.bringingKids === 'Yes') {
+    h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Bringing Kids</td>');
+    h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">Yes</td></tr>');
+    h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Dinner Reception</td>');
+    h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + (data.joiningDinner === 'Yes' ? 'Yes' : 'No') + '</td></tr>');
+    if (plusOneName && data.plusOneJoiningDinner) {
+      h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Guest Dinner</td>');
+      h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + (data.plusOneJoiningDinner === 'Yes' ? 'Yes' : 'No') + '</td></tr>');
+    }
   }
   h.push('</table>');
   h.push('<p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:#3a3028;">If any of the details above need updating, simply submit another RSVP and we\'ll use your latest response.</p>');
