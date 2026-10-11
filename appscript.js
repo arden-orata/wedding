@@ -155,7 +155,7 @@ function buildAttendingEmail(data, firstName) {
   h.push('<html><body style="margin:0;padding:0;background:#ffffff;font-family:Georgia,serif;">');
   h.push('<table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;padding:20px 20px 40px;">');
   h.push('<tr><td align="center">');
-  h.push('<table width="560" cellpadding="0" cellspacing="0" style="background:#f5efe9;border-radius:10px;overflow:hidden;">');
+  h.push('<table width="600" cellpadding="0" cellspacing="0" style="background:#f5efe9;border-radius:10px;overflow:hidden;">');
   h.push('<tr><td align="center" style="background:#c8967a;padding:40px 40px 32px;">');
   h.push('<h1 style="margin:0;font-size:32px;font-weight:400;color:#fff;font-family:Georgia,serif;">Elisa &amp; Arden</h1>');
   h.push('<p style="margin:12px 0 0;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;color:#fff;font-family:Helvetica Neue,Arial,sans-serif;">AUGUST 20–21, 2027</p>');
@@ -177,7 +177,7 @@ function buildAttendingEmail(data, firstName) {
   if (plusOneName) {
     h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Plus One</td>');
     h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + plusOneName + '</td></tr>');
-    h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Guest Dietary</td>');
+    h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Plus One Dietary</td>');
     h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + (plusOneDietary || 'none') + '</td></tr>');
   }
   if (data.bringingKids === 'Yes') {
@@ -186,7 +186,7 @@ function buildAttendingEmail(data, firstName) {
     h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Dinner Reception</td>');
     h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + (data.joiningDinner === 'Yes' ? 'Joining' : 'Not joining') + '</td></tr>');
     if (plusOneName && data.plusOneJoiningDinner) {
-      h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Guest Dinner</td>');
+      h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Plus One Dinner</td>');
       h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + (data.plusOneJoiningDinner === 'Yes' ? 'Joining' : 'Not joining') + '</td></tr>');
     }
   }
@@ -209,7 +209,7 @@ function buildDecliningEmail(firstName) {
   h.push('<html><body style="margin:0;padding:0;background:#ffffff;font-family:Georgia,serif;">');
   h.push('<table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;padding:20px 20px 40px;">');
   h.push('<tr><td align="center">');
-  h.push('<table width="560" cellpadding="0" cellspacing="0" style="background:#f5efe9;border-radius:10px;overflow:hidden;">');
+  h.push('<table width="600" cellpadding="0" cellspacing="0" style="background:#f5efe9;border-radius:10px;overflow:hidden;">');
   h.push('<tr><td align="center" style="background:#c8967a;padding:40px 40px 32px;">');
   h.push('<h1 style="margin:0;font-size:32px;font-weight:400;color:#fff;font-family:Georgia,serif;">Elisa &amp; Arden</h1>');
   h.push('<p style="margin:12px 0 0;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;color:#fff;font-family:Helvetica Neue,Arial,sans-serif;">AUGUST 20–21, 2027</p>');
