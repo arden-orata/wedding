@@ -184,10 +184,10 @@ function buildAttendingEmail(data, firstName) {
     h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Bringing Kids</td>');
     h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">Yes</td></tr>');
     h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Dinner Reception</td>');
-    h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + (data.joiningDinner === 'Yes' ? 'Yes' : 'No') + '</td></tr>');
+    h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + (data.joiningDinner === 'Yes' ? 'Joining' : 'Not joining') + '</td></tr>');
     if (plusOneName && data.plusOneJoiningDinner) {
       h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Guest Dinner</td>');
-      h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + (data.plusOneJoiningDinner === 'Yes' ? 'Yes' : 'No') + '</td></tr>');
+      h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + (data.plusOneJoiningDinner === 'Yes' ? 'Joining' : 'Not joining') + '</td></tr>');
     }
   }
   h.push('</table>');
