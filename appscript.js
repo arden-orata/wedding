@@ -147,10 +147,13 @@ function sendConfirmationEmail(data) {
 }
 
 function buildAttendingEmail(data, firstName) {
-  var dietary = (data.dietary || '').trim().toLowerCase();
-  if (!dietary) dietary = 'none';
+  function capitalizeList(str) {
+    if (!str) return 'None';
+    return str.split(', ').map(function(s) { return s.charAt(0).toUpperCase() + s.slice(1); }).join(', ');
+  }
+  var dietary = capitalizeList((data.dietary || '').trim().toLowerCase());
   var plusOneName = ((data.plusOneFn || '') + ' ' + (data.plusOneLn || '')).trim();
-  var plusOneDietary = (data.plusOneDietary || '').trim().toLowerCase();
+  var plusOneDietary = capitalizeList((data.plusOneDietary || '').trim().toLowerCase());
 
   var h = [];
   h.push('<!DOCTYPE html>');
@@ -205,7 +208,7 @@ function buildAttendingEmail(data, firstName) {
     h.push('<p style="' + valueStyle + '">' + plusOneName + '</p>');
     h.push(fieldGap);
     h.push('<p style="' + labelStyle + '">Dietary</p>');
-    h.push('<p style="' + valueStyle + '">' + (plusOneDietary || 'none') + '</p>');
+    h.push('<p style="' + valueStyle + '">' + plusOneDietary + '</p>');
     if (data.plusOneWelcomeDinner) {
       h.push(fieldGap);
       h.push('<p style="' + labelStyle + '">Welcome Dinner</p>');
