@@ -21,7 +21,7 @@ function doGet(e) {
   }
 
   if (params.action === 'rsvp_response') {
-    return rsvpResponse(params.firstName, params.lastName, params.response, params.email, params.timezone, params.dialCode, params.phone, params.dietary, params.plusOneAnswer, params.plusOneFn, params.plusOneLn, params.plusOneDietary, params.bringingKids, params.joiningDinner, params.plusOneJoiningDinner, params.deviceId);
+    return rsvpResponse(params.firstName, params.lastName, params.response, params.email, params.timezone, params.dialCode, params.phone, params.dietary, params.plusOneAnswer, params.plusOneFn, params.plusOneLn, params.plusOneDietary, params.welcomeDinner, params.plusOneWelcomeDinner, params.bringingKids, params.joiningDinner, params.plusOneJoiningDinner, params.deviceId);
   }
 
   var data = JSON.parse(params.data);
@@ -93,13 +93,13 @@ function checkGuest(firstName, lastName) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-function rsvpResponse(firstName, lastName, response, email, timezone, dialCode, phone, dietary, plusOneAnswer, plusOneFn, plusOneLn, plusOneDietary, bringingKids, joiningDinner, plusOneJoiningDinner, deviceId) {
+function rsvpResponse(firstName, lastName, response, email, timezone, dialCode, phone, dietary, plusOneAnswer, plusOneFn, plusOneLn, plusOneDietary, welcomeDinner, plusOneWelcomeDinner, bringingKids, joiningDinner, plusOneJoiningDinner, deviceId) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('RSVP');
   var now = new Date();
   var date = Utilities.formatDate(now, Session.getScriptTimeZone(), 'yyyy-MM-dd');
   var time = Utilities.formatDate(now, Session.getScriptTimeZone(), 'HH:mm:ss');
 
-  sheet.appendRow([date, time, timezone || '', firstName, lastName, response, email || '', dialCode || '', phone || '', dietary || '', plusOneAnswer || 'NA', plusOneFn || '', plusOneLn || '', plusOneDietary || '', bringingKids || 'NA', joiningDinner || '', plusOneJoiningDinner || '', deviceId || '']);
+  sheet.appendRow([date, time, timezone || '', firstName, lastName, response, email || '', dialCode || '', phone || '', dietary || '', plusOneAnswer || 'NA', plusOneFn || '', plusOneLn || '', plusOneDietary || '', welcomeDinner || 'NA', plusOneWelcomeDinner || '', bringingKids || 'NA', joiningDinner || '', plusOneJoiningDinner || '', deviceId || '']);
 
   try {
     sendConfirmationEmail({
@@ -113,6 +113,8 @@ function rsvpResponse(firstName, lastName, response, email, timezone, dialCode, 
       plusOneFn: plusOneFn || '',
       plusOneLn: plusOneLn || '',
       plusOneDietary: plusOneDietary || '',
+      welcomeDinner: welcomeDinner || '',
+      plusOneWelcomeDinner: plusOneWelcomeDinner || '',
       bringingKids: bringingKids || '',
       joiningDinner: joiningDinner || '',
       plusOneJoiningDinner: plusOneJoiningDinner || ''
@@ -179,6 +181,12 @@ function buildAttendingEmail(data, firstName) {
     h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + plusOneName + '</td></tr>');
     h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Plus One Dietary</td>');
     h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + (plusOneDietary || 'none') + '</td></tr>');
+  }
+  h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Welcome Dinner</td>');
+  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + (data.welcomeDinner === 'Yes' ? 'Joining' : 'Not joining') + '</td></tr>');
+  if (plusOneName && data.plusOneWelcomeDinner) {
+    h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Plus One Welcome Dinner</td>');
+    h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + (data.plusOneWelcomeDinner === 'Yes' ? 'Joining' : 'Not joining') + '</td></tr>');
   }
   if (data.bringingKids === 'Yes') {
     h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Bringing Kids</td>');
