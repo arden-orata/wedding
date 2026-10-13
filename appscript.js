@@ -167,38 +167,57 @@ function buildAttendingEmail(data, firstName) {
   var greeting = plusOneName ? ('Dear ' + firstName + ' &amp; ' + (data.plusOneFn || plusOneName) + ',') : ('Dear ' + firstName + ',');
   h.push('<p style="margin:0 0 16px;font-size:16px;color:#3a3028;">' + greeting + '</p>');
   h.push('<p style="margin:0 0 24px;font-size:15px;line-height:1.7;color:#3a3028;">We\'re so happy you\'ll be joining us! Your RSVP has been received and we can\'t wait to celebrate with you in Bali.</p>');
-  h.push('<table cellpadding="0" cellspacing="0" style="margin:0 0 24px 20px;">');
-  h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Name</td>');
-  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + data.firstname + ' ' + data.lastname + '</td></tr>');
-  h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Attending</td>');
-  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">Yes</td></tr>');
-  h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Mobile</td>');
-  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + (data.dialCode || '') + ' ' + (data.phone || '') + '</td></tr>');
-  h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Dietary</td>');
-  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + dietary + '</td></tr>');
-  if (plusOneName) {
-    h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Plus One</td>');
-    h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + plusOneName + '</td></tr>');
-    h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Plus One Dietary</td>');
-    h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + (plusOneDietary || 'none') + '</td></tr>');
-  }
-  h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Welcome Dinner</td>');
-  h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + (data.welcomeDinner === 'Yes' ? 'Joining' : 'Not joining') + '</td></tr>');
-  if (plusOneName && data.plusOneWelcomeDinner) {
-    h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Plus One Welcome Dinner</td>');
-    h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + (data.plusOneWelcomeDinner === 'Yes' ? 'Joining' : 'Not joining') + '</td></tr>');
-  }
+  var labelStyle = 'margin:0;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#a09080;font-family:Helvetica Neue,Arial,sans-serif;';
+  var valueStyle = 'margin:4px 0 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;';
+  var cardStyle = 'background:#ffffff;border-radius:8px;padding:20px 24px;margin:0 0 16px;';
+  var fieldGap = '<div style="height:16px;"></div>';
+  var cardTitle = function(t) { return '<p style="margin:0 0 16px;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:#c8967a;font-family:Helvetica Neue,Arial,sans-serif;font-weight:600;">' + t + '</p>'; };
+
+  h.push('<div style="' + cardStyle + '">');
+  h.push(cardTitle('Your Details'));
+  h.push('<p style="' + labelStyle + '">Name</p>');
+  h.push('<p style="' + valueStyle + '">' + data.firstname + ' ' + data.lastname + '</p>');
+  h.push(fieldGap);
+  h.push('<p style="' + labelStyle + '">Mobile</p>');
+  h.push('<p style="' + valueStyle + '">' + (data.dialCode || '') + ' ' + (data.phone || '') + '</p>');
+  h.push(fieldGap);
+  h.push('<p style="' + labelStyle + '">Dietary</p>');
+  h.push('<p style="' + valueStyle + '">' + dietary + '</p>');
   if (data.bringingKids === 'Yes') {
-    h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Bringing Kids</td>');
-    h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">Yes</td></tr>');
-    h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Dinner Reception</td>');
-    h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + (data.joiningDinner === 'Yes' ? 'Joining' : 'Not joining') + '</td></tr>');
-    if (plusOneName && data.plusOneJoiningDinner) {
-      h.push('<tr><td style="padding:6px 0;color:#888;font-size:15px;font-family:Georgia,serif;white-space:nowrap;padding-right:16px;vertical-align:baseline;">Plus One Dinner</td>');
-      h.push('<td style="padding:6px 0;font-size:15px;color:#3a3028;font-family:Helvetica Neue,Arial,sans-serif;vertical-align:baseline;">' + (data.plusOneJoiningDinner === 'Yes' ? 'Joining' : 'Not joining') + '</td></tr>');
-    }
+    h.push(fieldGap);
+    h.push('<p style="' + labelStyle + '">Bringing Kids</p>');
+    h.push('<p style="' + valueStyle + '">Yes</p>');
   }
-  h.push('</table>');
+  h.push(fieldGap);
+  h.push('<p style="' + labelStyle + '">Welcome Dinner</p>');
+  h.push('<p style="' + valueStyle + '">' + (data.welcomeDinner === 'Yes' ? 'Joining' : 'Not joining') + '</p>');
+  if (data.bringingKids === 'Yes') {
+    h.push(fieldGap);
+    h.push('<p style="' + labelStyle + '">Dinner Reception</p>');
+    h.push('<p style="' + valueStyle + '">' + (data.joiningDinner === 'Yes' ? 'Joining' : 'Not joining') + '</p>');
+  }
+  h.push('</div>');
+
+  if (plusOneName) {
+    h.push('<div style="' + cardStyle + '">');
+    h.push(cardTitle('Plus One'));
+    h.push('<p style="' + labelStyle + '">Name</p>');
+    h.push('<p style="' + valueStyle + '">' + plusOneName + '</p>');
+    h.push(fieldGap);
+    h.push('<p style="' + labelStyle + '">Dietary</p>');
+    h.push('<p style="' + valueStyle + '">' + (plusOneDietary || 'none') + '</p>');
+    if (data.plusOneWelcomeDinner) {
+      h.push(fieldGap);
+      h.push('<p style="' + labelStyle + '">Welcome Dinner</p>');
+      h.push('<p style="' + valueStyle + '">' + (data.plusOneWelcomeDinner === 'Yes' ? 'Joining' : 'Not joining') + '</p>');
+    }
+    if (data.bringingKids === 'Yes' && data.plusOneJoiningDinner) {
+      h.push(fieldGap);
+      h.push('<p style="' + labelStyle + '">Dinner Reception</p>');
+      h.push('<p style="' + valueStyle + '">' + (data.plusOneJoiningDinner === 'Yes' ? 'Joining' : 'Not joining') + '</p>');
+    }
+    h.push('</div>');
+  }
   h.push('<p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:#3a3028;">If any of the details above need updating, simply submit another RSVP and we\'ll use your latest response.</p>');
   h.push('<p style="margin:0 0 8px;font-size:15px;line-height:1.7;color:#3a3028;">More details about the weekend will follow closer to the date. In the meantime, feel free to reach out if you have any questions, or <a href="https://chat.whatsapp.com/ICwTJyTcdkFEv2Uc1DdGEF?mode=gi_t" target="_blank" style="color:#1A8FC4;text-decoration:underline;">join our wedding WhatsApp group for updates</a>.</p>');
   h.push('<p style="margin:24px 0 0;font-size:15px;color:#3a3028;">With love,</p>');
