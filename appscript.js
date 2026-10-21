@@ -194,7 +194,7 @@ function buildAttendingEmail(data, firstName) {
   h.push(fieldGap);
   h.push('<p style="' + labelStyle + '">Welcome Dinner</p>');
   h.push('<p style="' + valueStyle + '">' + (data.welcomeDinner === 'Yes' ? 'Joining' : 'Not joining') + '</p>');
-  if (data.bringingKids === 'Yes') {
+  if (data.joiningDinner) {
     h.push(fieldGap);
     h.push('<p style="' + labelStyle + '">Dinner Reception</p>');
     h.push('<p style="' + valueStyle + '">' + (data.joiningDinner === 'Yes' ? 'Joining' : 'Not joining') + '</p>');
@@ -214,7 +214,7 @@ function buildAttendingEmail(data, firstName) {
       h.push('<p style="' + labelStyle + '">Welcome Dinner</p>');
       h.push('<p style="' + valueStyle + '">' + (data.plusOneWelcomeDinner === 'Yes' ? 'Joining' : 'Not joining') + '</p>');
     }
-    if (data.bringingKids === 'Yes' && data.plusOneJoiningDinner) {
+    if (data.plusOneJoiningDinner) {
       h.push(fieldGap);
       h.push('<p style="' + labelStyle + '">Dinner Reception</p>');
       h.push('<p style="' + valueStyle + '">' + (data.plusOneJoiningDinner === 'Yes' ? 'Joining' : 'Not joining') + '</p>');
