@@ -2039,6 +2039,21 @@
         rsvpFieldError.style.display = 'none';
         rsvpBtn.style.marginTop = '3em';
         rsvpOptions.style.display = 'flex';
+        var declineInput = document.querySelector('input[name="rsvp-response"][value="Regretfully declines"]');
+        var declineLabel = declineInput.nextElementSibling.nextElementSibling;
+        var fn = fnInput.value.trim().toLowerCase();
+        var ln = lnInput.value.trim().toLowerCase();
+        if ((fn === 'clement' && ln === 'phang') || (fn === 'zara' && ln === 'toh')) {
+          declineInput.disabled = true;
+          declineLabel.textContent = 'Regretfully declines (not available \u{1F60A})';
+          declineInput.closest('.rsvp-radio').style.opacity = '0.4';
+          declineInput.closest('.rsvp-radio').style.pointerEvents = 'none';
+        } else {
+          declineInput.disabled = false;
+          declineLabel.textContent = 'Regretfully declines';
+          declineInput.closest('.rsvp-radio').style.opacity = '';
+          declineInput.closest('.rsvp-radio').style.pointerEvents = '';
+        }
         setRsvpActive(false);
         rsvpStage = 'submit';
       }
