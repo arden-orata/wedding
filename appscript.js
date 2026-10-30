@@ -138,12 +138,34 @@ function sendConfirmationEmail(data) {
     ? buildAttendingEmail(data, firstName)
     : buildDecliningEmail(firstName);
 
-  MailApp.sendEmail({
+  var options = {
     to: email,
     name: EMAIL_FROM_NAME,
     subject: EMAIL_SUBJECT,
     htmlBody: htmlBody
-  });
+  };
+
+  if (isAttending) {
+    var ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Elisa & Arden Wedding//EN',
+      'METHOD:PUBLISH',
+      'BEGIN:VEVENT',
+      'DTSTART;VALUE=DATE:20270820',
+      'DTEND;VALUE=DATE:20270822',
+      'SUMMARY:Elisa & Arden\'s Wedding',
+      'LOCATION:Jumeirah Bali\\, Pecatu\\, Bali\\, Indonesia',
+      'DESCRIPTION:August 20–21\\, 2027. Day 1: Welcome dinner & Balinese festivities. Day 2: Ceremony\\, formal dinner & dancing under the stars.',
+      'STATUS:CONFIRMED',
+      'UID:elisa-arden-wedding-2027@wedding',
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+    options.attachments = [Utilities.newBlob(ics, 'text/calendar', 'wedding.ics')];
+  }
+
+  MailApp.sendEmail(options);
 }
 
 function buildAttendingEmail(data, firstName) {
